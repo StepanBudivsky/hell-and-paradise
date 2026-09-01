@@ -1,0 +1,2889 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <title>CHART #1</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <!-- === START: Стартове меню-оверлей === -->
+    <input type="checkbox" id="overlayToggle" class="visually-hidden" checked />
+
+    <div
+      class="startup-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="startup-title"
+    >
+      <div class="overlay-header">
+        <h2 id="startup-title">Початкове меню</h2>
+        <label for="overlayToggle" class="overlay-close" title="Закрити"
+          >✕</label
+        >
+      </div>
+
+      <div class="startup-content">
+        <section class="startup-card">
+          <h3>Виберіть криптовалюту</h3>
+          <p class="muted">Обери одну пару для подальшого завантаження даних</p>
+
+          <div class="coin-grid">
+            <input
+              type="radio"
+              name="crypto"
+              id="coin-btc"
+              value="BTCUSDT"
+              class="visually-hidden"
+              checked
+            />
+            <label for="coin-btc" class="coin" data-symbol="BTC"
+              >Bitcoin <span>BTC / USDT</span></label
+            >
+
+            <input
+              type="radio"
+              name="crypto"
+              id="coin-eth"
+              value="ETHUSDT"
+              class="visually-hidden"
+            />
+            <label for="coin-eth" class="coin" data-symbol="ETH"
+              >Ethereum <span>ETH / USDT</span></label
+            >
+
+            <input
+              type="radio"
+              name="crypto"
+              id="coin-bnb"
+              value="BNBUSDT"
+              class="visually-hidden"
+            />
+            <label for="coin-bnb" class="coin" data-symbol="BNB"
+              >BNB <span>BNB / USDT</span></label
+            >
+
+            <input
+              type="radio"
+              name="crypto"
+              id="coin-sol"
+              value="SOLUSDT"
+              class="visually-hidden"
+            />
+            <label for="coin-sol" class="coin" data-symbol="SOL"
+              >Solana <span>SOL / USDT</span></label
+            >
+
+            <input
+              type="radio"
+              name="crypto"
+              id="coin-gold"
+              value="PAXGUSDT"
+              class="visually-hidden"
+            />
+            <label for="coin-gold" class="coin" data-symbol="XAU"
+              >Gold <span>PAX Gold</span></label
+            >
+
+            <input
+              type="radio"
+              name="crypto"
+              id="coin-silver"
+              value="LTCUSDT"
+              class="visually-hidden"
+            />
+            <label for="coin-silver" class="coin" data-symbol="LTC"
+              >Silver <span>Litecoin</span></label
+            >
+
+            <input
+              type="radio"
+              name="crypto"
+              id="coin-oil"
+              value="LINKUSDT"
+              class="visually-hidden"
+            />
+            <label for="coin-oil" class="coin" data-symbol="LINK"
+              >Oil <span>Chainlink</span></label
+            >
+
+            <input
+              type="radio"
+              name="crypto"
+              id="coin-platinum"
+              value="AAVEUSDT"
+              class="visually-hidden"
+            />
+            <label for="coin-platinum" class="coin" data-symbol="AAVE"
+              >Platinum <span>Aave</span></label
+            >
+
+            <input
+              type="radio"
+              name="crypto"
+              id="coin-copper"
+              value="MKRUSDT"
+              class="visually-hidden"
+            />
+            <label for="coin-copper" class="coin" data-symbol="CU"
+              >Copper <span>Maker</span></label
+            >
+          </div>
+        </section>
+
+        <section class="startup-card">
+          <h3>Режим сайту</h3>
+          <p class="muted">
+            Обери робочий режим. Для “Тестового” доступні підопції.
+          </p>
+
+          <div class="mode-block">
+            <input
+              type="radio"
+              name="mode"
+              id="mode-short"
+              class="visually-hidden"
+              checked
+            />
+            <label for="mode-short" class="mode-pill">Короткостроковий</label>
+
+            <input
+              type="radio"
+              name="mode"
+              id="mode-test"
+              class="visually-hidden"
+            />
+            <label for="mode-test" class="mode-pill">Тестовий</label>
+
+            <!-- ПЕРЕМІСТИЛИ СЮДИ -->
+            <div class="test-suboptions">
+              <p class="subcaption">Параметри тестового режиму</p>
+              <div class="sub-grid">
+                <input
+                  type="radio"
+                  name="testOption"
+                  id="test-use-existing"
+                  class="visually-hidden"
+                  checked
+                />
+                <label for="test-use-existing" class="sub-pill"
+                  >Використати наявні дані</label
+                >
+
+                <input
+                  type="radio"
+                  name="testOption"
+                  id="test-refresh"
+                  class="visually-hidden"
+                />
+                <label for="test-refresh" class="sub-pill">Оновити дані</label>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="start-btn">Запуск</button>
+        </section>
+      </div>
+    </div>
+    <!-- === END: Стартове меню-оверлей === -->
+
+    <div id="container">
+      <div id="charts">
+        <div id="chart-panel"></div>
+        <div id="volume-panel"></div>
+        <div id="adx-panel"></div>
+        <div id="rsi-panel"></div>
+        <div id="macd-panel"></div>
+      </div>
+      <!-- Панель з точками -->
+      <div id="control-panel" class="side-panel" style="display: none">
+        <!-- Точка 1 -->
+        <div class="control-section" data-point="point1">
+          <h3>Локальний максимум</h3>
+          <div class="control-buttons">
+            <button data-step="-50">-50</button>
+            <button data-step="-10">-10</button>
+            <button data-step="-1">-1</button>
+            <span class="value-display" id="dot1">999</span>
+            <button data-step="1">+1</button>
+            <button data-step="10">+10</button>
+            <button data-step="50">+50</button>
+            <button class="lock-btn" title="Заблокувати/Розблокувати">
+              🔓
+            </button>
+          </div>
+        </div>
+
+        <!-- Точка 2 -->
+        <div class="control-section" data-point="point2">
+          <h3>Локальний мінімум</h3>
+          <div class="control-buttons">
+            <button data-step="-50">-50</button>
+            <button data-step="-10">-10</button>
+            <button data-step="-1">-1</button>
+            <span class="value-display" id="dot2">999</span>
+            <button data-step="1">+1</button>
+            <button data-step="10">+10</button>
+            <button data-step="50">+50</button>
+            <button class="lock-btn" title="Заблокувати/Розблокувати">
+              🔓
+            </button>
+          </div>
+        </div>
+
+        <!-- Точка 3 -->
+        <div class="control-section" data-point="point3">
+          <h3>Точка 1</h3>
+          <div class="control-buttons">
+            <button data-step="-50">-50</button>
+            <button data-step="-10">-10</button>
+            <button data-step="-1">-1</button>
+            <span class="value-display" id="dot3">999</span>
+            <button data-step="1">+1</button>
+            <button data-step="10">+10</button>
+            <button data-step="50">+50</button>
+            <button class="lock-btn" title="Заблокувати/Розблокувати">
+              🔓
+            </button>
+          </div>
+        </div>
+
+        <!-- Точка 4 -->
+        <div class="control-section" data-point="point4">
+          <h3>Точка 2</h3>
+          <div class="control-buttons">
+            <button data-step="-50">-50</button>
+            <button data-step="-10">-10</button>
+            <button data-step="-1">-1</button>
+            <span class="value-display" id="dot4">999</span>
+            <button data-step="1">+1</button>
+            <button data-step="10">+10</button>
+            <button data-step="50">+50</button>
+            <button class="lock-btn" title="Заблокувати/Розблокувати">
+              🔓
+            </button>
+          </div>
+        </div>
+
+        <!-- Точка 5 -->
+        <div class="control-section" data-point="point5">
+          <h3>Точка 3</h3>
+          <div class="control-buttons">
+            <button data-step="-50">-50</button>
+            <button data-step="-10">-10</button>
+            <button data-step="-1">-1</button>
+            <span class="value-display" id="dot5">999</span>
+            <button data-step="1">+1</button>
+            <button data-step="10">+10</button>
+            <button data-step="50">+50</button>
+            <button class="lock-btn" title="Заблокувати/Розблокувати">
+              🔓
+            </button>
+          </div>
+        </div>
+
+        <!-- Точка 6 -->
+        <div class="control-section" data-point="point6">
+          <h3>Точка 4</h3>
+          <div class="control-buttons">
+            <button data-step="-50">-50</button>
+            <button data-step="-10">-10</button>
+            <button data-step="-1">-1</button>
+            <span class="value-display" id="dot6">999</span>
+            <button data-step="1">+1</button>
+            <button data-step="10">+10</button>
+            <button data-step="50">+50</button>
+            <button class="lock-btn" title="Заблокувати/Розблокувати">
+              🔓
+            </button>
+          </div>
+        </div>
+
+        <!-- Точка 7 -->
+        <div class="control-section" data-point="point7">
+          <h3>Точка 5</h3>
+          <div class="control-buttons">
+            <button data-step="-50">-50</button>
+            <button data-step="-10">-10</button>
+            <button data-step="-1">-1</button>
+            <span class="value-display" id="dot7">999</span>
+            <button data-step="1">+1</button>
+            <button data-step="10">+10</button>
+            <button data-step="50">+50</button>
+            <button class="lock-btn" title="Заблокувати/Розблокувати">
+              🔓
+            </button>
+          </div>
+        </div>
+
+        <!-- Точка для обмежень -->
+        <div class="control-section" data-point="point8">
+          <h3>Точка для обмеження видимості</h3>
+          <div class="control-buttons">
+            <button data-step="-50">-50</button>
+            <button data-step="-10">-10</button>
+            <button data-step="-1">-1</button>
+            <span class="value-display" id="dot8">999</span>
+            <button data-step="1">+1</button>
+            <button data-step="10">+10</button>
+            <button data-step="50">+50</button>
+            <button class="lock-btn" title="Заблокувати/Розблокувати">
+              🔓
+            </button>
+          </div>
+          <p></p>
+          <div class="input-eye">
+            <input
+              id="graficLimitInput"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value=""
+            />
+            <button
+              id="graficLimitRelated"
+              class="eye-btn active"
+              title="Привязати точки до ліміту"
+            >
+              🤝
+            </button>
+            <button
+              id="graficLimitVis"
+              class="eye-btn active"
+              title="Включити обмеження"
+            >
+              👁
+            </button>
+          </div>
+          <p></p>
+          <div class="input-eye">
+            <input
+              type="datetime-local"
+              id="graficLimitInputData"
+              name="graficLimitInputData"
+            />
+          </div>
+        </div>
+
+        <div class="checkbox-wrapper">
+          <span class="label-text">Синхронізація по ліміту</span>
+          <input
+            type="checkbox"
+            id="synchronizationLimit"
+            value="newsletter_signup"
+            class="styled-checkbox"
+          />
+        </div>
+
+        <div class="checkbox-wrapper">
+          <span class="label-text">Авторостановка</span>
+          <input
+            type="checkbox"
+            id="autoPlacement"
+            value="newsletter_signup"
+            class="styled-checkbox"
+          />
+          <span class="label-text">Сортування хвиль</span>
+          <input
+            type="checkbox"
+            id="autoSorting"
+            value="newsletter_signup"
+            class="styled-checkbox"
+          />
+        </div>
+
+        <div class="control-section wave-block">
+          <label>Регуляція зіг зага</label>
+          <div class="input-eye">
+            <input
+              id="zigZagInput"
+              type="number"
+              step="0.01"
+              placeholder="Введіть значення"
+              value="0.05"
+            />
+            <button id="ZigZagVis" class="eye-btn" title="Показати/Приховати">
+              👁
+            </button>
+            <button
+              id="ZigZagTrendVis"
+              class="eye-btn"
+              title="Показати/Приховати"
+            >
+              📈
+            </button>
+            <!-- <button id="ZigZagRegim1" class="mode-btn" title="Показати/Приховати">1</button>
+            <button id="ZigZagRegim2" class="mode-btn active" title="Показати/Приховати">2</button>
+            <button id="ZigZagRegim3" class="mode-btn" title="Показати/Приховати">3</button> -->
+          </div>
+        </div>
+
+        <!-- <div class="control-section wave-block">
+          <label>Розрахунок стоп лос</label>
+          <p></p>
+          <div class="two-buttons">
+            <button id="cashLongDealBtn" title="Угода в Лонг" class="mode-btn active">Лонг</button>
+            <button id="cashShortDealBtn" title="Угода в Шорт" class="mode-btn">Шорт</button>
+          </div>
+          <p></p>
+          <div class="input-eye"> 
+            <label>Сума грошей</label>
+            <input id="cashInput" type="number" step="0.01" placeholder="Введіть значення" value="100">
+          </div>
+          <p></p>
+          <div class="input-eye"> 
+            <label>Плече</label>
+            <input id="shoulderInput" type="number" step="0.01" placeholder="Введіть значення" value="20">
+          </div>
+          <p></p> 
+          <div class="input-eye"> 
+            <label>Ціна стопа</label>
+            <input id="stopPriceInput" type="number" step="0.01" placeholder="Введіть значення" value="">
+          </div>
+          <p></p>
+          <div class="input-eye"> 
+            <label>Тейк профіт (сума)</label>
+            <input id="takeProfitAmountInput" type="number" step="0.01" placeholder="Введіть значення" value="">
+          </div>
+          <p></p>
+          
+          <button id="calculate-deal">Розрахунок</button>
+          
+          <p></p>
+          <label>Сума угоди: <span id="deal-amount-result">0.00</span></label>
+          <p></p>
+          <label>Сума стопу: <span id="stop-amount-result">0.00</span></label>
+          <p></p>
+          <label>Ціна стопу: <span id="stop-price-result">0.00</span></label>
+          <p></p>
+          <label>Сума тейк профіту: <span id="take-profit-amount-result">0.00</span></label>
+          <p></p>
+          <label>Ціна тейк профіту: <span id="take-profit-price-result">0.00</span></label>
+          <p id="deal-error-result" style="color: red; margin-top: 5px;"></p>
+        </div> -->
+
+        <!-- <div class="control-section">
+          <button id="calculate-button">Розрахунок</button>
+          <button id="clear-button">Очищення</button>
+        </div> -->
+      </div>
+
+      <!-- Панель локальних налаштувань -->
+      <div id="localSetting-panel" class="side-panel" style="display: none">
+        <!-- Блок вибору режиму -->
+        <div class="control-section">
+          <h3>Початкова точка хвиль</h3>
+          <div class="two-buttons">
+            <button
+              id="startDotBtnMax"
+              title="Початкова точка Max"
+              class="mode-btn active"
+            >
+              Max
+            </button>
+            <button
+              id="startDotBtnMin"
+              title="Початкова точка Min"
+              class="mode-btn"
+            >
+              Min
+            </button>
+          </div>
+        </div>
+
+        <!-- Хвиля 1–5 -->
+        <div class="control-section wave-block">
+          <h3>Настройка ліній тренду</h3>
+
+          <p></p>
+          <div class="input-eye">
+            <label>Лінія тренду 1</label>
+            <input
+              id="wawe1Len"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="100"
+            />
+            <button id="wawe1Vis" class="eye-btn" title="Показати/Приховати">
+              👁
+            </button>
+          </div>
+
+          <p></p>
+          <div class="input-eye">
+            <label>Лінія тренду 2</label>
+            <input
+              id="wawe2Len"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="100"
+            />
+            <button id="wawe2Vis" class="eye-btn" title="Показати/Приховати">
+              👁
+            </button>
+          </div>
+
+          <p></p>
+          <div class="input-eye">
+            <label>Лінія тренду 3</label>
+            <input
+              id="wawe3Len"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="100"
+            />
+            <button id="wawe3Vis" class="eye-btn" title="Показати/Приховати">
+              👁
+            </button>
+          </div>
+
+          <p></p>
+          <div class="input-eye">
+            <label>Лінія тренду 4</label>
+            <input
+              id="wawe4Len"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="100"
+            />
+            <button id="wawe4Vis" class="eye-btn" title="Показати/Приховати">
+              👁
+            </button>
+          </div>
+
+          <p></p>
+          <div class="input-eye">
+            <label>Лінія тренду 5</label>
+            <input
+              id="wawe5Len"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="100"
+            />
+            <button id="wawe5Vis" class="eye-btn" title="Показати/Приховати">
+              👁
+            </button>
+          </div>
+        </div>
+
+        <!-- Лінії Фібоначчі -->
+        <div class="control-section wave-block">
+          <div class="label-with-eye">
+            <label>Лінії Фібоначчі</label>
+            <button id="fiboVis" class="eye-btn" title="Показати/Приховати">
+              👁
+            </button>
+          </div>
+          <div class="input-eye" style="margin-top: 6px">
+            <input
+              id="fiboLen"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="20"
+            />
+          </div>
+          <div class="fib-buttons">
+            <div class="fib-group">
+              <button id="startFiboBtn1" class="active" title="Фібо 0 - max">
+                max
+              </button>
+              <button id="startFiboBtn2" title="Фібо 0 - min">min</button>
+              <button id="startFiboBtn3" title="Фібо 0 - w1">w1</button>
+              <button id="startFiboBtn4" title="Фібо 0 - w2">w2</button>
+              <button id="startFiboBtn5" title="Фібо 0 - w3">w3</button>
+              <button id="startFiboBtn6" title="Фібо 0 - w4">w4</button>
+              <button id="startFiboBtn7" title="Фібо 0 - w5">w5</button>
+            </div>
+            <div class="fib-group">
+              <button id="endFiboBtn1" title="Фібо 1 - max">max</button>
+              <button id="endFiboBtn2" title="Фібо 1 - min">min</button>
+              <button id="endFiboBtn3" title="Фібо 1 - w1">w1</button>
+              <button id="endFiboBtn4" title="Фібо 1 - w2">w2</button>
+              <button id="endFiboBtn5" title="Фібо 1 - w3">w3</button>
+              <button id="endFiboBtn6" title="Фібо 1 - w4">w4</button>
+              <button id="endFiboBtn7" title="Фібо 1 - w5" class="active">
+                w5
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pivot Point -->
+        <div class="control-section wave-block">
+          <div class="label-with-eye">
+            <label>Pivot Point</label>
+            <button
+              id="PivotPointVis"
+              class="eye-btn"
+              title="Показати/Приховати"
+            >
+              👁
+            </button>
+          </div>
+          <div class="fib-group">
+            <button id="pivotPointBtn1m" title="Pivot Point 1m">1m</button>
+            <button id="pivotPointBtn5m" title="Pivot Point 5m">5m</button>
+            <button id="pivotPointBtn15m" title="Pivot Point 15m">15m</button>
+            <button id="pivotPointBtn30m" title="Pivot Point 30m">30m</button>
+            <button id="pivotPointBtn1h" title="Pivot Point 1h">1h</button>
+            <button id="pivotPointBtn4h" title="Pivot Point 4h" class="active">4h</button>
+            <button id="pivotPointBtn1d" title="Pivot Point 1d" class="active">1d</button>
+          </div>
+        </div>
+
+        <!-- Minimum -->
+        <div class="control-section wave-block">
+          <label>Рівень 1</label>
+          <div class="input-eye">
+            <input
+              id="level1Len"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="100"
+            />
+            <button
+              id="level1Dir"
+              class="direction-change-btn"
+              title="Нижнє/Верхнє положення"
+            >
+              🡅
+            </button>
+            <button id="level1Vis" class="eye-btn" title="Показати/Приховати">
+              👁
+            </button>
+          </div>
+          <div class="fib-group">
+            <button id="level1DotBtn1" title="Рівень 1 - max" class="active">
+              max
+            </button>
+            <button id="level1DotBtn2" title="Рівень 1 - min">min</button>
+            <button id="level1DotBtn3" title="Рівень 1 - w1">w1</button>
+            <button id="level1DotBtn4" title="Рівень 1 - w2">w2</button>
+            <button id="level1DotBtn5" title="Рівень 1 - w3">w3</button>
+            <button id="level1DotBtn6" title="Рівень 1 - w4">w4</button>
+            <button id="level1DotBtn7" title="Рівень 1 - w5">w5</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Панель настройок -->
+      <div id="setting-panel" class="side-panel" style="display: none">
+        <div class="control-section wave-block">
+          <h3>Настройка авторостановки хвиль</h3>
+
+          <p></p>
+          <div class="input-eye">
+            <label>Хвиля 1</label>
+            <input
+              id="wawe1AutoLen"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="5"
+            />
+            <button
+              class="eye-btn"
+              title="Показати/Приховати"
+              id="wawe1AutoVis"
+            >
+              👁
+            </button>
+          </div>
+          <p></p>
+
+          <div class="input-eye">
+            <label>Хвиля 2</label>
+            <input
+              id="wawe2AutoLen"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="3"
+            />
+            <button
+              class="eye-btn"
+              title="Показати/Приховати"
+              id="wawe2AutoVis"
+            >
+              👁
+            </button>
+          </div>
+          <p></p>
+
+          <div class="input-eye">
+            <label>Хвиля 3</label>
+            <input
+              id="wawe3AutoLen"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="5"
+            />
+            <button
+              class="eye-btn"
+              title="Показати/Приховати"
+              id="wawe3AutoVis"
+            >
+              👁
+            </button>
+          </div>
+          <p></p>
+
+          <div class="input-eye">
+            <label>Хвиля 4</label>
+            <input
+              id="wawe4AutoLen"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="5"
+            />
+            <button
+              class="eye-btn"
+              title="Показати/Приховати"
+              id="wawe4AutoVis"
+            >
+              👁
+            </button>
+          </div>
+          <p></p>
+
+          <div class="input-eye">
+            <label>Хвиля 5</label>
+            <input
+              id="wawe5AutoLen"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="5"
+            />
+            <button
+              class="eye-btn"
+              title="Показати/Приховати"
+              id="wawe5AutoVis"
+            >
+              👁
+            </button>
+          </div>
+        </div>
+
+        <div class="control-section wave-block">
+          <label>Регулювання дивергенції RSi</label>
+          <p></p>
+          <div class="input-eye">
+            <label>Амплітуда точок</label>
+            <input
+              id="rsiAmplitude"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="2"
+            />
+          </div>
+          <p></p>
+          <div class="input-eye">
+            <label>Амплітуда ціни </label>
+            <input
+              id="priceAmplitude"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="3"
+            />
+          </div>
+        </div>
+
+        <div class="control-section wave-block">
+          <h3>Регулювання дивергенції MACD</h3>
+          <p></p>
+          <div class="input-eye">
+            <label>Амплітуда різниці</label>
+            <input
+              id="prom-factor"
+              type="number"
+              step="0.01"
+              placeholder="Введіть значення"
+              value="0"
+            />
+          </div>
+          <p></p>
+          <div class="input-eye">
+            <label>Мінім довжина сигменту </label>
+            <input
+              id="min-seg-len"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="5"
+            />
+          </div>
+          <p></p>
+
+          <div class="input-eye">
+            <label>Мін дистанція між піками</label>
+            <input
+              id="min-distance"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="3"
+            />
+          </div>
+          <p></p>
+          <div class="label-with-eye">
+            <label>Режими відображення точок дивергенції</label>
+          </div>
+          <div class="fib-group">
+            <button
+              class="active"
+              id="regim1MACD"
+              title="Показ точок всіх дивергенцій"
+            >
+              Всі
+            </button>
+            <button id="regim2MACD" title="Показ точок дивергенцій вкінці">
+              Остання край
+            </button>
+            <button id="regim3MACD" title="Показ точок дивергенцій останіх">
+              Остання
+            </button>
+          </div>
+        </div>
+
+        <div class="control-section wave-block">
+          <div class="label-with-eye">
+            <label>Режими відображення трігера</label>
+          </div>
+          <div class="fib-group">
+            <button class="active" id="regim1Trigger" title="Початок">
+              Початок
+            </button>
+            <button id="regim2Trigger" title="Екстримум">Екстримум</button>
+            <button id="regim3Trigger" title="Кінець">Кінець</button>
+          </div>
+        </div>
+
+        <div class="control-section wave-block">
+          <h3>Кількість свічок для рендуру</h3>
+          <div class="input-eye">
+            <!-- <label>Кількість свічок для рендуру</label> -->
+            <input
+              id="renderingLimitInput"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="10000"
+            />
+          </div>
+        </div>
+
+        <div class="control-section wave-block">
+          <label>Графіки</label>
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>Volume</label>
+            <button id="btn-volume" class="eye-btn" title="Показати/Приховати">
+              👁
+            </button>
+          </div>
+          <p></p>
+          <div class="label-with-eye">
+            <label>ADX</label>
+            <button id="btn-adx" class="eye-btn" title="Показати/Приховати">
+              👁
+            </button>
+          </div>
+          <p></p>
+          <div class="label-with-eye">
+            <label>RSI</label>
+            <button id="btn-rsi" class="eye-btn" title="Показати/Приховати">
+              👁
+            </button>
+          </div>
+          <p></p>
+          <div class="label-with-eye">
+            <label>MACD</label>
+            <button id="btn-macd" class="eye-btn" title="Показати/Приховати">
+              👁
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Панель відображення на екран -->
+      <div id="patterns-panel" class="side-panel" style="display: none">
+        <div class="control-section">
+          <h3>Відображення на екрані</h3>
+        </div>
+
+        <div class="control-section wave-block">
+          <label>Пінцет</label>
+          <div class="input-eye">
+            <input
+              id="tweezersMinLen"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="2"
+            />
+            <button id="tweezersVis" class="eye-btn" title="Показати/Приховати">
+              👁
+            </button>
+          </div>
+        </div>
+
+        <div class="control-section wave-block">
+          <label>Поглинання</label>
+          <div class="input-eye">
+            <input
+              id="engulfingsMinLen"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="2"
+            />
+            <button
+              id="engulfingsVis"
+              class="eye-btn"
+              title="Показати/Приховати"
+            >
+              👁
+            </button>
+          </div>
+        </div>
+
+        <div class="control-section wave-block">
+          <label>Молоти</label>
+          <div class="input-eye">
+            <input
+              id="hammersMinLen"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="2"
+            />
+            <button id="hammersVis" class="eye-btn" title="Показати/Приховати">
+              👁
+            </button>
+          </div>
+        </div>
+
+        <div class="control-section wave-block">
+
+          <div class="label-with-eye row-layout">
+            <label>Відображення маркерів</label>
+            <div class="fib-group buttons-filler">
+            <button id="allOnMarkerActBtn" title="Влючити всі">Вкл</button>
+            <button id="allOffMarkerActBtn" title="Виключити всі">Викл</button>
+            </div>
+          </div>
+
+          <p></p>
+          
+          <div class="label-with-eye">
+            <label>Диверенції на MACD</label>
+            <button
+              id="markerVisDivergenceMACD"
+              class="eye-btn"
+              title="Показати/Приховати"
+            >
+              👁
+            </button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>Диверенції на RSI</label>
+            <button
+              id="markerVisDivergenceRSI"
+              class="eye-btn"
+              title="Показати/Приховати"
+            >
+              👁
+            </button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>MA</label>
+            <button
+              id="markerVisMA"
+              class="eye-btn"
+              title="Показати/Приховати"
+            >
+              👁
+            </button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>MACD</label>
+            <button
+              id="markerVisMACD"
+              class="eye-btn"
+              title="Показати/Приховати"
+            >
+              👁
+            </button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>Trigger</label>
+            <button
+              id="markerVisTrigger"
+              class="eye-btn"
+              title="Показати/Приховати"
+            >
+              👁
+            </button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>Auto Fibanachi</label>
+            <button
+              id="markerVisAutoFibanachi"
+              class="eye-btn"
+              title="Показати/Приховати"
+            >
+              👁
+            </button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>Хвилі</label>
+            <button
+              id="markerVisWawe"
+              class="eye-btn"
+              title="Показати/Приховати"
+            >
+              👁
+            </button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>Fibanachi</label>
+            <button
+              id="markerVisFibanachi"
+              class="eye-btn"
+              title="Показати/Приховати"
+            >
+              👁
+            </button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>PivotPoint</label>
+            <button
+              id="markerVisPivotPoint"
+              class="eye-btn"
+              title="Показати/Приховати"
+            >
+              👁
+            </button>
+          </div>
+        </div>
+
+        <div class="control-section wave-block">
+          
+          <div class="label-with-eye row-layout">
+            <label>Відображення ліній</label>
+            <div class="fib-group buttons-filler">
+            <button id="allOnLinesActBtn" title="Влючити всі">Вкл</button>
+            <button id="allOffLinesActBtn" title="Виключити всі">Викл</button>
+            </div>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>Трігер 70 і 30</label>
+            <button
+              id="triggerVis"
+              class="eye-btn"
+              title="Показати/Приховати"
+            >
+              👁
+            </button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>MA10</label>
+            <button
+              id="ma10Vis"
+              class="eye-btn"
+              title="Показати/Приховати"
+            >
+              👁
+            </button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>MA30</label>
+            <button
+              id="ma30Vis"
+              class="eye-btn"
+              title="Показати/Приховати"
+            >
+              👁
+            </button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>AutoFibanachi</label>
+            <button
+              id="autoFibanachiVis"
+              class="eye-btn"
+              title="Показати/Приховати"
+            >
+              👁
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Панель збереження -->
+      <div id="saves-panel" class="side-panel" style="display: none">
+        <div class="control-section">
+          <h3>Збереження графіків</h3>
+        </div>
+        <!-- save graph 5m -->
+        <div class="control-section wave-block">
+          <div class="label-with-eye">
+            <label>Графік 5m</label>
+            <button
+              id="graph5mVis"
+              class="eye-btn active"
+              title="Показати/Приховати"
+            >
+              👁
+            </button>
+          </div>
+        </div>
+
+        <!-- save graph 15m -->
+        <div class="control-section wave-block">
+          <div class="label-with-eye">
+            <label>Графік 15m</label>
+            <button
+              id="graph15mVis"
+              class="eye-btn active"
+              title="Показати/Приховати"
+            >
+              👁
+            </button>
+          </div>
+        </div>
+
+        <!-- save graph 30m -->
+        <div class="control-section wave-block">
+          <div class="label-with-eye">
+            <label>Графік 30m</label>
+            <button
+              id="graph30mVis"
+              class="eye-btn active"
+              title="Показати/Приховати"
+            >
+              👁
+            </button>
+          </div>
+        </div>
+
+        <!-- save graph 1h -->
+        <div class="control-section wave-block">
+          <div class="label-with-eye">
+            <label>Графік 1h</label>
+            <button
+              id="graph1hVis"
+              class="eye-btn active"
+              title="Показати/Приховати"
+            >
+              👁
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Панель аналітики -->
+      <div id="analytics-panel" style="display: none">
+        <!-- "analytics-head" -->
+        <div class="label-with-eye row-layout">
+          <h4 class="big-label">Аналітика</h4>
+          <div class="fib-group buttons-filler">
+            <button title="" id="allOnMultiplierActBtn">Вкл Множник</button>
+            <button title="" id="allOffMultiplierActBtn">Викл Множник</button>
+            <button class="active" title="">1m</button>
+            <button title="">5m</button>
+            <button title="">15m</button>
+            <button title="">30m</button>
+            <button title="">1h</button>
+          </div>
+        </div>
+
+        <div class="analytics-flow-container-grid">
+          <section class="flow-chart-block-grid" id="macd-flow-block">
+
+            <div class="flex-header-container">
+
+              <h4 class="flow-title">MACD</h4>
+
+              <div class="row-container">
+                <button
+                  id="macdMultiplierActBtn"
+                  class="eye-btn active"
+                  title="Показати/Приховати"
+                >
+                👁
+                </button>
+              </div>
+
+            </div>
+
+            <div class="flow-grid-content">
+              <div class="flow-grid-box flow-past">
+                <ul class="flow-list">
+                  <li id="macd-previous-situation">Минула ситуація</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-current">
+                <ul class="flow-list">
+                  <!-- <li id="macd-amplification-signal">Підсилення</li> -->
+                  <li id="macd-current-situation">Зарашня ситуація</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-up">
+                <ul class="flow-list">
+                  <li id="macd-possible-situation-up">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-down">
+                <ul class="flow-list">
+                  <li id="macd-possible-situation-down">Пробій рівня</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="four-grid-content">
+              <div class="five-grid-box grid-col1" id="histogram-trend">гістограма</div>
+              <div class="five-grid-box grid-col2" id="macd-trend">макд</div>
+              <div class="five-grid-box grid-col3" id="signal-trend">сигнал</div>
+              <div
+                class="five-grid-box grid-col4"
+                id="macd-approach-and-removal"
+              >
+                Наближення або розширення
+              </div>
+            </div>
+
+            <p></p>
+            <h4 class="flow-text-touching" id="macd-total-weight">Розрахунки</h4>
+
+          </section>
+
+          <section class="flow-chart-block-grid">
+            <div class="flex-header-container">
+                
+              <h4 class="flow-title">M30 i MA10</h4>
+              
+              <div class="row-container">
+                <h4 class="flow-text-touching" id="ma-touching">
+                  Торкання лінії ma30
+                </h4>
+                <button
+                  id="maMultiplierActBtn"
+                  class="eye-btn active"
+                  title="Показати/Приховати"
+                >
+                👁
+                </button>
+              </div>
+
+            </div>
+
+            <div class="flow-grid-content">
+              <div class="flow-grid-box flow-past">
+                <ul class="flow-list">
+                  <li id="ma-previous-situation">
+                    Минула ситуація MA10 і MA30
+                  </li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-current">
+                <ul class="flow-list">
+                  <li id="ma-current-situation">
+                    Зарашня ситуація MA10 i MA30
+                  </li>
+                  <li id="ma-count-fake-retest-text">Рітест</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-up">
+                <ul class="flow-list">
+                  <li id="ma-possible-situation-up">Пусто</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-down">
+                <ul class="flow-list">
+                  <li id="ma-possible-situation-down">Пусто</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="five-grid-content">
+              <div class="five-grid-box grid-col1" id="m30-trend">
+                MA30 вверх
+              </div>
+              <div class="five-grid-box grid-col2" id="m10-trend">
+                MA10 вверх
+              </div>
+              <div class="five-grid-box grid-col3" id="ma-approach-and-removal">
+                MA10 вверх
+              </div>
+              <div class="five-grid-box grid-col4" id="m30-trend-backet">
+                Ковша верх MA30
+              </div>
+              <div class="five-grid-box grid-col5" id="m10-trend-backet">
+                Ковша верх MA10
+              </div>
+            </div>
+
+            <p></p>
+            <h4 class="flow-text-touching" id="ma-total-weight">Розрахунки</h4>
+
+          </section>
+
+          <section class="flow-chart-block-grid">
+
+            <div class="flex-header-container">
+
+              <h4 class="flow-title">RSI</h4>
+
+              <div class="row-container">
+                <button
+                  id="rsiMultiplierActBtn"
+                  class="eye-btn active"
+                  title="Показати/Приховати"
+                >
+                👁
+                </button>
+              </div>
+            </div>
+
+            <div class="flow-grid-content">
+              <div class="flow-grid-box flow-past">
+                <ul class="flow-list">
+                  <li id="rsi-previous-situation">Пусто</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-current">
+                <ul class="flow-list">
+                  <!-- <li id="rsi-trend">Напрямок руху верх</li> -->
+                  <!-- <li>Дивергенція нижня</li> -->
+                  <li id="rsi-current-situation">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-up">
+                <ul class="flow-list">
+                  <li id="rsi-possible-situation-up">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-down">
+                <ul class="flow-list">
+                  <li id="rsi-possible-situation-down">Пробій рівня</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="five-grid-content">
+              <div class="five-grid-box grid-col1" id="rsi-trend"></div>
+              <div class="five-grid-box grid-col2" id="rsi-zone-tightness"></div>
+              <div class="five-grid-box grid-col3" id="rsi-noisy"></div>
+              <div class="five-grid-box grid-col4" id="rsi-amplitude"></div>
+              <div class="five-grid-box grid-col5" id="rsi-ritest"></div>
+            </div>
+
+            <p></p>
+            <h4 class="flow-text-touching" id="rsi-total-weight">Розрахунки</h4>
+
+          </section>
+
+          <section class="flow-chart-block-grid" id="macd-flow-block">
+            <div class="flex-header-container">
+              <h4 class="flow-title">Хвилі</h4>
+
+              <div class="row-container">
+                <h4 class="flow-text-touching" id="wave-touching">
+                  Торкання лінії хвиль
+                </h4>
+                <button
+                  id="waveMultiplierActBtn"
+                  class="eye-btn active"
+                  title="Показати/Приховати"
+                >
+                👁
+                </button>
+              </div>
+
+            </div>
+
+            <div class="flow-grid-content">
+              <div class="flow-grid-box flow-past">
+                <ul class="flow-list">
+                  <li id="wave-previous-situation">Пусто</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-current">
+                <ul class="flow-list">
+                  <li id="wave-current-situation">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-up">
+                <ul class="flow-list">
+                  <li id="wave-possible-situation-up">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-down">
+                <ul class="flow-list">
+                  <li id="wave-possible-situation-down">Пробій рівня</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="five-grid-content">
+              <div class="five-grid-box grid-col1" id="wawe-zone"></div>
+              <div class="five-grid-box grid-col2" id="wawe-tightness"></div>
+              <div
+                class="five-grid-box grid-col3"
+                id="ma-approach-and-removal"
+              ></div>
+              <div
+                class="five-grid-box grid-col4"
+                id="wawe-count-in-candle"
+              ></div>
+              <div class="five-grid-box grid-col5" id="wawe-zigzag"></div>
+            </div>
+
+            <p></p>
+            <h4 class="flow-text-touching" id="wawe-total-weight">Розрахунки</h4>
+
+          </section>
+
+          <section class="flow-chart-block-grid" id="macd-flow-block">
+            <div class="flex-header-container">
+              <h4 class="flow-title">Fibonachi</h4>
+
+              <div class="row-container">
+                <h4 class="flow-text-touching" id="fibanachi-touching">
+                  Торкання лінії fibo зверху
+                </h4>
+                <button
+                  id="fibanachiMultiplierActBtn"
+                  class="eye-btn active"
+                  title="Показати/Приховати"
+                >
+                👁
+                </button>
+              </div>
+
+            </div>
+
+            <div class="flow-grid-content">
+              <div class="flow-grid-box flow-past">
+                <ul class="flow-list">
+                  <li id="fibanachi-previous-situation">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-current">
+                <ul class="flow-list">
+                  <li id="fibanachi-current-situation">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-up">
+                <ul class="flow-list">
+                  <li id="fibanachi-possible-situation-up">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-down">
+                <ul class="flow-list">
+                  <li id="fibanachi-possible-situation-down">Пробій рівня</li>
+                </ul>
+              </div>
+            </div>
+
+            <p></p>
+            <h4 class="flow-text-touching" id="standartFibanachi-total-weight">Розрахунки</h4>
+            
+          </section>
+
+          <section class="flow-chart-block-grid">
+
+            <div class="flex-header-container">
+
+              <h4 class="flow-title">Свічкові події</h4>
+
+              <div class="row-container">
+                <button
+                  id="patternMultiplierActBtn"
+                  class="eye-btn active"
+                  title="Показати/Приховати"
+                >
+                👁
+                </button>
+              </div>
+            </div>
+
+            <div class="flow-grid-content">
+              <div class="flow-grid-box flow-past">
+                <ul class="flow-list">
+                  <li id="pattern-previous-situation">Пусто</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-current">
+                <ul class="flow-list">
+                  <li id="pattern-current-situation">Пусто</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-up">
+                <ul class="flow-list">
+                  <li id="pattern-possible-situation-up">Пусто</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-down">
+                <ul class="flow-list">
+                  <li id="pattern-possible-situation-down">Пусто</li>
+                </ul>
+              </div>
+            </div>
+
+            <p></p>
+            <h4 class="flow-text-touching" id="pattern-total-weight">Розрахунки</h4>
+
+          </section>
+
+          <section class="flow-chart-block-grid" id="rsi-flow-block">
+
+            <div class="flex-header-container">
+
+              <h4 class="flow-title">Тренд</h4>
+
+              <div class="row-container">
+                <button
+                  id="trendMultiplierActBtn"
+                  class="eye-btn active"
+                  title="Показати/Приховати"
+                >
+                👁
+                </button>
+              </div>
+            </div>
+
+            <div class="five-grid-box grid-col1" id="zig-zag-trend">Пусто</div>
+
+            <div class="two-grid-content">
+              <div class="five-grid-box grid-col1" id="adx-trend">Пусто</div>
+              <div class="five-grid-box grid-col2" id="adx-state">Пусто</div>
+            </div>
+
+            <div class="two-grid-content">
+              <div class="five-grid-box grid-col1" id="volume-zone">Пусто</div>
+              <div class="five-grid-box grid-col2" id="volume-stack">Пусто</div>
+            </div>
+
+            <p></p>
+            <h4 class="flow-text-touching" id="trend-total-multiplier">Розрахунки</h4>
+
+          </section>
+
+          <section class="flow-chart-block-grid" id="macd-flow-block">
+            <div class="flex-header-container">
+              <h4 class="flow-title">Авто Fibonachi</h4>
+
+              <div class="row-container">
+                <h4 class="flow-text-touching" id="autoFibanachi-touching">
+                  Торкання лінії fibo зверху
+                </h4>
+                <button
+                  id="autoFibanachiMultiplierActBtn"
+                  class="eye-btn active"
+                  title="Показати/Приховати"
+                >
+                👁
+                </button>
+              </div>
+              
+            </div>
+
+            <div class="flow-grid-content">
+              <div class="flow-grid-box flow-past">
+                <ul class="flow-list">
+                  <li id="autoFibanachi-previous-situation">Пусто</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-current">
+                <ul class="flow-list">
+                  <li id="autoFibanachi-current-situation">Пусто</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-up">
+                <ul class="flow-list">
+                  <li id="autoFibanachi-possible-situation-up">Пусто</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-down">
+                <ul class="flow-list">
+                  <li id="autoFibanachi-possible-situation-down">Пусто</li>
+                </ul>
+              </div>
+            </div>
+
+            <p></p>
+            <h4 class="flow-text-touching" id="autoFibanachi-total-weight">Розрахунки</h4>
+
+          </section>
+
+          <section class="flow-chart-block-grid" id="macd-flow-block">
+            <div class="flex-header-container">
+              <h4 class="flow-title">Тригер</h4>
+
+              <div class="row-container">
+                <h4 class="flow-text-touching" id="trigger-touching">
+                  Торкання лінії 30 i 70
+                </h4>
+                <button
+                  id="triggerMultiplierActBtn"
+                  class="eye-btn active"
+                  title="Показати/Приховати"
+                >
+                👁
+                </button>
+              </div>
+
+            </div>
+
+            <div class="flow-grid-content">
+              <div class="flow-grid-box flow-past">
+                <ul class="flow-list">
+                  <li id="trigger-previous-situation">Пусто</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-current">
+                <ul class="flow-list">
+                  <li id="trigger-current-situation">Пусто</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-up">
+                <ul class="flow-list">
+                  <li id="trigger-possible-situation-up">Пусто</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-down">
+                <ul class="flow-list">
+                  <li id="trigger-possible-situation-down">Пусто</li>
+                </ul>
+              </div>
+            </div>
+
+            <p></p>
+            <h4 class="flow-text-touching" id="trigger-total-weight">Розрахунки</h4>
+
+          </section>
+
+          <section class="flow-chart-block-grid" id="pivot-point-1m-block">
+            <div class="flex-header-container">
+              <h4 class="flow-title">Pivot Point 1m</h4>
+
+              <div class="row-container">
+                <h4 class="flow-text-touching" id="pivot-point-1m-touching">
+                  Торкання лінії pp 1m
+                </h4>
+                <button
+                  id="pivotPoint1mMultiplierActBtn"
+                  class="eye-btn active"
+                  title="Показати/Приховати"
+                >
+                👁
+                </button>
+              </div>
+
+            </div>
+
+            <div class="flow-grid-content">
+              <div class="flow-grid-box flow-past">
+                <ul class="flow-list">
+                  <li id="pivot-point-1m-previous-situation">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-current">
+                <ul class="flow-list">
+                  <li id="pivot-point-1m-current-situation">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-up">
+                <ul class="flow-list">
+                  <li id="pivot-point-1m-possible-situation-up">
+                    Пробій рівня
+                  </li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-down">
+                <ul class="flow-list">
+                  <li id="pivot-point-1m-possible-situation-down">
+                    Пробій рівня
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="two-grid-content">
+              <div class="five-grid-box grid-col1" id="pivot-point-1m-zone">
+                Пусто
+              </div>
+              <div
+                class="five-grid-box grid-col2"
+                id="pivot-point-1m-magnetism"
+              >
+                Пусто
+              </div>
+            </div>
+
+            <p></p>
+            <h4 class="flow-text-touching" id="pivot-point-1m-total-weight">Розрахунки</h4>
+
+          </section>
+
+          <section class="flow-chart-block-grid" id="pivot-point-5m-block">
+            <div class="flex-header-container">
+              <h4 class="flow-title">Pivot Point 5m</h4>
+
+              <div class="row-container">
+                <h4 class="flow-text-touching" id="pivot-point-5m-touching">
+                  Торкання лінії pp 5m
+                </h4>
+                <button
+                  id="pivotPoint5mMultiplierActBtn"
+                  class="eye-btn active"
+                  title="Показати/Приховати"
+                >
+                👁
+                </button>
+              </div>
+
+            </div>
+
+            <div class="flow-grid-content">
+              <div class="flow-grid-box flow-past">
+                <ul class="flow-list">
+                  <li id="pivot-point-5m-previous-situation">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-current">
+                <ul class="flow-list">
+                  <li id="pivot-point-5m-current-situation">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-up">
+                <ul class="flow-list">
+                  <li id="pivot-point-5m-possible-situation-up">
+                    Пробій рівня
+                  </li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-down">
+                <ul class="flow-list">
+                  <li id="pivot-point-5m-possible-situation-down">
+                    Пробій рівня
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="two-grid-content">
+              <div class="five-grid-box grid-col1" id="pivot-point-5m-zone">
+                Пусто
+              </div>
+              <div
+                class="five-grid-box grid-col2"
+                id="pivot-point-5m-magnetism"
+              >
+                Пусто
+              </div>
+            </div>
+
+            <p></p>
+            <h4 class="flow-text-touching" id="pivot-point-5m-total-weight">Розрахунки</h4>
+
+          </section>
+
+          <section class="flow-chart-block-grid" id="pivot-point-15m-block">
+            <div class="flex-header-container">
+              <h4 class="flow-title">Pivot Point 15m</h4>
+
+              <div class="row-container">
+                <h4 class="flow-text-touching" id="pivot-point-15m-touching">
+                  Торкання лінії pp 15m
+                </h4>
+                <button
+                  id="pivotPoint15mMultiplierActBtn"
+                  class="eye-btn active"
+                  title="Показати/Приховати"
+                >
+                👁
+                </button>
+              </div>
+
+            </div>
+
+            <div class="flow-grid-content">
+              <div class="flow-grid-box flow-past">
+                <ul class="flow-list">
+                  <li id="pivot-point-15m-previous-situation">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-current">
+                <ul class="flow-list">
+                  <li id="pivot-point-15m-current-situation">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-up">
+                <ul class="flow-list">
+                  <li id="pivot-point-15m-possible-situation-up">
+                    Пробій рівня
+                  </li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-down">
+                <ul class="flow-list">
+                  <li id="pivot-point-15m-possible-situation-down">
+                    Пробій рівня
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="two-grid-content">
+              <div class="five-grid-box grid-col1" id="pivot-point-15m-zone">
+                Пусто
+              </div>
+              <div
+                class="five-grid-box grid-col2"
+                id="pivot-point-15m-magnetism"
+              >
+                Пусто
+              </div>
+            </div>
+
+            <p></p>
+            <h4 class="flow-text-touching" id="pivot-point-15m-total-weight">Розрахунки</h4>
+
+          </section>
+
+          <section class="flow-chart-block-grid" id="pivot-point-30m-block">
+            <div class="flex-header-container">
+              <h4 class="flow-title">Pivot Point 30m</h4>
+
+              <div class="row-container">
+                <h4 class="flow-text-touching" id="pivot-point-30m-touching">
+                  Торкання лінії pp 30m
+                </h4>
+                <button
+                  id="pivotPoint30mMultiplierActBtn"
+                  class="eye-btn active"
+                  title="Показати/Приховати"
+                >
+                👁
+                </button>
+              </div>
+
+            </div>
+
+            <div class="flow-grid-content">
+              <div class="flow-grid-box flow-past">
+                <ul class="flow-list">
+                  <li id="pivot-point-30m-previous-situation">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-current">
+                <ul class="flow-list">
+                  <li id="pivot-point-30m-current-situation">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-up">
+                <ul class="flow-list">
+                  <li id="pivot-point-30m-possible-situation-up">
+                    Пробій рівня
+                  </li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-down">
+                <ul class="flow-list">
+                  <li id="pivot-point-30m-possible-situation-down">
+                    Пробій рівня
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="two-grid-content">
+              <div class="five-grid-box grid-col1" id="pivot-point-30m-zone">
+                Пусто
+              </div>
+              <div
+                class="five-grid-box grid-col2"
+                id="pivot-point-30m-magnetism"
+              >
+                Пусто
+              </div>
+            </div>
+
+            <p></p>
+            <h4 class="flow-text-touching" id="pivot-point-30m-total-weight">Розрахунки</h4>
+
+          </section>
+
+          <section class="flow-chart-block-grid" id="pivot-point-1h-block">
+            <div class="flex-header-container">
+              <h4 class="flow-title">Pivot Point 1h</h4>
+
+              <div class="row-container">
+                <h4 class="flow-text-touching" id="pivot-point-1h-touching">
+                  Торкання лінії pp 1h
+                </h4>
+                <button
+                  id="pivotPoint1hMultiplierActBtn"
+                  class="eye-btn active"
+                  title="Показати/Приховати"
+                >
+                👁
+                </button>
+              </div>
+
+            </div>
+
+            <div class="flow-grid-content">
+              <div class="flow-grid-box flow-past">
+                <ul class="flow-list">
+                  <li id="pivot-point-1h-previous-situation">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-current">
+                <ul class="flow-list">
+                  <li id="pivot-point-1h-current-situation">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-up">
+                <ul class="flow-list">
+                  <li id="pivot-point-1h-possible-situation-up">
+                    Пробій рівня
+                  </li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-down">
+                <ul class="flow-list">
+                  <li id="pivot-point-1h-possible-situation-down">
+                    Пробій рівня
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="two-grid-content">
+              <div class="five-grid-box grid-col1" id="pivot-point-1h-zone">
+                Пусто
+              </div>
+              <div
+                class="five-grid-box grid-col2"
+                id="pivot-point-1h-magnetism"
+              >
+                Пусто
+              </div>
+            </div>
+
+            <p></p>
+            <h4 class="flow-text-touching" id="pivot-point-1h-total-weight">Розрахунки</h4>
+
+          </section>
+
+          <section class="flow-chart-block-grid" id="pivot-point-4h-block">
+            <div class="flex-header-container">
+              <h4 class="flow-title">Pivot Point 4h</h4>
+
+              <div class="row-container">
+                <h4 class="flow-text-touching" id="pivot-point-4h-touching">
+                  Торкання лінії pp 4h
+                </h4>
+                <button
+                  id="pivotPoint4hMultiplierActBtn"
+                  class="eye-btn active"
+                  title="Показати/Приховати"
+                >
+                👁
+                </button>
+              </div>
+
+            </div>
+
+            <div class="flow-grid-content">
+              <div class="flow-grid-box flow-past">
+                <ul class="flow-list">
+                  <li id="pivot-point-4h-previous-situation">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-current">
+                <ul class="flow-list">
+                  <li id="pivot-point-4h-current-situation">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-up">
+                <ul class="flow-list">
+                  <li id="pivot-point-4h-possible-situation-up">
+                    Пробій рівня
+                  </li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-down">
+                <ul class="flow-list">
+                  <li id="pivot-point-4h-possible-situation-down">
+                    Пробій рівня
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="two-grid-content">
+              <div class="five-grid-box grid-col1" id="pivot-point-4h-zone">
+                Пусто
+              </div>
+              <div
+                class="five-grid-box grid-col2"
+                id="pivot-point-4h-magnetism"
+              >
+                Пусто
+              </div>
+            </div>
+
+            <p></p>
+            <h4 class="flow-text-touching" id="pivot-point-4h-total-weight">Розрахунки</h4>
+
+          </section>
+
+          <section class="flow-chart-block-grid" id="pivot-point-1d-block">
+            <div class="flex-header-container">
+              <h4 class="flow-title">Pivot Point 1d</h4>
+
+              <div class="row-container">
+                <h4 class="flow-text-touching" id="pivot-point-1d-touching">
+                  Торкання лінії pp 1d
+                </h4>
+                <button
+                  id="pivotPoint1dMultiplierActBtn"
+                  class="eye-btn active"
+                  title="Показати/Приховати"
+                >
+                👁
+                </button>
+              </div>
+
+            </div>
+
+            <div class="flow-grid-content">
+              <div class="flow-grid-box flow-past">
+                <ul class="flow-list">
+                  <li id="pivot-point-1d-previous-situation">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-current">
+                <ul class="flow-list">
+                  <li id="pivot-point-1d-current-situation">Пробій рівня</li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-up">
+                <ul class="flow-list">
+                  <li id="pivot-point-1d-possible-situation-up">
+                    Пробій рівня
+                  </li>
+                </ul>
+              </div>
+
+              <div class="flow-grid-box flow-down">
+                <ul class="flow-list">
+                  <li id="pivot-point-1d-possible-situation-down">
+                    Пробій рівня
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="two-grid-content">
+              <div class="five-grid-box grid-col1" id="pivot-point-1d-zone">
+                Пусто
+              </div>
+              <div
+                class="five-grid-box grid-col2"
+                id="pivot-point-1d-magnetism"
+              >
+                Пусто
+              </div>
+            </div>
+
+            <p></p>
+            <h4 class="flow-text-touching" id="pivot-point-1d-total-weight">Розрахунки</h4>
+
+          </section>
+        </div>
+      </div>
+
+      <div id="unified-analytics-panel" style="display: none">
+        <div class="label-with-eye row-layout">
+          <h4 class="big-label">Аналітика <span id="currentInstrument"></span></h4>
+          <div class="fib-group buttons-filler">
+            <button class="active" id="regim1mBtnGlobalAnalaze">
+              1m | <span id="candle-timer-1m">00:00</span>
+            </button>
+            <button id="regim5mBtnGlobalAnalaze">
+              5m | <span id="candle-timer-5m">00:00</span>
+            </button>
+            <button id="regim15mBtnGlobalAnalaze">
+              15m | <span id="candle-timer-15m">00:00</span>
+            </button>
+            <button id="regim30mBtnGlobalAnalaze">
+              30m | <span id="candle-timer-30m">00:00</span>
+            </button>
+            <button id="regim1hBtnGlobalAnalaze">
+              1h | <span id="candle-timer-1h">00:00</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="heatmap-wrapper">
+          <div class="heatmap-grid">
+            <div class="h-column sticky-col">TF</div>
+            <div class="h-column">Пінцет</div>
+            <div class="h-column">Погл</div>
+            <div class="h-column">MACD</div>
+            <div class="h-column">MA</div>
+            <div class="h-column">RSI</div>
+            <div class="h-column">Трігер</div>
+            <div class="h-column">Авто Фібо</div>
+            <div class="h-column">Хвилі</div>
+            <div class="h-column">Ручні Фібо</div>
+            <div class="h-column">PP5m</div>
+            <div class="h-column">PP15m</div>
+            <div class="h-column">PP30m</div>
+            <div class="h-column">PP1h</div>
+            <div class="h-column">PP4h</div>
+            <div class="h-column">PP1d</div>
+
+            <div class="h-cell sticky-col tf-label">1m</div>
+            <div class="h-cell" id="tweezers-entries-1m"></div>
+            <div class="h-cell" id="engulfing-entries-1m"></div>
+            <div class="h-cell" id="macd-entries-1m"></div>
+            <div class="h-cell" id="ma-entries-1m"></div>
+            <div class="h-cell" id="rsi-entries-1m"></div>
+            <div class="h-cell" id="trigger-entries-1m"></div>
+            <div class="h-cell" id="autoFibanachi-entries-1m"></div>
+            <div class="h-cell" id="wawe-entries-1m"></div>
+            <div class="h-cell" id="standartFibanachi-entries-1m"></div>
+            <div class="h-cell" id="pivot-point-5m-entries-1m"></div>
+            <div class="h-cell" id="pivot-point-15m-entries-1m"></div>
+            <div class="h-cell" id="pivot-point-30m-entries-1m"></div>
+            <div class="h-cell" id="pivot-point-1h-entries-1m"></div>
+            <div class="h-cell" id="pivot-point-4h-entries-1m"></div>
+            <div class="h-cell" id="pivot-point-1d-entries-1m"></div>
+
+            <div class="h-cell sticky-col tf-label">5m</div>
+            <div class="h-cell" id="tweezers-entries-5m"></div>
+            <div class="h-cell" id="engulfing-entries-5m"></div>
+            <div class="h-cell" id="macd-entries-5m"></div>
+            <div class="h-cell" id="ma-entries-5m"></div>
+            <div class="h-cell" id="rsi-entries-5m"></div>
+            <div class="h-cell" id="trigger-entries-5m"></div>
+            <div class="h-cell" id="autoFibanachi-entries-5m"></div>
+            <div class="h-cell" id="wawe-entries-5m"></div>
+            <div class="h-cell" id="standartFibanachi-entries-5m"></div>
+            <div class="h-cell" id="pivot-point-5m-entries-5m"></div>
+            <div class="h-cell" id="pivot-point-15m-entries-5m"></div>
+            <div class="h-cell" id="pivot-point-30m-entries-5m"></div>
+            <div class="h-cell" id="pivot-point-1h-entries-5m"></div>
+            <div class="h-cell" id="pivot-point-4h-entries-5m"></div>
+            <div class="h-cell" id="pivot-point-1d-entries-5m"></div>
+
+            <div class="h-cell sticky-col tf-label">15m</div>
+            <div class="h-cell" id="tweezers-entries-15m"></div>
+            <div class="h-cell" id="engulfing-entries-15m"></div>
+            <div class="h-cell" id="macd-entries-15m"></div>
+            <div class="h-cell" id="ma-entries-15m"></div>
+            <div class="h-cell" id="rsi-entries-15m"></div>
+            <div class="h-cell" id="trigger-entries-15m"></div>
+            <div class="h-cell" id="autoFibanachi-entries-15m"></div>
+            <div class="h-cell" id="wawe-entries-15m"></div>
+            <div class="h-cell" id="standartFibanachi-entries-15m"></div>
+            <div class="h-cell" id="pivot-point-5m-entries-15m"></div>
+            <div class="h-cell" id="pivot-point-15m-entries-15m"></div>
+            <div class="h-cell" id="pivot-point-30m-entries-15m"></div>
+            <div class="h-cell" id="pivot-point-1h-entries-15m"></div>
+            <div class="h-cell" id="pivot-point-4h-entries-15m"></div>
+            <div class="h-cell" id="pivot-point-1d-entries-15m"></div>
+
+            <div class="h-cell sticky-col tf-label">30m</div>
+            <div class="h-cell" id="tweezers-entries-30m"></div>
+            <div class="h-cell" id="engulfing-entries-30m"></div>
+            <div class="h-cell" id="macd-entries-30m"></div>
+            <div class="h-cell" id="ma-entries-30m"></div>
+            <div class="h-cell" id="rsi-entries-30m"></div>
+            <div class="h-cell" id="trigger-entries-30m"></div>
+            <div class="h-cell" id="autoFibanachi-entries-30m"></div>
+            <div class="h-cell" id="wawe-entries-30m"></div>
+            <div class="h-cell" id="standartFibanachi-entries-30m"></div>
+            <div class="h-cell" id="pivot-point-5m-entries-30m"></div>
+            <div class="h-cell" id="pivot-point-15m-entries-30m"></div>
+            <div class="h-cell" id="pivot-point-30m-entries-30m"></div>
+            <div class="h-cell" id="pivot-point-1h-entries-30m"></div>
+            <div class="h-cell" id="pivot-point-4h-entries-30m"></div>
+            <div class="h-cell" id="pivot-point-1d-entries-30m"></div>
+
+            <div class="h-cell sticky-col tf-label">1h</div>
+            <div class="h-cell" id="tweezers-entries-1h"></div>
+            <div class="h-cell" id="engulfing-entries-1h"></div>
+            <div class="h-cell" id="macd-entries-1h"></div>
+            <div class="h-cell" id="ma-entries-1h"></div>
+            <div class="h-cell" id="rsi-entries-1h"></div>
+            <div class="h-cell" id="trigger-entries-1h"></div>
+            <div class="h-cell" id="autoFibanachi-entries-1h"></div>
+            <div class="h-cell" id="wawe-entries-1h"></div>
+            <div class="h-cell" id="standartFibanachi-entries-1h"></div>
+            <div class="h-cell" id="pivot-point-5m-entries-1h"></div>
+            <div class="h-cell" id="pivot-point-15m-entries-1h"></div>
+            <div class="h-cell" id="pivot-point-30m-entries-1h"></div>
+            <div class="h-cell" id="pivot-point-1h-entries-1h"></div>
+            <div class="h-cell" id="pivot-point-4h-entries-1h"></div>
+            <div class="h-cell" id="pivot-point-1d-entries-1h"></div>
+          </div>
+        </div>
+        <div></div>
+
+        <div class="session-tracker">
+          <!-- Минула загальна зона -->
+          <div class="session-block side-block">
+            <div id="prev-title" class="session-title">
+              Минула зона: Завантаження...
+            </div>
+            <div id="prev-time" class="session-time">--:-- - --:--</div>
+          </div>
+
+          <!-- Поточна зона (Загальна + Детально) -->
+          <div class="session-block main-block">
+            <div id="curr-header" class="session-header-main">
+              Зараз Завантаження...
+            </div>
+            <!-- <div id="curr-note" class="session-note">Аналіз...</div> -->
+          </div>
+
+          <!-- Наступна загальна зона -->
+          <div class="session-block side-block">
+            <div id="next-title" class="session-title">
+              Наступна зона: Завантаження...
+            </div>
+            <div id="next-time" class="session-time">--:-- - --:--</div>
+          </div>
+        </div>
+
+        <div class="app-wrapper">
+          <div class="flex-column col-1-5">
+            <div class="sub-item row-container fib-group">
+              <button id="statusAnalazeBtn1m" class="active">1m</button>
+              <button id="statusAnalazeBtn5m" class="active">5m</button>
+              <button id="statusAnalazeBtn15m" class="active">15m</button>
+            </div>
+            <div class="sub-item row-container fib-group">
+              <button id="statusAnalazeBtn30m" class="active">30m</button>
+              <button id="statusAnalazeBtn1h" class="active">1h</button>
+            </div>
+          </div>
+
+          <div class="flex-column col-1-5">
+            <div class="sub-item row-container fib-group">
+              <button id="shortTermAgreementsBtn">Коротко</button>
+            </div>
+            <div class="sub-item row-container fib-group">
+              <button id="longTermAgreementsBtn" class="active">Довго</button>
+            </div>
+          </div>
+
+          <div class="flex-column col-3-3">
+            <div class="sub-item" id="global-action">Рядок 4</div>
+          </div>
+
+          <div class="flex-column col-1-5">
+            <div class="sub-item row-container fib-group">
+              <button id="statusActionBtn1m" class="active">1m</button>
+              <button id="statusActionBtn5m" class="active">5m</button>
+              <button id="statusActionBtn15m" class="active">15m</button>
+            </div>
+            <div class="sub-item row-container fib-group">
+              <button id="statusActionBtn30m" class="active">30m</button>
+              <button id="statusActionBtn1h" class="active">1h</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="app-wrapper">
+          <div class="flex-column vertical-stack col-1-3">
+            <div class="sub-item" id="global-total-long">Рядок 2</div>
+            <div class="sub-item" id="global-total-short">Рядок 3</div>
+            <div class="sub-item" id="global-total-sum">Рядок 4</div>
+            <div class="sub-item" id="global-confidence-element">Рядок 5</div>
+
+            <!-- <div class="control-section wave-block"> -->
+            <!-- <label>Розрахунок стоп лос</label> -->
+            <!-- <p></p> -->
+            <div class="two-buttons">
+              <button
+                id="cashLongDealBtn"
+                title="Угода в Лонг"
+                class="mode-btn active"
+              >
+                Лонг
+              </button>
+              <button
+                id="cashShortDealBtn"
+                title="Угода в Шорт"
+                class="mode-btn"
+              >
+                Шорт
+              </button>
+            </div>
+            <!-- <p></p> -->
+            <div class="input-eye">
+              <label>Лот</label>
+              <input
+                id="cashInput"
+                type="number"
+                step="0.01"
+                placeholder="Введіть значення"
+                value="100"
+              />
+              <label id="deal-amount-result">0.00</label>
+              <button
+              class="eye-btn"
+              title="Показати/Приховати"
+              id="toggleEntryBtn"
+              >
+              👁
+              </button>
+            </div>
+            <!-- <p></p> -->
+            <div class="input-eye">
+              <label>Плече</label>
+              <input
+                id="shoulderInput"
+                type="number"
+                step="0.01"
+                placeholder="Введіть значення"
+                value="20"
+              />
+            </div>
+            <!-- <p></p>  -->
+            <div class="input-eye">
+              <label>Тейкпрофіт</label>
+              <input
+                id="takeProfitAmountInput"
+                type="number"
+                step="0.01"
+                placeholder="Введіть значення"
+                value="30"
+              />
+              <label id="take-profit-price-result">0.00</label>
+              <button
+              class="eye-btn"
+              title="Показати/Приховати"
+              id="toggleTpBtn"
+              >
+              👁
+              </button>
+            </div>
+            <!-- <p></p> -->
+            <div class="input-eye">
+              <label><b>Стоплос</b></label>
+              <input
+                id="stopPriceInput"
+                type="number"
+                step="0.01"
+                placeholder="Введіть значення"
+                value="-10"
+              />
+              <label id="stop-price-result">0.00</label>
+              <button
+              class="eye-btn"
+              title="Показати/Приховати"
+              id="toggleStopBtn"
+              >
+              👁
+              </button>
+            </div>
+            <!-- <p></p> -->
+
+            <button id="calculate-deal">Розрахунок</button>
+            <p id="deal-error-result" style="color: red; margin-top: 5px"></p>
+            <!-- </div> -->
+            <div class="sub-item column-container">
+              <div class="row-container">
+                <div class="orange-block long-color" id="total-long-1m">
+                  підблок 1
+                </div>
+                <div class="orange-block short-color" id="total-short-1m">
+                  підблок 2
+                </div>
+              </div>
+              <div class="orange-block" id="confidence-1m">блок</div>
+            </div>
+
+            <div class="sub-item column-container">
+              <div class="row-container">
+                <div class="orange-block long-color" id="total-long-5m">
+                  підблок 1
+                </div>
+                <div class="orange-block short-color" id="total-short-5m">
+                  підблок 2
+                </div>
+              </div>
+              <div class="orange-block" id="confidence-5m">блок</div>
+            </div>
+
+            <div class="sub-item column-container">
+              <div class="row-container">
+                <div class="orange-block long-color" id="total-long-15m">
+                  підблок 1
+                </div>
+                <div class="orange-block short-color" id="total-short-15m">
+                  підблок 2
+                </div>
+              </div>
+              <div class="orange-block" id="confidence-15m">блок</div>
+            </div>
+
+            <div class="sub-item column-container">
+              <div class="row-container">
+                <div class="orange-block long-color" id="total-long-30m">
+                  підблок 1
+                </div>
+                <div class="orange-block short-color" id="total-short-30m">
+                  підблок 2
+                </div>
+              </div>
+              <div class="orange-block" id="confidence-30m">блок</div>
+            </div>
+
+            <div class="sub-item column-container">
+              <div class="row-container">
+                <div class="orange-block long-color" id="total-long-1h">
+                  підблок 1
+                </div>
+                <div class="orange-block short-color" id="total-short-1h">
+                  підблок 2
+                </div>
+              </div>
+              <div class="orange-block" id="confidence-1h">блок</div>
+            </div>
+          </div>
+
+          <div class="flex-column vertical-stack col-2-3">
+            <div
+              class="sub-item column-container"
+              id="scenariosLongEntryText"
+            ></div>
+
+            <div
+              class="sub-item column-container"
+              id="scenariosLongWatchText"
+            ></div>
+
+            <div
+              class="sub-item column-container"
+              id="scenariosShortEntryText"
+            ></div>
+
+            <div
+              class="sub-item column-container"
+              id="scenariosShortWatchText"
+            ></div>
+
+            <div
+              class="sub-item column-container"
+              id="scenariosIgnorText"
+            ></div>
+
+            <div
+              class="sub-item column-container"
+              id="scenariosWatchText"
+            ></div>
+          </div>
+
+          <!-- <div class="flex-column">
+
+        </div> -->
+        </div>
+
+        <div class="side" id="total-long">
+          Загальне значення Лонг на ітервал
+        </div>
+        <div class="side" id="total-short">
+          Загальне значення Шорт на ітервал
+        </div>
+        <div class="side" id="total-sum">
+          Загальне обєднане значення на ітервал
+        </div>
+        <div class="side" id="confidence-element">
+          Загальна впевненість на ітервал
+        </div>
+
+      </div>
+
+      <!-- Панель глобальної аналітики -->
+      <div id="global-analytics-panel" class="side-panel" style="display: none">
+        <div class="control-section">
+          <h3>Глобальна аналітика</h3>
+          <div class="input-eye">
+            <label>Фільтр</label>
+            <input
+              id="scenarioFilterInput"
+              type="text"
+              placeholder="Введіть фільтр"
+            />
+          </div>
+        </div>
+
+        <!-- Дивергенції -->
+        <div class="control-section" data-point="macd-divergence">
+          <h3>Всі дивергенції</h3>
+          <div class="control-buttons">
+            <button data-step="-50">-50</button>
+            <button data-step="-10">-10</button>
+            <button data-step="-1">-1</button>
+            <span class="value-display" id="macdDivergenceTotalCount">1</span>
+            <button data-step="1">+1</button>
+            <button data-step="10">+10</button>
+            <button data-step="50">+50</button>
+          </div>
+        </div>
+
+        <div class="control-section" data-point="tweezers">
+          <h3>Всі пінцети</h3>
+          <div class="control-buttons">
+            <button data-step="-50">-50</button>
+            <button data-step="-10">-10</button>
+            <button data-step="-1">-1</button>
+            <span class="value-display" id="tweezersTotalCount">1</span>
+            <button data-step="1">+1</button>
+            <button data-step="10">+10</button>
+            <button data-step="50">+50</button>
+          </div>
+        </div>
+
+        <div class="control-section" data-point="engulfings">
+          <h3>Всі поглинання</h3>
+          <div class="control-buttons">
+            <button data-step="-50">-50</button>
+            <button data-step="-10">-10</button>
+            <button data-step="-1">-1</button>
+            <span class="value-display" id="engulfingsTotalCount">1</span>
+            <button data-step="1">+1</button>
+            <button data-step="10">+10</button>
+            <button data-step="50">+50</button>
+          </div>
+        </div>
+
+        <div class="control-section" data-point="hammers">
+          <h3>Всі молоти</h3>
+          <div class="control-buttons">
+            <button data-step="-50">-50</button>
+            <button data-step="-10">-10</button>
+            <button data-step="-1">-1</button>
+            <span class="value-display" id="hammersTotalCount">1</span>
+            <button data-step="1">+1</button>
+            <button data-step="10">+10</button>
+            <button data-step="50">+50</button>
+          </div>
+        </div>
+
+        <div class="control-section wave-block">
+          <div class="label-with-eye">
+            <label>Режими маркерів сценаріїв</label>
+          </div>
+          <div class="fib-group">
+            <button id="regim1ScenariosAll" title="Нема">Нема</button>
+            <button id="regim2ScenariosAll" title="Всі">Всі</button>
+            <button id="regim3ScenariosAll" title="Кінець">Кінець</button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>MACD</label>
+          </div>
+          <div class="fib-group">
+            <button id="regim1ScenariosMACD" title="Нема">Нема</button>
+            <button id="regim2ScenariosMACD" title="Всі">Всі</button>
+            <button class="active" id="regim3ScenariosMACD" title="Кінець">Кінець</button>
+          </div>
+        
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>M30 i MA10</label>
+          </div>
+          <div class="fib-group">
+            <button id="regim1ScenariosMA" title="Нема">Нема</button>
+            <button id="regim2ScenariosMA" title="Всі">Всі</button>
+            <button class="active" id="regim3ScenariosMA" title="Кінець">Кінець</button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>RSI</label>
+          </div>
+          <div class="fib-group">
+            <button id="regim1ScenariosRSI" title="Нема">Нема</button>
+            <button id="regim2ScenariosRSI" title="Всі">Всі</button>
+            <button class="active" id="regim3ScenariosRSI" title="Кінець">Кінець</button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>Хвилі</label>
+          </div>
+          <div class="fib-group">
+            <button id="regim1ScenariosWawe" title="Нема">Нема</button>
+            <button id="regim2ScenariosWawe" title="Всі">Всі</button>
+            <button class="active" id="regim3ScenariosWawe" title="Кінець">Кінець</button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>Fibonachi</label>
+          </div>
+          <div class="fib-group">
+            <button id="regim1ScenariosFibonachi" title="Нема">Нема</button>
+            <button id="regim2ScenariosFibonachi" title="Всі">Всі</button>
+            <button class="active" id="regim3ScenariosFibonachi" title="Кінець">Кінець</button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>Авто Fibanachi</label>
+          </div>
+          <div class="fib-group">
+            <button id="regim1ScenariosAutoFibanachi" title="Нема">Нема</button>
+            <button id="regim2ScenariosAutoFibanachi" title="Всі">Всі</button>
+            <button class="active" id="regim3ScenariosAutoFibanachi" title="Кінець">Кінець</button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>Трігер</label>
+          </div>
+          <div class="fib-group">
+            <button id="regim1ScenariosTrigger" title="Нема">Нема</button>
+            <button id="regim2ScenariosTrigger" title="Всі">Всі</button>
+            <button class="active" id="regim3ScenariosTrigger" title="Кінець">Кінець</button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>Pivot Point 5m</label>
+          </div>
+          <div class="fib-group">
+            <button id="regim1ScenariosPivotPoint_5m" title="Нема">Нема</button>
+            <button id="regim2ScenariosPivotPoint_5m" title="Всі">Всі</button>
+            <button class="active" id="regim3ScenariosPivotPoint_5m" title="Кінець">Кінець</button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>Pivot Point 15m</label>
+          </div>
+          <div class="fib-group">
+            <button id="regim1ScenariosPivotPoint_15m" title="Нема">Нема</button>
+            <button id="regim2ScenariosPivotPoint_15m" title="Всі">Всі</button>
+            <button class="active" id="regim3ScenariosPivotPoint_15m" title="Кінець">Кінець</button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>Pivot Point 30m</label>
+          </div>
+          <div class="fib-group">
+            <button id="regim1ScenariosPivotPoint_30m" title="Нема">Нема</button>
+            <button id="regim2ScenariosPivotPoint_30m" title="Всі">Всі</button>
+            <button class="active" id="regim3ScenariosPivotPoint_30m" title="Кінець">Кінець</button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>Pivot Point 1h</label>
+          </div>
+          <div class="fib-group">
+            <button id="regim1ScenariosPivotPoint_1h" title="Нема">Нема</button>
+            <button id="regim2ScenariosPivotPoint_1h" title="Всі">Всі</button>
+            <button class="active" id="regim3ScenariosPivotPoint_1h" title="Кінець">Кінець</button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>Pivot Point 4h</label>
+          </div>
+          <div class="fib-group">
+            <button id="regim1ScenariosPivotPoint_4h" title="Нема">Нема</button>
+            <button id="regim2ScenariosPivotPoint_4h" title="Всі">Всі</button>
+            <button class="active" id="regim3ScenariosPivotPoint_4h" title="Кінець">Кінець</button>
+          </div>
+
+          <p></p>
+
+          <div class="label-with-eye">
+            <label>Pivot Point 1d</label>
+          </div>
+          <div class="fib-group">
+            <button id="regim1ScenariosPivotPoint_1d" title="Нема">Нема</button>
+            <button id="regim2ScenariosPivotPoint_1d" title="Всі">Всі</button>
+            <button class="active" id="regim3ScenariosPivotPoint_1d" title="Кінець">Кінець</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Нове навігаційне меню -->
+      <div id="nav-panel">
+        <div class="nav-main">
+          <button title="Відрисувати" id="calculate-button">📐</button>
+          <button title="Оновити" id="reload-button">⟳</button>
+          <button title="Очистити" id="clear-button">❌</button>
+        </div>
+
+        <!-- Роздільник -->
+        <div class="nav-separator"></div>
+        <!-- class="active" -->
+        <!-- Панель керування -->
+        <div class="nav-main">
+          <button title="Вибір точок" id="controlPanelBtn">📌</button>
+          <button title="Налаштування локальні" id="localSetingPanelBtn">
+            🛠️
+          </button>
+          <button title="Налаштування глобальні" id="setingPanelBtn">⚙️</button>
+          <button title="Патерни" id="paternsPanelBtn">📝</button>
+          <button title="Зберегти" id="savesPanelBtn">💾</button>
+          <button title="Аналітика" id="analyticsPanelBtn">📈</button>
+          <button title="Аналітика" id="unifiedAnalyticsPanelBtn">💰</button>
+          <button title="Аналітика Глобальна" id="globalAnalyticsPanelBtn">
+            📊
+          </button>
+          <button title="Початкове меню" id="startPanel">₿</button>
+        </div>
+
+        <!-- Роздільник -->
+        <div class="nav-separator"></div>
+
+        <!-- Панель режимів -->
+        <div class="nav-modes">
+          <button data-interval="1m" title="1хв" class="active" id="regim1mBtn">
+            1m
+          </button>
+          <button data-interval="5m" title="5хв" id="regim5mBtn">5m</button>
+          <button data-interval="15m" title="15хв" id="regim15mBtn">15m</button>
+          <button data-interval="30m" title="30в" id="regim30mBtn">30m</button>
+          <button data-interval="1h" title="1г" id="regim1hBtn">1h</button>
+        </div>
+      </div>
+    </div>
+    <script src="lightweight-charts.js"></script>
+    <script type="module" src="main.js"></script>
+    <script type="module" src="control.js"></script>
+    <script type="module" src="chart-data.js"></script>
+    <script type="module" src="render.js"></script>
+    <script type="module" src="program-settings.js"></script>
+    <script type="module" src="settingsData/all-scenarios.js"></script>
+    <script type="module" src="menus/panel-work.js"></script>
+    <script type="module" src="menus/global-analytics-panel.js"></script>
+    <script type="module" src="menus/deal-calculator-ui.js"></script>
+    <script type="module" src="menus/global-visibility-element.js"></script>
+  </body>
+</html>
