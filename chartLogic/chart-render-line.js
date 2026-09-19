@@ -102,7 +102,7 @@ export function renderChartLine(renderData, settings, markersScenarios) {
   markersPivotPoint = !markerVisPivotPoint.classList.contains('active') ? renderData.markers.markersPivotPoint : [];
 
   markersRsiScenarios = markersScenarios;
-  console.log(markersRsiScenarios);
+  // console.log(markersRsiScenarios);
 
   candlestickSeries.setData(klines);
 

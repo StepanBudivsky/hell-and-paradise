@@ -156,9 +156,9 @@ export function chartProcessor(settings, analyzeData) {
   let markersAutoFibanachi = [];
 
   // аналіз авто фібаначі і створення маркерів на рітестах
-  if (currentLastTrigger) {
-    markersAutoFibanachi = analyzeFibanachi(analyzeData.autoFibanachi, klinesLimited, currentLastTrigger.lastGroup.start, currentLastTrigger.lastGroup.end, currentLastTrigger.lastGroup.line, "#bda539", 2);
-  }
+  // if (currentLastTrigger) {
+  //   markersAutoFibanachi = analyzeFibanachi(analyzeData.autoFibanachi, klinesLimited, currentLastTrigger.lastGroup.start, currentLastTrigger.lastGroup.end, currentLastTrigger.lastGroup.line, "#bda539", 2);
+  // }
 
   // робота М10
   const ma10 = calculateMA(klinesLimited, 10);

@@ -26,8 +26,6 @@ function getIndicatorMetrics(indicatorData, interval) {
 export function updateUnifiedAnalyze(analyzeData, interval, dataResult) {
     // MACD
     let { weight: macdWeight, status: macdStatus } = getIndicatorMetrics(analyzeData.macd, interval);
-    // let macdWeight = allScenarios[analyzeData.macd.main.currentID].weight[interval];
-    // let macdStatus = allScenarios[analyzeData.macd.main.currentID].direction > 0;
 
     let histogramTrendMultiplier = getMultiplier(
         macdStatus, 
@@ -57,9 +55,6 @@ export function updateUnifiedAnalyze(analyzeData, interval, dataResult) {
 
     // MA
     let { weight: maWeight, status: maStatus } = getIndicatorMetrics(analyzeData.ma, interval);
-
-    // let maWeight = allScenarios[analyzeData.ma.main.currentID].weight[interval];
-    // let maStatus = allScenarios[analyzeData.ma.main.currentID].direction > 0;
 
     let m30TrendMultiplier = getMultiplier(
         maStatus, 
@@ -102,9 +97,6 @@ export function updateUnifiedAnalyze(analyzeData, interval, dataResult) {
     // RSI
     let { weight: rsiWeight, status: rsiStatus } = getIndicatorMetrics(analyzeData.rsi, interval);
 
-    // let rsiWeight = allScenarios[analyzeData.rsi.main.currentID].weight[interval];
-    // let rsiStatus = allScenarios[analyzeData.rsi.main.currentID].direction > 0;
-
     let rsiTrendMultiplier = getMultiplier(
         rsiStatus, 
         strategyBlocks[analyzeData.rsi.additional.trend.currentID].multiplierLong, 
@@ -139,9 +131,6 @@ export function updateUnifiedAnalyze(analyzeData, interval, dataResult) {
 
     // WAWE
     let { weight: waweWeight, status: waweStatus } = getIndicatorMetrics(analyzeData.wawe, interval);
-
-    // let waweWeight = allScenarios[analyzeData.wawe.main.currentID].weight[interval];
-    // let waweStatus = allScenarios[analyzeData.wawe.main.currentID].direction > 0;
 
     let waweZoneMultiplier = getMultiplier(
         waweStatus, 
@@ -178,9 +167,6 @@ export function updateUnifiedAnalyze(analyzeData, interval, dataResult) {
     // Standart Fibanachi
     let { weight: standartFibanachiWeight, status: standartFibanachiStatus } = getIndicatorMetrics(analyzeData.standartFibanachi, interval);
 
-    // let standartFibanachiWeight = allScenarios[analyzeData.standartFibanachi.main.currentID].weight[interval];
-    // let standartFibanachiStatus = allScenarios[analyzeData.standartFibanachi.main.currentID].direction > 0;
-
     let standartFibanachiTouchingMultiplier = getMultiplier(
         standartFibanachiStatus, 
         strategyBlocks[analyzeData.standartFibanachi.additional.touching.currentID].multiplierLong, 
@@ -216,9 +202,6 @@ export function updateUnifiedAnalyze(analyzeData, interval, dataResult) {
     // Auto Fibanachi
     let { weight: autoFibanachiWeight, status: autoFibanachiStatus } = getIndicatorMetrics(analyzeData.autoFibanachi, interval);
 
-    // let autoFibanachiWeight = allScenarios[analyzeData.autoFibanachi.main.currentID].weight[interval];
-    // let autoFibanachiStatus = allScenarios[analyzeData.autoFibanachi.main.currentID].direction > 0;
-
     let autoFibanachiTouchingMultiplier = getMultiplier(
         autoFibanachiStatus, 
         strategyBlocks[analyzeData.autoFibanachi.additional.touching.currentID].multiplierLong, 
@@ -230,9 +213,6 @@ export function updateUnifiedAnalyze(analyzeData, interval, dataResult) {
     // Trigger
     let { weight: triggerWeight, status: triggerStatus } = getIndicatorMetrics(analyzeData.trigger, interval);
 
-    // let triggerWeight = allScenarios[analyzeData.trigger.main.currentID].weight[interval];
-    // let triggerStatus = allScenarios[analyzeData.trigger.main.currentID].direction > 0;
-
     let triggerTouchingMultiplier = getMultiplier(
         triggerStatus, 
         strategyBlocks[analyzeData.trigger.additional.touching.currentID].multiplierLong, 
@@ -243,9 +223,6 @@ export function updateUnifiedAnalyze(analyzeData, interval, dataResult) {
 
     // Pivot Point 1m 
     let { weight: pivotPoint_1mWeight, status: pivotPoint_1mStatus } = getIndicatorMetrics(analyzeData.pivotPoint_1m, interval);
-
-    // let pivotPoint_1mWeight = allScenarios[analyzeData.pivotPoint_1m.main.currentID].weight[interval];
-    // let pivotPoint_1mStatus = allScenarios[analyzeData.pivotPoint_1m.main.currentID].direction > 0;
 
     let pivotPoint_1mZoneMultiplier = getMultiplier(
         pivotPoint_1mStatus, 
@@ -270,9 +247,6 @@ export function updateUnifiedAnalyze(analyzeData, interval, dataResult) {
     // Pivot Point 5m 
     let { weight: pivotPoint_5mWeight, status: pivotPoint_5mStatus } = getIndicatorMetrics(analyzeData.pivotPoint_5m, interval);
 
-    // let pivotPoint_5mWeight = allScenarios[analyzeData.pivotPoint_5m.main.currentID].weight[interval];
-    // let pivotPoint_5mStatus = allScenarios[analyzeData.pivotPoint_5m.main.currentID].direction > 0;
-
     let pivotPoint_5mZoneMultiplier = getMultiplier(
         pivotPoint_5mStatus, 
         strategyBlocks[analyzeData.pivotPoint_5m.additional.zone.currentID].multiplierLong, 
@@ -295,9 +269,6 @@ export function updateUnifiedAnalyze(analyzeData, interval, dataResult) {
 
     // Pivot Point 15m 
     let { weight: pivotPoint_15mWeight, status: pivotPoint_15mStatus } = getIndicatorMetrics(analyzeData.pivotPoint_15m, interval);
-
-    // let pivotPoint_15mWeight = allScenarios[analyzeData.pivotPoint_15m.main.currentID].weight[interval];
-    // let pivotPoint_15mStatus = allScenarios[analyzeData.pivotPoint_15m.main.currentID].direction > 0;
 
     let pivotPoint_15mZoneMultiplier = getMultiplier(
         pivotPoint_15mStatus, 
@@ -322,9 +293,6 @@ export function updateUnifiedAnalyze(analyzeData, interval, dataResult) {
     // Pivot Point 30m 
     let { weight: pivotPoint_30mWeight, status: pivotPoint_30mStatus } = getIndicatorMetrics(analyzeData.pivotPoint_30m, interval);
 
-    // let pivotPoint_30mWeight = allScenarios[analyzeData.pivotPoint_30m.main.currentID].weight[interval];
-    // let pivotPoint_30mStatus = allScenarios[analyzeData.pivotPoint_30m.main.currentID].direction > 0;
-
     let pivotPoint_30mZoneMultiplier = getMultiplier(
         pivotPoint_30mStatus, 
         strategyBlocks[analyzeData.pivotPoint_30m.additional.zone.currentID].multiplierLong, 
@@ -347,9 +315,6 @@ export function updateUnifiedAnalyze(analyzeData, interval, dataResult) {
 
     // Pivot Point 1h
     let { weight: pivotPoint_1hWeight, status: pivotPoint_1hStatus } = getIndicatorMetrics(analyzeData.pivotPoint_1h, interval);
-    
-    // let pivotPoint_1hWeight = allScenarios[analyzeData.pivotPoint_1h.main.currentID].weight[interval];
-    // let pivotPoint_1hStatus = allScenarios[analyzeData.pivotPoint_1h.main.currentID].direction > 0;
 
     let pivotPoint_1hZoneMultiplier = getMultiplier(
         pivotPoint_1hStatus, 
@@ -373,9 +338,6 @@ export function updateUnifiedAnalyze(analyzeData, interval, dataResult) {
 
     // Pivot Point 4h
     let { weight: pivotPoint_4hWeight, status: pivotPoint_4hStatus } = getIndicatorMetrics(analyzeData.pivotPoint_4h, interval);
-    
-    // let pivotPoint_4hWeight = allScenarios[analyzeData.pivotPoint_4h.main.currentID].weight[interval];
-    // let pivotPoint_4hStatus = allScenarios[analyzeData.pivotPoint_4h.main.currentID].direction > 0;
 
     let pivotPoint_4hZoneMultiplier = getMultiplier(
         pivotPoint_4hStatus, 
@@ -399,9 +361,6 @@ export function updateUnifiedAnalyze(analyzeData, interval, dataResult) {
 
     // Pivot Point 1d 
     let { weight: pivotPoint_1dWeight, status: pivotPoint_1dStatus } = getIndicatorMetrics(analyzeData.pivotPoint_1d, interval);
-
-    // let pivotPoint_1dWeight = allScenarios[analyzeData.pivotPoint_1d.main.currentID].weight[interval];
-    // let pivotPoint_1dStatus = allScenarios[analyzeData.pivotPoint_1d.main.currentID].direction > 0;
 
     let pivotPoint_1dZoneMultiplier = getMultiplier(
         pivotPoint_1dStatus, 

@@ -178,13 +178,13 @@ export function analyzeMA(analyzeData, dataMA10, dataMA30, dataBucketMA10, dataB
         if (cur.high < curr10 && cur.high < curr30) {
             let newSituation = "";
             
-            if (isBigGap) {
-                newSituation = "U9004";
-                scenariosID.push({time: dataKlines[i].time, id: "U9004"});
-            } else {
-                newSituation = "U9002";
-                scenariosID.push({time: dataKlines[i].time, id: "U9002"});
-            }
+            // if (isBigGap) {
+            //     newSituation = "U9004";
+            //     scenariosID.push({time: dataKlines[i].time, id: "U9004"});
+            // } else {
+            //     newSituation = "U9002";
+            //     scenariosID.push({time: dataKlines[i].time, id: "U9002"});
+            // }
 
             // Оновлюємо стани тільки якщо назва ситуації дійсно змінилася
             if (currentID !== newSituation) {
@@ -203,13 +203,13 @@ export function analyzeMA(analyzeData, dataMA10, dataMA30, dataBucketMA10, dataB
         else if (cur.low > curr10 && cur.low > curr30) {
             let newSituation = "";
             
-            if (isBigGap) {
-                newSituation = "U9003";
-                scenariosID.push({time: dataKlines[i].time, id: "U9003"});
-            } else {
-                newSituation = "U9001";
-                scenariosID.push({time: dataKlines[i].time, id: "U9001"});
-            }
+            // if (isBigGap) {
+            //     newSituation = "U9003";
+            //     scenariosID.push({time: dataKlines[i].time, id: "U9003"});
+            // } else {
+            //     newSituation = "U9001";
+            //     scenariosID.push({time: dataKlines[i].time, id: "U9001"});
+            // }
 
             if (currentID !== newSituation) {
                 if (isBigGap) { // 3

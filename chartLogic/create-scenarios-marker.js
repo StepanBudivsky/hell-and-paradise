@@ -163,7 +163,8 @@ export function createScenariosMarker(analyzeData) {
     configs.forEach(({ main, btns }) => {
         if (main) {
             const markers = getMarkersByMode(main, ...btns);
-            allMarkers.push(...markers);
+            // allMarkers.push(...markers);
+            allMarkers = allMarkers.concat(markers);
         }
     });
 

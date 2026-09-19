@@ -2622,6 +2622,82 @@
           </div>
         </div>
 
+<div class="control-section">
+  <h3>Тестування</h3>
+  
+  <div class="input-eye">
+    <label>Лот ($)</label>
+    <input
+      id="cashInputParametr"
+      type="number"
+      step="0.01"
+      placeholder="Введіть значення"
+      value="100"
+    />
+  </div>
+
+  <div class="input-eye">
+    <label>Плече</label>
+    <input
+      id="shoulderInputParametr"
+      type="number"
+      step="1"
+      placeholder="Введіть значення"
+      value="20"
+    />
+  </div>
+
+  <div class="input-eye">
+    <label>Тейкпрофіт (% ROE)</label>
+    <input
+      id="takeProfitAmountInputParametr"
+      type="number"
+      step="0.1"
+      placeholder="Введіть значення"
+      value="30"
+    />
+  </div>
+
+  <div class="input-eye">
+    <label><b>Стоплос (% ROE)</b></label>
+    <input
+      id="stopLossAmountInputParametr"
+      type="number"
+      step="0.1"
+      placeholder="Введіть значення"
+      value="-10"
+    />
+  </div>
+
+  <div class="input-eye">
+    <label>Зсув свічки (0 — ця ж, 1 — наступна)</label>
+    <input
+      id="candleOffsetInput"
+      type="number"
+      step="1"
+      placeholder="Введіть значення"
+      value="1"
+    />
+  </div>
+
+  <div class="input-eye">
+    <label>Параметр старту свічки</label>
+    <select id="candleStartParameter">
+      <option value="open" selected>open</option>
+      <option value="close">close</option>
+      <option value="high">high</option>
+      <option value="low">low</option>
+    </select>
+  </div>
+
+  <!-- Контейнер виводу підсумкових метрик -->
+  <div id="testResultsContainer" style="margin-top: 15px; border-top: 1px solid #444; padding-top: 10px;">
+    <h4>Результати бектесту:</h4>
+    <div id="overallStats" style="margin-bottom: 10px; font-weight: bold;"></div>
+    <div id="scenariosStatsList"></div>
+  </div>
+</div>
+
         <!-- Дивергенції -->
         <div class="control-section" data-point="macd-divergence">
           <h3>Всі дивергенції</h3>
