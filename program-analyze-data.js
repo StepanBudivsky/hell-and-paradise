@@ -136,6 +136,8 @@ let analyzeData1m = {
         main: {
             tweezersID: "U2000",
             engulfingsID: "U2000",
+            tweezersIDs: [],
+            engulfingsIDs: [],
             previousSituationText: "",
             currentSituationText: "",
             possibleSituationUpText: "",
@@ -492,6 +494,8 @@ let analyzeData5m = {
         main: {
             tweezersID: "U2000",
             engulfingsID: "U2000",
+            tweezersIDs: [],
+            engulfingsIDs: [],
             previousSituationText: "",
             currentSituationText: "",
             possibleSituationUpText: "",
@@ -848,6 +852,8 @@ let analyzeData15m = {
         main: {
             tweezersID: "U2000",
             engulfingsID: "U2000",
+            tweezersIDs: [],
+            engulfingsIDs: [],
             previousSituationText: "",
             currentSituationText: "",
             possibleSituationUpText: "",
@@ -1204,6 +1210,8 @@ let analyzeData30m = {
         main: {
             tweezersID: "U2000",
             engulfingsID: "U2000",
+            tweezersIDs: [],
+            engulfingsIDs: [],
             previousSituationText: "",
             currentSituationText: "",
             possibleSituationUpText: "",
@@ -1560,6 +1568,8 @@ let analyzeData1h = {
         main: {
             tweezersID: "U2000",
             engulfingsID: "U2000",
+            tweezersIDs: [],
+            engulfingsIDs: [],
             previousSituationText: "",
             currentSituationText: "",
             possibleSituationUpText: "",

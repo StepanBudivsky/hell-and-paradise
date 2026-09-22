@@ -12,8 +12,6 @@ import { updateActions } from "./chartLogic/update-actions.js";
 import { createScenariosMarker } from "./chartLogic/create-scenarios-marker.js";
 import { backtestMarkers, getConfigFromUI, renderResultsToUI } from "./chartLogic/test-deals/backtest-markers.js";
 
-// const macdWorker = new Worker("./calcFunction/worker.js", { type: "module" });
-
 // const config = {
 //   margin: 100,           // 100$ на угоду
 //   leverage: 20,          // 20x плече (об'єм $2,000)

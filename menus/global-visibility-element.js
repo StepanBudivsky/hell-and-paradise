@@ -121,286 +121,96 @@ const regim1ScenariosAll = document.querySelector("#regim1ScenariosAll");
 const regim2ScenariosAll = document.querySelector("#regim2ScenariosAll");
 const regim3ScenariosAll = document.querySelector("#regim3ScenariosAll");
 
-// маркери
-markerVisDivergenceMACD.addEventListener('click', () => markerVisDivergenceMACD.classList.toggle('active'));
-markerVisDivergenceRSI.addEventListener('click', () => markerVisDivergenceRSI.classList.toggle('active'));
-markerVisMA.addEventListener('click', () => markerVisMA.classList.toggle('active'));
-markerVisMACD.addEventListener('click', () => markerVisMACD.classList.toggle('active'));
-markerVisTrigger.addEventListener('click', () => markerVisTrigger.classList.toggle('active'));
-markerVisAutoFibanachi.addEventListener('click', () => markerVisAutoFibanachi.classList.toggle('active'));
-markerVisWawe.addEventListener('click', () => markerVisWawe.classList.toggle('active'));
-markerVisFibanachi.addEventListener('click', () => markerVisFibanachi.classList.toggle('active'));
-markerVisPivotPoint.addEventListener('click', () => markerVisPivotPoint.classList.toggle('active'));
+/* ==========================================================================
+   БЛОК 1: СТРУКТУРИ ДАНИХ ТА КОНФІГУРАЦІЯ
+   ========================================================================== */
 
-// лінії на графіку
-triggerVis.addEventListener('click', () => triggerVis.classList.toggle('active'));
-ma10Vis.addEventListener('click', () => ma10Vis.classList.toggle('active'));
-ma30Vis.addEventListener('click', () => ma30Vis.classList.toggle('active'));
-autoFibanachiVis.addEventListener('click', () => autoFibanachiVis.classList.toggle('active'));
+// Списки UI-елементів для масового керування видимістю на графіку
+const allMarkers = [
+  markerVisDivergenceMACD, markerVisDivergenceRSI, markerVisMA, 
+  markerVisMACD, markerVisTrigger, markerVisAutoFibanachi, 
+  markerVisWawe, markerVisFibanachi, markerVisPivotPoint
+];
 
-// MACD режими відображенння маркерів сценаріїв
-regim1ScenariosMACD.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosMacdBtnGroupe, regim1ScenariosMACD);
+const allLines = [
+  triggerVis, ma10Vis, ma30Vis, autoFibanachiVis
+];
+
+/**
+ * Конфігураційна матриця для режимів відображення сценаріїв.
+ * Кожен підмасив формує зв'язок: [Група кнопок, Кнопка_Режим1, Кнопка_Режим2, Кнопка_Режим3]
+ */
+const scenariosConfig = [
+  [regimScenariosMacdBtnGroupe, regim1ScenariosMACD, regim2ScenariosMACD, regim3ScenariosMACD],
+  [regimScenariosMaBtnGroupe, regim1ScenariosMA, regim2ScenariosMA, regim3ScenariosMA],
+  [regimScenariosRsiBtnGroupe, regim1ScenariosRSI, regim2ScenariosRSI, regim3ScenariosRSI],
+  [regimScenariosWaweBtnGroupe, regim1ScenariosWawe, regim2ScenariosWawe, regim3ScenariosWawe],
+  [regimScenariosFibonachiBtnGroupe, regim1ScenariosFibonachi, regim2ScenariosFibonachi, regim3ScenariosFibonachi],
+  [regimScenariosAutoFibanachiBtnGroupe, regim1ScenariosAutoFibanachi, regim2ScenariosAutoFibanachi, regim3ScenariosAutoFibanachi],
+  [regimScenariosTriggerBtnGroupe, regim1ScenariosTrigger, regim2ScenariosTrigger, regim3ScenariosTrigger],
+  [regimScenariosPivotPoint_5mBtnGroupe, regim1ScenariosPivotPoint_5m, regim2ScenariosPivotPoint_5m, regim3ScenariosPivotPoint_5m],
+  [regimScenariosPivotPoint_15mBtnGroupe, regim1ScenariosPivotPoint_15m, regim2ScenariosPivotPoint_15m, regim3ScenariosPivotPoint_15m],
+  [regimScenariosPivotPoint_30mBtnGroupe, regim1ScenariosPivotPoint_30m, regim2ScenariosPivotPoint_30m, regim3ScenariosPivotPoint_30m],
+  [regimScenariosPivotPoint_1hBtnGroupe, regim1ScenariosPivotPoint_1h, regim2ScenariosPivotPoint_1h, regim3ScenariosPivotPoint_1h],
+  [regimScenariosPivotPoint_4hBtnGroupe, regim1ScenariosPivotPoint_4h, regim2ScenariosPivotPoint_4h, regim3ScenariosPivotPoint_4h],
+  [regimScenariosPivotPoint_1dBtnGroupe, regim1ScenariosPivotPoint_1d, regim2ScenariosPivotPoint_1d, regim3ScenariosPivotPoint_1d]
+];
+
+
+/* ==========================================================================
+   БЛОК 2: ЛОГІКА ДЛЯ МАРКЕРІВ ТА ЛІНІЙ (TOGGLE, MASS ON/OFF)
+   ========================================================================== */
+
+// Перемикання стану 'active' при кліку на будь-який індивідуальний маркер чи лінію
+[...allMarkers, ...allLines].forEach(element => {
+  element.addEventListener('click', () => {
+    element.classList.toggle('active');
+  });
 });
 
-regim2ScenariosMACD.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosMacdBtnGroupe, regim2ScenariosMACD);
-});
-
-regim3ScenariosMACD.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosMacdBtnGroupe, regim3ScenariosMACD);
-});
-
-// MA режими відображенння маркерів сценаріїв
-regim1ScenariosMA.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosMaBtnGroupe, regim1ScenariosMA);
-});
-
-regim2ScenariosMA.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosMaBtnGroupe, regim2ScenariosMA);
-});
-
-regim3ScenariosMA.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosMaBtnGroupe, regim3ScenariosMA);
-});
-
-// RSI режими відображенння маркерів сценаріїв
-regim1ScenariosRSI.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosRsiBtnGroupe, regim1ScenariosRSI);
-});
-
-regim2ScenariosRSI.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosRsiBtnGroupe, regim2ScenariosRSI);
-});
-
-regim3ScenariosRSI.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosRsiBtnGroupe, regim3ScenariosRSI);
-});
-
-// Wawe режими відображенння маркерів сценаріїв
-regim1ScenariosWawe.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosWaweBtnGroupe, regim1ScenariosWawe);
-});
-
-regim2ScenariosWawe.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosWaweBtnGroupe, regim2ScenariosWawe);
-});
-
-regim3ScenariosWawe.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosWaweBtnGroupe, regim3ScenariosWawe);
-});
-
-// Fibonachi режими відображенння маркерів сценаріїв
-regim1ScenariosFibonachi.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosFibonachiBtnGroupe, regim1ScenariosFibonachi);
-});
-
-regim2ScenariosFibonachi.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosFibonachiBtnGroupe, regim2ScenariosFibonachi);
-});
-
-regim3ScenariosFibonachi.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosFibonachiBtnGroupe, regim3ScenariosFibonachi);
-});
-
-// AutoFibanachi режими відображенння маркерів сценаріїв
-regim1ScenariosAutoFibanachi.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosAutoFibanachiBtnGroupe, regim1ScenariosAutoFibanachi);
-});
-
-regim2ScenariosAutoFibanachi.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosAutoFibanachiBtnGroupe, regim2ScenariosAutoFibanachi);
-});
-
-regim3ScenariosAutoFibanachi.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosAutoFibanachiBtnGroupe, regim3ScenariosAutoFibanachi);
-});
-
-// Trigger режими відображенння маркерів сценаріїв
-regim1ScenariosTrigger.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosTriggerBtnGroupe, regim1ScenariosTrigger);
-});
-
-regim2ScenariosTrigger.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosTriggerBtnGroupe, regim2ScenariosTrigger);
-});
-
-regim3ScenariosTrigger.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosTriggerBtnGroupe, regim3ScenariosTrigger);
-});
-
-// Pivot Point 5m режими відображенння маркерів сценаріїв
-regim1ScenariosPivotPoint_5m.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosPivotPoint_5mBtnGroupe, regim1ScenariosPivotPoint_5m);
-});
-
-regim2ScenariosPivotPoint_5m.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosPivotPoint_5mBtnGroupe, regim2ScenariosPivotPoint_5m);
-});
-
-regim3ScenariosPivotPoint_5m.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosPivotPoint_5mBtnGroupe, regim3ScenariosPivotPoint_5m);
-});
-
-// Pivot Point 15m режими відображенння маркерів сценаріїв
-regim1ScenariosPivotPoint_15m.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosPivotPoint_15mBtnGroupe, regim1ScenariosPivotPoint_15m);
-});
-
-regim2ScenariosPivotPoint_15m.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosPivotPoint_15mBtnGroupe, regim2ScenariosPivotPoint_15m);
-});
-
-regim3ScenariosPivotPoint_15m.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosPivotPoint_15mBtnGroupe, regim3ScenariosPivotPoint_15m);
-});
-
-// Pivot Point 30m режими відображенння маркерів сценаріїв
-regim1ScenariosPivotPoint_30m.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosPivotPoint_30mBtnGroupe, regim1ScenariosPivotPoint_30m);
-});
-
-regim2ScenariosPivotPoint_30m.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosPivotPoint_30mBtnGroupe, regim2ScenariosPivotPoint_30m);
-});
-
-regim3ScenariosPivotPoint_30m.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosPivotPoint_30mBtnGroupe, regim3ScenariosPivotPoint_30m);
-});
-
-// Pivot Point 1h режими відображенння маркерів сценаріїв
-regim1ScenariosPivotPoint_1h.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosPivotPoint_1hBtnGroupe, regim1ScenariosPivotPoint_1h);
-});
-
-regim2ScenariosPivotPoint_1h.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosPivotPoint_1hBtnGroupe, regim2ScenariosPivotPoint_1h);
-});
-
-regim3ScenariosPivotPoint_1h.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosPivotPoint_1hBtnGroupe, regim3ScenariosPivotPoint_1h);
-});
-
-// Pivot Point 4h режими відображенння маркерів сценаріїв
-regim1ScenariosPivotPoint_4h.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosPivotPoint_4hBtnGroupe, regim1ScenariosPivotPoint_4h);
-});
-
-regim2ScenariosPivotPoint_4h.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosPivotPoint_4hBtnGroupe, regim2ScenariosPivotPoint_4h);
-});
-
-regim3ScenariosPivotPoint_4h.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosPivotPoint_4hBtnGroupe, regim3ScenariosPivotPoint_4h);
-});
-
-// Pivot Point 1d режими відображенння маркерів сценаріїв
-regim1ScenariosPivotPoint_1d.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosPivotPoint_1dBtnGroupe, regim1ScenariosPivotPoint_1d);
-});
-
-regim2ScenariosPivotPoint_1d.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosPivotPoint_1dBtnGroupe, regim2ScenariosPivotPoint_1d);
-});
-
-regim3ScenariosPivotPoint_1d.addEventListener('click', () => {
-  switchGroupButtonActive(regimScenariosPivotPoint_1dBtnGroupe, regim3ScenariosPivotPoint_1d);
-});
-
-// включення всіх маркерів
+// Масове ввімкнення всіх маркерів (видаляємо клас активності)
 allOnMarkerActBtn.addEventListener('click', () => { 
-  markerVisDivergenceMACD.classList.remove('active');
-  markerVisDivergenceRSI.classList.remove('active');
-  markerVisMA.classList.remove('active');
-  markerVisMACD.classList.remove('active');
-  markerVisTrigger.classList.remove('active');
-  markerVisAutoFibanachi.classList.remove('active');
-  markerVisWawe.classList.remove('active');
-  markerVisFibanachi.classList.remove('active');
-  markerVisPivotPoint.classList.remove('active');
+  allMarkers.forEach(marker => marker.classList.remove('active'));
 });
 
-// виключення всіх маркерів
+// Масове вимкнення всіх маркерів (додаємо клас активності)
 allOffMarkerActBtn.addEventListener('click', () => { 
-  markerVisDivergenceMACD.classList.add('active');
-  markerVisDivergenceRSI.classList.add('active');
-  markerVisMA.classList.add('active');
-  markerVisMACD.classList.add('active');
-  markerVisTrigger.classList.add('active');
-  markerVisAutoFibanachi.classList.add('active');
-  markerVisWawe.classList.add('active');
-  markerVisFibanachi.classList.add('active');
-  markerVisPivotPoint.classList.add('active');
+  allMarkers.forEach(marker => marker.classList.add('active'));
 });
 
-// включення всіх ліній
+// Масове ввімкнення всіх ліній
 allOnLinesActBtn.addEventListener('click', () => { 
-  triggerVis.classList.remove('active');
-  ma10Vis.classList.remove('active');
-  ma30Vis.classList.remove('active');
-  autoFibanachiVis.classList.remove('active');
+  allLines.forEach(line => line.classList.remove('active'));
 });
 
-// виключення всіх ліній
+// Масове вимкнення всіх ліній
 allOffLinesActBtn.addEventListener('click', () => { 
-  triggerVis.classList.add('active');
-  ma10Vis.classList.add('active');
-  ma30Vis.classList.add('active');
-  autoFibanachiVis.classList.add('active');
+  allLines.forEach(line => line.classList.add('active'));
 });
 
-// кнопки для повного виключення або повного виключення маркерів
-// const regim1ScenariosAll = document.querySelector("#regim1ScenariosAll");
-// const regim2ScenariosAll = document.querySelector("#regim2ScenariosAll");
-// const regim3ScenariosAll = document.querySelector("#regim3ScenariosAll");
 
-// виключення всіх маркерів сценаріїв
+/* ==========================================================================
+   БЛОК 3: ЛОГІКА КЕРУВАННЯ СЦЕНАРІЯМИ ЗА РЕЖИМАМИ
+   ========================================================================== */
+
+// Автоматичне призначення кліків на кожну індивідуальну кнопку режиму в матриці
+scenariosConfig.forEach(([group, btn1, btn2, btn3]) => {
+  btn1.addEventListener('click', () => switchGroupButtonActive(group, btn1));
+  btn2.addEventListener('click', () => switchGroupButtonActive(group, btn2));
+  btn3.addEventListener('click', () => switchGroupButtonActive(group, btn3));
+});
+
+// Кнопка перемикання ВСІХ індикаторів на Режим 1
 regim1ScenariosAll.addEventListener('click', () => { 
-  switchGroupButtonActive(regimScenariosMacdBtnGroupe, regim1ScenariosMACD);
-  switchGroupButtonActive(regimScenariosMaBtnGroupe, regim1ScenariosMA);
-  switchGroupButtonActive(regimScenariosRsiBtnGroupe, regim1ScenariosRSI);
-  switchGroupButtonActive(regimScenariosWaweBtnGroupe, regim1ScenariosWawe);
-  switchGroupButtonActive(regimScenariosFibonachiBtnGroupe, regim1ScenariosFibonachi);
-  switchGroupButtonActive(regimScenariosAutoFibanachiBtnGroupe, regim1ScenariosAutoFibanachi);
-  switchGroupButtonActive(regimScenariosTriggerBtnGroupe, regim1ScenariosTrigger);
-  switchGroupButtonActive(regimScenariosPivotPoint_5mBtnGroupe, regim1ScenariosPivotPoint_5m);
-  switchGroupButtonActive(regimScenariosPivotPoint_15mBtnGroupe, regim1ScenariosPivotPoint_15m);
-  switchGroupButtonActive(regimScenariosPivotPoint_30mBtnGroupe, regim1ScenariosPivotPoint_30m);
-  switchGroupButtonActive(regimScenariosPivotPoint_1hBtnGroupe, regim1ScenariosPivotPoint_1h);
-  switchGroupButtonActive(regimScenariosPivotPoint_4hBtnGroupe, regim1ScenariosPivotPoint_4h);
-  switchGroupButtonActive(regimScenariosPivotPoint_1dBtnGroupe, regim1ScenariosPivotPoint_1d);
+  scenariosConfig.forEach(([group, btn1]) => switchGroupButtonActive(group, btn1));
 });
 
-// включення всіх маркерів сценаріїв
+// Кнопка перемикання ВСІХ індикаторів на Режим 2 (btn1 пропускаємо через '_')
 regim2ScenariosAll.addEventListener('click', () => { 
-  switchGroupButtonActive(regimScenariosMacdBtnGroupe, regim2ScenariosMACD);
-  switchGroupButtonActive(regimScenariosMaBtnGroupe, regim2ScenariosMA);
-  switchGroupButtonActive(regimScenariosRsiBtnGroupe, regim2ScenariosRSI);
-  switchGroupButtonActive(regimScenariosWaweBtnGroupe, regim2ScenariosWawe);
-  switchGroupButtonActive(regimScenariosFibonachiBtnGroupe, regim2ScenariosFibonachi);
-  switchGroupButtonActive(regimScenariosAutoFibanachiBtnGroupe, regim2ScenariosAutoFibanachi);
-  switchGroupButtonActive(regimScenariosTriggerBtnGroupe, regim2ScenariosTrigger);
-  switchGroupButtonActive(regimScenariosPivotPoint_5mBtnGroupe, regim2ScenariosPivotPoint_5m);
-  switchGroupButtonActive(regimScenariosPivotPoint_15mBtnGroupe, regim2ScenariosPivotPoint_15m);
-  switchGroupButtonActive(regimScenariosPivotPoint_30mBtnGroupe, regim2ScenariosPivotPoint_30m);
-  switchGroupButtonActive(regimScenariosPivotPoint_1hBtnGroupe, regim2ScenariosPivotPoint_1h);
-  switchGroupButtonActive(regimScenariosPivotPoint_4hBtnGroupe, regim2ScenariosPivotPoint_4h);
-  switchGroupButtonActive(regimScenariosPivotPoint_1dBtnGroupe, regim2ScenariosPivotPoint_1d);
+  scenariosConfig.forEach(([group, _, btn2]) => switchGroupButtonActive(group, btn2));
 });
 
-// включення всіх останіх маркерів сценаріїв
+// Кнопка перемикання ВСІХ індикаторів на Режим 3 (btn1 та btn2 пропускаємо через '_' та '__')
 regim3ScenariosAll.addEventListener('click', () => { 
-  switchGroupButtonActive(regimScenariosMacdBtnGroupe, regim3ScenariosMACD);
-  switchGroupButtonActive(regimScenariosMaBtnGroupe, regim3ScenariosMA);
-  switchGroupButtonActive(regimScenariosRsiBtnGroupe, regim3ScenariosRSI);
-  switchGroupButtonActive(regimScenariosWaweBtnGroupe, regim3ScenariosWawe);
-  switchGroupButtonActive(regimScenariosFibonachiBtnGroupe, regim3ScenariosFibonachi);
-  switchGroupButtonActive(regimScenariosAutoFibanachiBtnGroupe, regim3ScenariosAutoFibanachi);
-  switchGroupButtonActive(regimScenariosTriggerBtnGroupe, regim3ScenariosTrigger);
-  switchGroupButtonActive(regimScenariosPivotPoint_5mBtnGroupe, regim3ScenariosPivotPoint_5m);
-  switchGroupButtonActive(regimScenariosPivotPoint_15mBtnGroupe, regim3ScenariosPivotPoint_15m);
-  switchGroupButtonActive(regimScenariosPivotPoint_30mBtnGroupe, regim3ScenariosPivotPoint_30m);
-  switchGroupButtonActive(regimScenariosPivotPoint_1hBtnGroupe, regim3ScenariosPivotPoint_1h);
-  switchGroupButtonActive(regimScenariosPivotPoint_4hBtnGroupe, regim3ScenariosPivotPoint_4h);
-  switchGroupButtonActive(regimScenariosPivotPoint_1dBtnGroupe, regim3ScenariosPivotPoint_1d);
+  scenariosConfig.forEach(([group, _, __, btn3]) => switchGroupButtonActive(group, btn3));
 });

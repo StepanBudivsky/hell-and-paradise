@@ -323,15 +323,6 @@ engulfingsVis.addEventListener('click', () => engulfingsVis.classList.toggle('ac
 // робота кнопки для переключення молотів
 hammersVis.addEventListener('click', () => hammersVis.classList.toggle('active'));
 
-// // переключення режимів угоди
-// cashLongDealBtn.addEventListener('click', () => {
-//   switchGroupButtonActive(regimDealGroupe, cashLongDealBtn);
-// });
-
-// cashShortDealBtn.addEventListener('click', () => {
-//   switchGroupButtonActive(regimDealGroupe, cashShortDealBtn);
-// });
-
 export function updateCurrentGlobalLineSetting (){
   let currentSetting = localSettingByInterval[currentInterval];
   
