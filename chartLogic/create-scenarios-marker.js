@@ -44,6 +44,16 @@ function dataToMarkers(data) {
     return markersData;
 }
 
+// Tweezers режими відображенння маркерів сценаріїв
+const regim1ScenariosTweezers = document.querySelector("#regim1ScenariosTweezers");
+const regim2ScenariosTweezers = document.querySelector("#regim2ScenariosTweezers");
+const regim3ScenariosTweezers = document.querySelector("#regim3ScenariosTweezers");
+
+// Engulfings режими відображенння маркерів сценаріїв
+const regim1ScenariosEngulfings = document.querySelector("#regim1ScenariosEngulfings");
+const regim2ScenariosEngulfings = document.querySelector("#regim2ScenariosEngulfings");
+const regim3ScenariosEngulfings = document.querySelector("#regim3ScenariosEngulfings");
+
 // MACD режими відображення маркерів сценаріїв
 const regim1ScenariosMACD = document.querySelector("#regim1ScenariosMACD"); // 1 реж: нічого
 const regim2ScenariosMACD = document.querySelector("#regim2ScenariosMACD"); // 2 реж: всі
@@ -144,6 +154,8 @@ export function createScenariosMarker(analyzeData) {
 
     // Передаємо вузол .main кожного індикатора, де є і scenariosID, і currentIDs
     const configs = [
+        { main: analyzeData?.tweezers?.main, btns: [regim1ScenariosTweezers, regim2ScenariosTweezers, regim3ScenariosTweezers] },
+        { main: analyzeData?.engulfings?.main, btns: [regim1ScenariosEngulfings, regim2ScenariosEngulfings, regim3ScenariosEngulfings] },
         { main: analyzeData?.macd?.main, btns: [regim1ScenariosMACD, regim2ScenariosMACD, regim3ScenariosMACD] },
         { main: analyzeData?.ma?.main, btns: [regim1ScenariosMA, regim2ScenariosMA, regim3ScenariosMA] },
         { main: analyzeData?.rsi?.main, btns: [regim1ScenariosRSI, regim2ScenariosRSI, regim3ScenariosRSI] },
@@ -197,157 +209,5 @@ export function createScenariosMarker(analyzeData) {
 //     {
 //         "time": 1783454400,
 //         "id": "U4002"
-//     },
-//     {
-//         "time": 1783468800,
-//         "id": "U4004"
-//     },
-//     {
-//         "time": 1783497600,
-//         "id": "U4018"
-//     },
-//     {
-//         "time": 1783522800,
-//         "id": "U4018"
-//     },
-//     {
-//         "time": 1783540800,
-//         "id": "U4021"
-//     },
-//     {
-//         "time": 1783562400,
-//         "id": "U4021"
-//     },
-//     {
-//         "time": 1783569600,
-//         "id": "U4001"
-//     },
-//     {
-//         "time": 1783584000,
-//         "id": "U4021"
-//     },
-//     {
-//         "time": 1783598400,
-//         "id": "U4021"
-//     },
-//     {
-//         "time": 1783598400,
-//         "id": "U4003"
-//     },
-//     {
-//         "time": 1783612800,
-//         "id": "U4021"
-//     },
-//     {
-//         "time": 1783612800,
-//         "id": "U4003"
-//     },
-//     {
-//         "time": 1783634400,
-//         "id": "U4021"
-//     },
-//     {
-//         "time": 1783641600,
-//         "id": "U4021"
-//     },
-//     {
-//         "time": 1783648800,
-//         "id": "U4007"
-//     },
-//     {
-//         "time": 1783652400,
-//         "id": "U4011"
-//     },
-//     {
-//         "time": 1783663200,
-//         "id": "U4008"
-//     },
-//     {
-//         "time": 1783674000,
-//         "id": "U4007"
-//     },
-//     {
-//         "time": 1783684800,
-//         "id": "U4013"
-//     },
-//     {
-//         "time": 1783692000,
-//         "id": "U4008"
-//     },
-//     {
-//         "time": 1783699200,
-//         "id": "U4022"
-//     },
-//     {
-//         "time": 1783710000,
-//         "id": "U4022"
-//     },
-//     {
-//         "time": 1783713600,
-//         "id": "U4003"
-//     },
-//     {
-//         "time": 1783724400,
-//         "id": "U4022"
-//     },
-//     {
-//         "time": 1783735200,
-//         "id": "U4022"
-//     },
-//     {
-//         "time": 1783749600,
-//         "id": "U4022"
-//     },
-//     {
-//         "time": 1783756800,
-//         "id": "U4022"
-//     },
-//     {
-//         "time": 1783767600,
-//         "id": "U4022"
-//     },
-//     {
-//         "time": 1783778400,
-//         "id": "U4022"
-//     },
-//     {
-//         "time": 1783792800,
-//         "id": "U4022"
-//     },
-//     {
-//         "time": 1783800000,
-//         "id": "U4022"
-//     },
-//     {
-//         "time": 1783810800,
-//         "id": "U4002"
-//     },
-//     {
-//         "time": 1783818000,
-//         "id": "U4022"
-//     },
-//     {
-//         "time": 1783818000,
-//         "id": "U4006"
-//     },
-//     {
-//         "time": 1783825200,
-//         "id": "U4022"
-//     },
-//     {
-//         "time": 1783825200,
-//         "id": "U4001"
-//     },
-//     {
-//         "time": 1783828800,
-//         "id": "U4002"
-//     },
-//     {
-//         "time": 1783843200,
-//         "id": "U4022"
-//     },
-//     {
-//         "time": 1783857600,
-//         "id": "U4022"
 //     },
 // ]

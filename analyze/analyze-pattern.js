@@ -1,10 +1,22 @@
-const patternPreviousSituationText = document.getElementById("pattern-previous-situation");
-const patternCurrentSituationText = document.getElementById("pattern-current-situation");
-const patternPossibleSituationUpText = document.getElementById("pattern-possible-situation-up");
-const patternPossibleSituationDownText = document.getElementById("pattern-possible-situation-down");
-
-export function analyzePattern(analyzeData, tweezers, engulfings, limit) {
+export function analyzePattern(analyzeData, analyzeDataTweezers, analyzeDataEngulfings, tweezers, engulfings, limit) {
     const safetyThreshold = limit - 5;
+
+    const allTweezers = [];
+    for (const tweezer of tweezers) {
+        allTweezers.push({time: tweezer.time, id: tweezer.id});
+    }   
+    analyzeDataTweezers.main.scenariosID = allTweezers;
+    analyzeDataTweezers.main.currentIDs = [allTweezers[allTweezers.length - 1]];
+    analyzeDataTweezers.main.previousIDs = [allTweezers[allTweezers.length - 2]];
+
+    const allEngulfings = [];
+    for (const engulfing of engulfings) {
+        allTweezers.push({time: engulfing.time, id: engulfing.id});
+    }   
+    analyzeDataEngulfings.main.scenariosID = allEngulfings;
+    analyzeDataEngulfings.main.currentIDs = [allEngulfings[allEngulfings.length - 1]];
+    analyzeDataEngulfings.main.previousIDs = [allEngulfings[allEngulfings.length - 2]];
+
 
     const allPatterns = [...tweezers, ...engulfings].sort((a, b) => a.index - b.index);
     if (allPatterns.length === 0) return;

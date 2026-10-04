@@ -151,6 +151,20 @@ let analyzeData1m = {
             },
         },
     },
+    tweezers: {
+        main: {
+            scenariosID: [],
+            previousIDs: [],
+            currentIDs: [],
+        },
+    },
+    engulfings: {
+        main: {
+            scenariosID: [],
+            previousIDs: [],
+            currentIDs: [],
+        },
+    },
     trend: {
         additional: {
             zigZagTrend: {
@@ -507,6 +521,20 @@ let analyzeData5m = {
                 "30m": 0,
                 "1h": 0,
             },
+        },
+    },
+    tweezers: {
+        main: {
+            scenariosID: [],
+            previousIDs: [],
+            currentIDs: [],
+        },
+    },
+    engulfings: {
+        main: {
+            scenariosID: [],
+            previousIDs: [],
+            currentIDs: [],
         },
     },
     trend: {
@@ -867,6 +895,20 @@ let analyzeData15m = {
             },
         },
     },
+    tweezers: {
+        main: {
+            scenariosID: [],
+            previousIDs: [],
+            currentIDs: [],
+        },
+    },
+    engulfings: {
+        main: {
+            scenariosID: [],
+            previousIDs: [],
+            currentIDs: [],
+        },
+    },
     trend: {
         additional: {
             zigZagTrend: {
@@ -1225,6 +1267,20 @@ let analyzeData30m = {
             },
         },
     },
+    tweezers: {
+        main: {
+            scenariosID: [],
+            previousIDs: [],
+            currentIDs: [],
+        },
+    },
+    engulfings: {
+        main: {
+            scenariosID: [],
+            previousIDs: [],
+            currentIDs: [],
+        },
+    },
     trend: {
         additional: {
             zigZagTrend: {
@@ -1581,6 +1637,20 @@ let analyzeData1h = {
                 "30m": 0,
                 "1h": 0,
             },
+        },
+    },
+    tweezers: {
+        main: {
+            scenariosID: [],
+            previousIDs: [],
+            currentIDs: [],
+        },
+    },
+    engulfings: {
+        main: {
+            scenariosID: [],
+            previousIDs: [],
+            currentIDs: [],
         },
     },
     trend: {

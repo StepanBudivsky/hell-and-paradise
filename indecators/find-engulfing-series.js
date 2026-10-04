@@ -157,7 +157,7 @@ export function findEngulfingSeries(candles, opts = {}) {
         if (passesConfirmation(i + 1, true, level)) {
           paintLevel(i, i + 1, level, true);
           // Додаємо індекс та тип у список сигналів
-          signals.push({ index: i + 1, type: 'Поглинання знизу', time: candles[i + 1].time });
+          signals.push({ index: i + 1, type: 'Поглинання знизу', time: candles[i + 1].time, id: "U8004"  });
           continue;
         }
       }
@@ -174,7 +174,7 @@ export function findEngulfingSeries(candles, opts = {}) {
         if (passesConfirmation(i + 1, false, level)) {
           paintLevel(i, i + 1, level, false);
           // Додаємо індекс та тип у список сигналів
-          signals.push({ index: i + 1, type: 'Поглинання зверху', time: candles[i + 1].time});
+          signals.push({ index: i + 1, type: 'Поглинання зверху', time: candles[i + 1].time, id: "U8003" });
           continue;
         }
       }

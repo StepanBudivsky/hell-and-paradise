@@ -17,6 +17,20 @@ const ma10Vis = document.querySelector("#ma10Vis");
 const ma30Vis = document.querySelector("#ma30Vis");
 const autoFibanachiVis = document.querySelector("#autoFibanachiVis");
 
+// Tweezers режими відображенння маркерів сценаріїв
+const regim1ScenariosTweezers = document.querySelector("#regim1ScenariosTweezers");
+const regim2ScenariosTweezers = document.querySelector("#regim2ScenariosTweezers");
+const regim3ScenariosTweezers = document.querySelector("#regim3ScenariosTweezers");
+
+const regimScenariosTweezersBtnGroupe = [regim1ScenariosTweezers, regim2ScenariosTweezers, regim3ScenariosTweezers];
+
+// Engulfings режими відображенння маркерів сценаріїв
+const regim1ScenariosEngulfings = document.querySelector("#regim1ScenariosEngulfings");
+const regim2ScenariosEngulfings = document.querySelector("#regim2ScenariosEngulfings");
+const regim3ScenariosEngulfings = document.querySelector("#regim3ScenariosEngulfings");
+
+const regimScenariosEngulfingsBtnGroupe = [regim1ScenariosEngulfings, regim2ScenariosEngulfings, regim3ScenariosEngulfings];
+
 // MACD режими відображенння маркерів сценаріїв
 const regim1ScenariosMACD = document.querySelector("#regim1ScenariosMACD");
 const regim2ScenariosMACD = document.querySelector("#regim2ScenariosMACD");
@@ -140,7 +154,9 @@ const allLines = [
  * Конфігураційна матриця для режимів відображення сценаріїв.
  * Кожен підмасив формує зв'язок: [Група кнопок, Кнопка_Режим1, Кнопка_Режим2, Кнопка_Режим3]
  */
-const scenariosConfig = [
+const scenariosConfig = [ 
+  [regimScenariosTweezersBtnGroupe, regim1ScenariosTweezers, regim2ScenariosTweezers, regim3ScenariosTweezers],
+  [regimScenariosEngulfingsBtnGroupe, regim1ScenariosEngulfings, regim2ScenariosEngulfings, regim3ScenariosEngulfings],
   [regimScenariosMacdBtnGroupe, regim1ScenariosMACD, regim2ScenariosMACD, regim3ScenariosMACD],
   [regimScenariosMaBtnGroupe, regim1ScenariosMA, regim2ScenariosMA, regim3ScenariosMA],
   [regimScenariosRsiBtnGroupe, regim1ScenariosRSI, regim2ScenariosRSI, regim3ScenariosRSI],

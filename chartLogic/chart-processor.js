@@ -236,7 +236,7 @@ export function chartProcessor(settings, analyzeData) {
   });
 
   // аналіз всіх патернів
-  analyzePattern(analyzeData.pattern, tweezers.signals, engulfings.signals, klinesLimited.length);
+  analyzePattern(analyzeData.pattern, analyzeData.tweezers, analyzeData.engulfings, tweezers.signals, engulfings.signals, klinesLimited.length);
 
   return {
     data: {

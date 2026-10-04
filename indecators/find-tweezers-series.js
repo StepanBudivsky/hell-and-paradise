@@ -118,7 +118,7 @@ export function findTweezersSeries(candles, confirmBars = 2, opts = {}) { // с�
       const level = (a.high + b.high) / 2;
       paintLevel(i, i + 1, level, /*isTop=*/true);
       // Додаємо сигнал вершини
-      signals.push({ index: i + 1, type: 'Пінцет зверху', time: candles[i + 1].time });
+      signals.push({ index: i + 1, type: 'Пінцет зверху', time: candles[i + 1].time, id: "U8001" });
       continue;
     }
 
@@ -155,7 +155,7 @@ export function findTweezersSeries(candles, confirmBars = 2, opts = {}) { // с�
       const level = (a.low + b.low) / 2;
       paintLevel(i, i + 1, level, /*isTop=*/false);
       // Додаємо сигнал основи
-      signals.push({ index: i + 1, type: 'Пінцет знизу', time: candles[i + 1].time });
+      signals.push({ index: i + 1, type: 'Пінцет знизу', time: candles[i + 1].time, id: "U8002"});
       continue;
     }
   }
