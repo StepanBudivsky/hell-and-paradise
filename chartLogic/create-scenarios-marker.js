@@ -1,48 +1,6 @@
 import { checkClass } from "../control.js";
 import { allScenarios } from "../settingsData/all-scenarios.js";
 
-function dataToMarkers(data) {
-    if (!Array.isArray(data) || data.length === 0) {
-        return [];
-    }
-
-    let markersData = [];
-
-    for (let i = 0; i < data.length; i++) {
-        const cur = data[i];
-
-        if (!cur || cur.time === undefined || cur.time === null) {
-            continue;
-        }
-
-        // Визначаємо сторону угоди: short / sell чи long / buy
-        const isShort = allScenarios[cur.id]?.direction < 0;
-
-        if (isShort) {
-            // --- ЛОГІКА ШОРТ (Рітест опору) ---
-            markersData.push({
-                time: Number(cur.time),
-                position: "aboveBar",
-                color: "#ef5350",
-                shape: "arrowDown",
-                text: `${cur.id}`,
-                size: 2
-            });
-        } else {
-            // --- ЛОГІКА ЛОНГ (Рітест підтримки) ---
-            markersData.push({
-                time: Number(cur.time),
-                position: "belowBar",
-                color: "#26a69a",
-                shape: "arrowUp",
-                text: `${cur.id}`,
-                size: 2
-            });
-        }
-    }
-
-    return markersData;
-}
 
 // Tweezers режими відображенння маркерів сценаріїв
 const regim1ScenariosTweezers = document.querySelector("#regim1ScenariosTweezers");
@@ -122,6 +80,49 @@ const regim3ScenariosPivotPoint_1d = document.querySelector("#regim3ScenariosPiv
 // Селектор загального інпута для фільтрації по ID сценарію (наприклад, "U4021")
 const scenarioFilterInput = document.querySelector("#scenarioFilterInput");
 
+function dataToMarkers(data) {
+    if (!Array.isArray(data) || data.length === 0) {
+        return [];
+    }
+
+    let markersData = [];
+
+    for (let i = 0; i < data.length; i++) {
+        const cur = data[i];
+
+        if (!cur || cur.time === undefined || cur.time === null) {
+            continue;
+        }
+
+        // Визначаємо сторону угоди: short / sell чи long / buy
+        const isShort = allScenarios[cur.id]?.direction < 0;
+
+        if (isShort) {
+            // --- ЛОГІКА ШОРТ (Рітест опору) ---
+            markersData.push({
+                time: Number(cur.time),
+                position: "aboveBar",
+                color: "#ef5350",
+                shape: "arrowDown",
+                text: `${cur.id}`,
+                size: 2
+            });
+        } else {
+            // --- ЛОГІКА ЛОНГ (Рітест підтримки) ---
+            markersData.push({
+                time: Number(cur.time),
+                position: "belowBar",
+                color: "#26a69a",
+                shape: "arrowUp",
+                text: `${cur.id}`,
+                size: 2
+            });
+        }
+    }
+
+    return markersData;
+}
+
 // Допоміжна функція: визначає потрібні дані та генерує маркери
 function getMarkersByMode(mainData, btnNone, btnAll, btnLast) {
     if (!mainData) return [];
@@ -188,6 +189,8 @@ export function createScenariosMarker(analyzeData) {
     if (filterQuery) {
         allMarkers = allMarkers.filter(marker => marker.text.toUpperCase() === filterQuery);
     }
+
+    console.log(allMarkers);
 
     // Фінальне сортування за часом
     return allMarkers.sort((a, b) => a.time - b.time);

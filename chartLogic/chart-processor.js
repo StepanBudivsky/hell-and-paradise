@@ -155,10 +155,17 @@ export function chartProcessor(settings, analyzeData) {
 
   let markersAutoFibanachi = [];
 
+  // console.log(currentLastTrigger);
+
   // аналіз авто фібаначі і створення маркерів на рітестах
   // if (currentLastTrigger) {
   //   markersAutoFibanachi = analyzeFibanachi(analyzeData.autoFibanachi, klinesLimited, currentLastTrigger.lastGroup.start, currentLastTrigger.lastGroup.end, currentLastTrigger.lastGroup.line, "#bda539", 2);
   // }
+
+  // аналіз авто фібаначі і створення маркерів на рітестах
+  if (currentLastTrigger) {
+    markersAutoFibanachi = analyzeFibanachi(analyzeData.autoFibanachi, klinesLimited, currentLastTrigger, "#bda539", 2);
+  }
 
   // робота М10
   const ma10 = calculateMA(klinesLimited, 10);
@@ -198,7 +205,8 @@ export function chartProcessor(settings, analyzeData) {
   const fiboStart = curDot[fiboSetting.fibanachiStart].value;
   const fiboEnd = curDot[fiboSetting.fibanachiEnd].value + fiboSetting.fibanachiLength > klinesLimited.length - 1 ? klinesLimited.length - 1 : curDot[fiboSetting.fibanachiEnd].value + fiboSetting.fibanachiLength;
 
-  const markersFibanachi = analyzeFibanachi(analyzeData.standartFibanachi, klinesLimited, fiboStart, fiboEnd, localRenderDataByInterval[interval].fibanachi, "#d6179d", 1);
+  // const markersFibanachi = analyzeFibanachi(analyzeData.standartFibanachi, klinesLimited, fiboStart, fiboEnd, localRenderDataByInterval[interval].fibanachi, "#d6179d", 1);
+  const markersFibanachi = [];
 
   createPivotPointLines(localSettingByInterval[interval].pivotPointSetting.regim1mVis, "1m", localRenderDataByInterval[interval].pivotPoint_1m, interval);
   createPivotPointLines(localSettingByInterval[interval].pivotPointSetting.regim5mVis, "5m", localRenderDataByInterval[interval].pivotPoint_5m, interval);

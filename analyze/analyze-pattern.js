@@ -11,7 +11,7 @@ export function analyzePattern(analyzeData, analyzeDataTweezers, analyzeDataEngu
 
     const allEngulfings = [];
     for (const engulfing of engulfings) {
-        allTweezers.push({time: engulfing.time, id: engulfing.id});
+        allEngulfings.push({time: engulfing.time, id: engulfing.id});
     }   
     analyzeDataEngulfings.main.scenariosID = allEngulfings;
     analyzeDataEngulfings.main.currentIDs = [allEngulfings[allEngulfings.length - 1]];

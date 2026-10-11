@@ -142,6 +142,8 @@ export function createAutoFibo(status, group1, group2, data) { // status,
     }
   };
 
+  let allFibo = [];
+
   if (!status) {
     return {line: lineData, lastGroup: lastFibo};
   }
@@ -203,8 +205,23 @@ export function createAutoFibo(status, group1, group2, data) { // status,
       lineData.autoFib61.push({ time: data[lastFibo.end].time, value: lastFibo.line.fibanachi_61 });
       lineData.autoFib78.push({ time: data[lastFibo.end].time, value: lastFibo.line.fibanachi_78 });
       lineData.autoFib100.push({ time: data[lastFibo.end].time, value: lastFibo.line.fibanachi_100 });
+
+      allFibo.push({
+        start: lastFibo.start,
+        end: lastFibo.end,
+        line: {
+          fibanachi_0: lastFibo.line.fibanachi_0,
+          fibanachi_23: lastFibo.line.fibanachi_23,
+          fibanachi_38: lastFibo.line.fibanachi_38,
+          fibanachi_50: lastFibo.line.fibanachi_50,
+          fibanachi_61: lastFibo.line.fibanachi_61,
+          fibanachi_78: lastFibo.line.fibanachi_78,
+          fibanachi_100: lastFibo.line.fibanachi_100,
+        }
+      })
+
     }
   }
 
-  return {line: lineData, lastGroup: lastFibo};
+  return {line: lineData, lastGroup: lastFibo, allGroup: allFibo};
 }
