@@ -77,7 +77,7 @@ function resizeCharts() {
     charts.style.width = "calc(100vw - 60px)";
   } else {
     // Якщо відкрита звичайна АБО об'єднана аналітика — ширина 1040px, інакше 430px
-    const isBigPanelOpen = panelStates.analyticsPanel || panelStates.unifiedAnalyticsPanel;
+    const isBigPanelOpen = panelStates.analyticsPanel || panelStates.unifiedAnalyticsPanel || panelStates.globalAnalyticsPanel; 
     const sideWidth = isBigPanelOpen ? 1040 : 430;
     
     charts.style.width = `calc(100vw - 60px - ${sideWidth}px)`;

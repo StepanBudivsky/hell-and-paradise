@@ -682,7 +682,8 @@ body {
 
 /* Аналітика */
 #analytics-panel,
-#unified-analytics-panel {
+#unified-analytics-panel,
+#global-analytics-panel {
   width: 1040px;
   background: #f6f7fb;
   border-left: 1px solid #e3e6ef;

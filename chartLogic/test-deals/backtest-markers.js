@@ -29,6 +29,16 @@ function calculateTargets({ entryPrice, directionType, scenario, config }) {
 }
 
 /**
+ * Дістає "вид дії" сценарію (ВХІД / СТЕЖИТИ / ІГНОРУВАТИ).
+ * УВАГА: назву поля в allScenarios я не бачив — якщо у вас воно називається
+ * інакше, додайте його сюди.
+ */
+function getScenarioAction(scenario) {
+  return scenario.action;
+  // return scenario.action ?? scenario.actionType ?? scenario.actionName ?? '—';
+}
+
+/**
  * Бектестер маркерів по масиву свічок
  *
  * @param {Array} candles - Масив свічок [{ time, open, high, low, close }]
@@ -39,6 +49,10 @@ export function backtestMarkers(candles, markers, config = {}) {
   const margin = config.margin ?? 100;
   const leverage = config.leverage ?? 20;
   const feeRate = config.feeRate ?? 0.05;
+
+  // Ті самі дефолти, що і в calculateTargets (потрібні для виводу в таблиці)
+  const tpRoePercent = config.tpRoePercent ?? 30;
+  const slRoePercent = config.slRoePercent ?? 10;
 
   // Налаштування точки та часу входу:
   // entryBarOffset: 0 - на тій самій свічці, де маркер; 1 - на наступній свічці
@@ -71,7 +85,7 @@ export function backtestMarkers(candles, markers, config = {}) {
   const activeTrades = [];
   const closedTrades = [];
 
-  // 2. Єдиний прохід по 100k свічок
+  // 2. Єдиний прохід по свічках
   for (let i = 0; i < candles.length; i++) {
     const candle = candles[i];
 
@@ -100,6 +114,7 @@ export function backtestMarkers(candles, markers, config = {}) {
 
         activeTrades.push({
           scenarioCode,
+          action: getScenarioAction(scenario), // НОВЕ: вид дії сценарію
           type: directionType,
           entryPrice,
           takeProfit,
@@ -205,10 +220,30 @@ export function backtestMarkers(candles, markers, config = {}) {
     }
   }
 
-  return summarize(closedTrades, activeTrades.length);
+  return summarize(closedTrades, activeTrades.length, {
+    entryBarOffset,
+    entryPriceSource,
+    leverage,
+    tpRoePercent,
+    slRoePercent,
+  });
 }
 
-function summarize(closedTrades, stillOpenCount) {
+/** min / max / avg по масиву чисел (без Math.min(...arr), щоб не впасти на великих масивах) */
+function minMaxAvg(values) {
+  if (values.length === 0) return { min: null, max: null, avg: null };
+  let min = Infinity;
+  let max = -Infinity;
+  let sum = 0;
+  for (const v of values) {
+    if (v < min) min = v;
+    if (v > max) max = v;
+    sum += v;
+  }
+  return { min, max, avg: +(sum / values.length).toFixed(1) };
+}
+
+function summarize(closedTrades, stillOpenCount, meta) {
   const byScenario = {};
 
   for (const t of closedTrades) {
@@ -218,30 +253,62 @@ function summarize(closedTrades, stillOpenCount) {
     byScenario[t.scenarioCode].push(t);
   }
 
+  const entryPointLabel =
+    `${meta.entryPriceSource} / ` +
+    (meta.entryBarOffset === 0 ? 'поточна свічка' : `+${meta.entryBarOffset} свічка`);
+
+  const tpPricePct = +(meta.tpRoePercent / meta.leverage).toFixed(3);
+  const slPricePct = +(meta.slRoePercent / meta.leverage).toFixed(3);
+
   const scenarioStats = {};
 
   for (const [code, trades] of Object.entries(byScenario)) {
     const tpTrades = trades.filter(t => t.exitReason === 'TP');
     const slTrades = trades.filter(t => t.exitReason === 'SL');
 
-    // Угоди, які перед вибиванням стопу показували ROE >= +10%
-    const slAfterProfit = slTrades.filter(t => t.maxRoePercent >= 10);
-    const totalProfitUSD = trades.reduce((sum, t) => sum + t.netProfitUSD, 0);
+    const tpBars = minMaxAvg(tpTrades.map(t => t.barsHeld));
+    const slBars = minMaxAvg(slTrades.map(t => t.barsHeld));
+    const allBars = minMaxAvg(trades.map(t => t.barsHeld));
+
+    const totalNetUSD = +trades.reduce((sum, t) => sum + t.netProfitUSD, 0).toFixed(2);
+    const avgNetUSD = +(totalNetUSD / trades.length).toFixed(2);
+    const avgRoePercent = +(
+      trades.reduce((sum, t) => sum + t.finalRoePercent, 0) / trades.length
+    ).toFixed(2);
 
     scenarioStats[code] = {
+      id: code,
+      action: trades[0].action,
+      direction: trades[0].type,
+      entryPoint: entryPointLabel,
+
       totalSignals: trades.length,
+
+      tpRoe: meta.tpRoePercent,
+      tpPricePct,
+      slRoe: meta.slRoePercent,
+      slPricePct,
+
       tpCount: tpTrades.length,
+      tpAvgBars: tpBars.avg,
+      tpMinBars: tpBars.min,
+      tpMaxBars: tpBars.max,
+
       slCount: slTrades.length,
-      winRate: ((tpTrades.length / trades.length) * 100).toFixed(2) + '%',
-      totalNetUSD: +totalProfitUSD.toFixed(2),
-      avgBarsToTP: (tpTrades.reduce((s, t) => s + t.barsHeld, 0) / (tpTrades.length || 1)).toFixed(1),
-      avgBarsToSL: (slTrades.reduce((s, t) => s + t.barsHeld, 0) / (slTrades.length || 1)).toFixed(1),
-      
-      // Скільки разів майже дійшло до тейку / було в сильному плюсі перед стопом
-      slAfterProfitCount: slAfterProfit.length,
-      avgMaxRoeBeforeSL: slAfterProfit.length > 0
-        ? (slAfterProfit.reduce((s, t) => s + t.maxRoePercent, 0) / slAfterProfit.length).toFixed(2) + '%'
-        : '0%',
+      slAvgBars: slBars.avg,
+      slMinBars: slBars.min,
+      slMaxBars: slBars.max,
+
+      totalNetUSD,
+      avgNetUSD,
+      avgRoePercent,
+      isProfitable: totalNetUSD > 0,
+
+      winRate: +((tpTrades.length / trades.length) * 100).toFixed(2),
+
+      barsAvg: allBars.avg,
+      barsMin: allBars.min,
+      barsMax: allBars.max,
     };
   }
 
@@ -260,7 +327,7 @@ export function getConfigFromUI() {
   const margin = parseFloat(document.getElementById('cashInputParametr').value) || 100;
   const leverage = parseFloat(document.getElementById('shoulderInputParametr').value) || 20;
   const tpRoe = parseFloat(document.getElementById('takeProfitAmountInputParametr').value) || 30;
-  
+
   // Якщо введено -10, Math.abs дасть додатне число для внутрішніх формул
   const rawSL = parseFloat(document.getElementById('stopLossAmountInputParametr').value) || 10;
   const slRoe = Math.abs(rawSL);
@@ -279,6 +346,120 @@ export function getConfigFromUI() {
   };
 }
 
+/* ======================= ТАБЛИЦЯ РЕЗУЛЬТАТІВ ======================= */
+
+const dash = v => (v === null || v === undefined ? '—' : v);
+
+const pnlColor = v => (v > 0 ? '#26a69a' : v < 0 ? '#ef5350' : 'inherit');
+const colored = (v, text) => `<span style="color:${pnlColor(v)};font-weight:bold;">${text}</span>`;
+const signed = v => `${v > 0 ? '+' : ''}${v}`;
+
+const COLUMNS = [
+  { key: 'id', label: 'ID', sticky: true, render: r => `<b>${r.id}</b>` },
+  { key: 'action', label: 'Вид дії', render: r => dash(r.action) },
+  {
+    key: 'direction',
+    label: 'Напрям',
+    render: r =>
+      `<span style="color:${r.direction === 'LONG' ? '#26a69a' : '#ef5350'};font-weight:bold;">${r.direction}</span>`,
+  },
+  { key: 'entryPoint', label: 'Вхід (ціна / свічка)' },
+  { key: 'totalSignals', label: 'Кількість разів' },
+
+  { key: 'tpRoe', label: 'TP', render: r => `${r.tpRoe}% ROE <small>(${r.tpPricePct}% ціни)</small>` },
+  { key: 'slRoe', label: 'SL', render: r => `${r.slRoe}% ROE <small>(${r.slPricePct}% ціни)</small>` },
+
+  { key: 'tpCount', label: 'TP, разів' },
+  { key: 'tpAvgBars', label: 'До TP: сер. (св.)', render: r => dash(r.tpAvgBars) },
+  { key: 'tpMinBars', label: 'До TP: мін', render: r => dash(r.tpMinBars) },
+  { key: 'tpMaxBars', label: 'До TP: макс', render: r => dash(r.tpMaxBars) },
+
+  { key: 'slCount', label: 'SL, разів' },
+  { key: 'slAvgBars', label: 'До SL: сер. (св.)', render: r => dash(r.slAvgBars) },
+  { key: 'slMinBars', label: 'До SL: мін', render: r => dash(r.slMinBars) },
+  { key: 'slMaxBars', label: 'До SL: макс', render: r => dash(r.slMaxBars) },
+
+  { key: 'totalNetUSD', label: 'PnL, $', render: r => colored(r.totalNetUSD, `${signed(r.totalNetUSD)} $`) },
+  {
+    key: 'avgNetUSD',
+    label: 'Сер. PnL / угоду',
+    render: r =>
+      colored(r.avgNetUSD, `${signed(r.avgNetUSD)} $`) +
+      ` <small>(${signed(r.avgRoePercent)}% ROE)</small>`,
+  },
+  {
+    key: 'isProfitable',
+    label: 'Плюсовий?',
+    render: r =>
+      r.isProfitable
+        ? '<span style="color:#26a69a;font-weight:bold;">ТАК</span>'
+        : '<span style="color:#ef5350;font-weight:bold;">НІ</span>',
+  },
+  { key: 'winRate', label: 'WinRate', render: r => `${r.winRate}%` },
+
+  { key: 'barsAvg', label: 'Час угоди: сер. (св.)' },
+  { key: 'barsMin', label: 'Час угоди: мін' },
+  { key: 'barsMax', label: 'Час угоди: макс' },
+];
+
+let lastRows = [];
+let sortState = { key: 'totalNetUSD', dir: -1 }; // -1 = спадання
+
+function compareRows(a, b, key, dir) {
+  const va = a[key];
+  const vb = b[key];
+  if (va === null || va === undefined) return 1; // порожні завжди внизу
+  if (vb === null || vb === undefined) return -1;
+  if (typeof va === 'string') return va.localeCompare(vb) * dir;
+  return (va - vb) * dir;
+}
+
+function drawTable(listEl) {
+  const rows = [...lastRows].sort((a, b) => compareRows(a, b, sortState.key, sortState.dir));
+
+  const thStyle =
+    'padding:6px 8px;text-align:left;cursor:pointer;white-space:nowrap;' +
+    'border-bottom:1px solid rgb(223, 223, 223);position:sticky;top:0;background:#ffffff;';
+  const tdStyle = 'padding:5px 8px;white-space:nowrap;border-bottom:1px solid rgb(231, 226, 226);';
+
+  const head = COLUMNS.map(c => {
+    const arrow = sortState.key === c.key ? (sortState.dir === 1 ? ' ▲' : ' ▼') : '';
+    const sticky = c.sticky ? 'left:0;z-index:2;' : '';
+    return `<th data-key="${c.key}" style="${thStyle}${sticky}">${c.label}${arrow}</th>`;
+  }).join('');
+
+  const body = rows
+    .map(r => {
+      const cells = COLUMNS.map(c => {
+        const content = c.render ? c.render(r) : dash(r[c.key]);
+        const sticky = c.sticky ? 'position:sticky;left:0;background:#ffffff;' : '';
+        return `<td style="${tdStyle}${sticky}">${content}</td>`;
+      }).join('');
+      return `<tr>${cells}</tr>`;
+    })
+    .join('');
+
+  listEl.innerHTML = `
+    <div style="overflow-x:auto;max-height:70vh;">
+      <table style="border-collapse:collapse;font-size:12px;width:100%;">
+        <thead><tr>${head}</tr></thead>
+        <tbody>${body}</tbody>
+      </table>
+    </div>
+  `;
+
+  listEl.querySelectorAll('th[data-key]').forEach(th => {
+    th.addEventListener('click', () => {
+      const key = th.dataset.key;
+      sortState = {
+        key,
+        dir: sortState.key === key ? -sortState.dir : -1,
+      };
+      drawTable(listEl);
+    });
+  });
+}
+
 /**
  * Відображає розраховані результати в DOM-елементах
  */
@@ -288,39 +469,16 @@ export function renderResultsToUI(report) {
 
   if (!overallEl || !listEl) return;
 
-  // 1. Загальний огляд
   overallEl.innerHTML = `
     <div>Закрито угод: <span>${report.totalClosed}</span> (Ще відкрито: ${report.stillOpen})</div>
   `;
 
-  // 2. Деталізація по кожному патерну/сценарію
-  let listHtml = '';
-  const entries = Object.entries(report.scenarioStats);
+  lastRows = Object.values(report.scenarioStats);
 
-  if (entries.length === 0) {
+  if (lastRows.length === 0) {
     listEl.innerHTML = '<p>Немає закритих угод для відображення.</p>';
     return;
   }
 
-  for (const [code, stats] of entries) {
-    const profitColor = stats.totalNetUSD >= 0 ? '#26a69a' : '#ef5350';
-
-    listHtml += `
-      <div style="background: rgba(255,255,255,0.05); padding: 8px; margin-bottom: 8px; border-radius: 4px; border-left: 3px solid ${profitColor};">
-        <div style="display: flex; justify-content: space-between;">
-          <strong>Патерн: ${code}</strong>
-          <span style="color: ${profitColor}; font-weight: bold;">${stats.totalNetUSD > 0 ? '+' : ''}${stats.totalNetUSD} $</span>
-        </div>
-        <div style="font-size: 13px; margin-top: 4px; line-height: 1.4;">
-          <div>Сигналів: <b>${stats.totalSignals}</b> | WinRate: <b>${stats.winRate}</b> (TP: ${stats.tpCount} / SL: ${stats.slCount})</div>
-          <div>Сер. свічок: TP <b>${stats.avgBarsToTP}</b> / SL <b>${stats.avgBarsToSL}</b></div>
-          <div style="color: #ffa726;">
-            Вибито SL після профіту (≥10% ROE): <b>${stats.slAfterProfitCount}</b> разів (сер. пік ROE: <b>${stats.avgMaxRoeBeforeSL}</b>)
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  listEl.innerHTML = listHtml;
+  drawTable(listEl);
 }
