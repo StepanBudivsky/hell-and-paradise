@@ -13,7 +13,7 @@ import { findLastTrendSegment } from "../indecators/find-last-trend-segment.js";
 import { calculateZigZagClassic } from "../indecators/ZigZagIndecator.js";
 import { fillMissingPoints } from "../calcFunction/various/additons-points-func.js";
 import { getLastTwoTrendArrays } from "../indecators/find-last-two-trend.js";
-import { createPivotPointLines } from "../renderFunction/create-pivot-point-lines.js";
+import { createPivotPointLines, createPivotPointLine } from "../renderFunction/create-pivot-point-lines.js";
 
 import { findTweezersSeries } from "../indecators/find-tweezers-series.js";
 import { findHammersSeries } from "../indecators/find-hammers-series.js";
@@ -57,6 +57,8 @@ const hammersMinLen = document.querySelector("#hammersMinLen");
 export function chartProcessor(settings, analyzeData) {
   const { klinesLimited, startRenderingDot, endRenderingDot, interval } = settings;
 
+  // console.log(startRenderingDot);
+  // console.log(endRenderingDot);
   // робота обємів
   const volumeData = klines.map(c => ({
     time: c.time,
@@ -208,14 +210,14 @@ export function chartProcessor(settings, analyzeData) {
   // const markersFibanachi = analyzeFibanachi(analyzeData.standartFibanachi, klinesLimited, fiboStart, fiboEnd, localRenderDataByInterval[interval].fibanachi, "#d6179d", 1);
   const markersFibanachi = [];
 
-  createPivotPointLines(localSettingByInterval[interval].pivotPointSetting.regim1mVis, "1m", localRenderDataByInterval[interval].pivotPoint_1m, interval);
-  createPivotPointLines(localSettingByInterval[interval].pivotPointSetting.regim5mVis, "5m", localRenderDataByInterval[interval].pivotPoint_5m, interval);
-  createPivotPointLines(localSettingByInterval[interval].pivotPointSetting.regim15mVis, "15m", localRenderDataByInterval[interval].pivotPoint_15m, interval);
-  createPivotPointLines(localSettingByInterval[interval].pivotPointSetting.regim30mVis, "30m", localRenderDataByInterval[interval].pivotPoint_30m, interval);
-  createPivotPointLines(localSettingByInterval[interval].pivotPointSetting.regim1hVis, "1h", localRenderDataByInterval[interval].pivotPoint_1h, interval);
-  createPivotPointLines(localSettingByInterval[interval].pivotPointSetting.regim4hVis, "4h", localRenderDataByInterval[interval].pivotPoint_4h, interval);
-  createPivotPointLines(localSettingByInterval[interval].pivotPointSetting.regim1dVis, "1d", localRenderDataByInterval[interval].pivotPoint_1d, interval);
-  
+  createPivotPointLine(localSettingByInterval[interval].pivotPointSetting.regim1mVis, "1m", localRenderDataByInterval[interval].pivotPoint_1m, interval, startRenderingDot, endRenderingDot);
+  createPivotPointLine(localSettingByInterval[interval].pivotPointSetting.regim5mVis, "5m", localRenderDataByInterval[interval].pivotPoint_5m, interval, startRenderingDot, endRenderingDot);
+  createPivotPointLine(localSettingByInterval[interval].pivotPointSetting.regim15mVis, "15m", localRenderDataByInterval[interval].pivotPoint_15m, interval, startRenderingDot, endRenderingDot);
+  createPivotPointLine(localSettingByInterval[interval].pivotPointSetting.regim30mVis, "30m", localRenderDataByInterval[interval].pivotPoint_30m, interval, startRenderingDot, endRenderingDot);
+  createPivotPointLine(localSettingByInterval[interval].pivotPointSetting.regim1hVis, "1h", localRenderDataByInterval[interval].pivotPoint_1h, interval, startRenderingDot, endRenderingDot);
+  createPivotPointLine(localSettingByInterval[interval].pivotPointSetting.regim4hVis, "4h", localRenderDataByInterval[interval].pivotPoint_4h, interval, startRenderingDot, endRenderingDot);
+  createPivotPointLine(localSettingByInterval[interval].pivotPointSetting.regim1dVis, "1d", localRenderDataByInterval[interval].pivotPoint_1d, interval, startRenderingDot, endRenderingDot);
+
   const markersPivotPoint_1m = analyzePivotPoint(analyzeData.pivotPoint_1m, klinesLimited, localRenderDataByInterval[interval].pivotPoint_1m, "1m");
   const markersPivotPoint_5m = analyzePivotPoint(analyzeData.pivotPoint_5m, klinesLimited, localRenderDataByInterval[interval].pivotPoint_5m, "5m");
   const markersPivotPoint_15m = analyzePivotPoint(analyzeData.pivotPoint_15m, klinesLimited, localRenderDataByInterval[interval].pivotPoint_15m, "15m");

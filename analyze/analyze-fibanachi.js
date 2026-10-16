@@ -55,7 +55,7 @@ export function analyzeFibanachi(analyzeData, data, currentLastTrigger, markerCo
     analyzeData.main.previousIDs = previous;
     analyzeData.main.currentIDs = latest;
 
-    console.log(analyzeData.main.scenariosID);
+    // console.log(analyzeData.main.scenariosID);
     return markers;
 }
 

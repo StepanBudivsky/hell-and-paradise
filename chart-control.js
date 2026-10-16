@@ -35,7 +35,7 @@ export function setChartInterval(interval) {
     // console.log(markersScenarios);    
 
     const config = getConfigFromUI();
-    const result = backtestMarkers(klines, markersScenarios, config);
+    const result = backtestMarkers(klines, markersScenarios, config, interval);
     renderResultsToUI(result);
     // console.log(result.scenarioStats);
 

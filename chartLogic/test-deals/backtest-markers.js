@@ -39,13 +39,39 @@ function getScenarioAction(scenario) {
 }
 
 /**
+ * Переводить інтервал свічки в хвилини.
+ * Приймає: число (вважається хвилинами: 1, 5, 15, 60...)
+ * або рядок: '30s', '1m', '5m', '1h', '4h', '1d', '1w' (рядок без літери = хвилини).
+ * Якщо не вдалося розпізнати — повертає null (колонки часу в хв покажуть "—").
+ */
+function parseIntervalToMinutes(interval) {
+  if (typeof interval === 'number' && Number.isFinite(interval) && interval > 0) {
+    return interval;
+  }
+  if (typeof interval === 'string') {
+    const match = interval.trim().match(/^(\d+(?:\.\d+)?)\s*([smhdw]?)$/i);
+    if (match) {
+      const value = parseFloat(match[1]);
+      const unit = match[2].toLowerCase();
+      const multipliers = { s: 1 / 60, m: 1, '': 1, h: 60, d: 1440, w: 10080 };
+      const minutes = value * multipliers[unit];
+      if (minutes > 0) return minutes;
+    }
+  }
+  return null;
+}
+
+/**
  * Бектестер маркерів по масиву свічок
  *
  * @param {Array} candles - Масив свічок [{ time, open, high, low, close }]
  * @param {Array} markers - Масив маркерів [{ time, text: "U2006", ... }]
  * @param {Object} config - Параметри тесту
+ * @param {number|string} interval - Інтервал свічки (число = хвилини, або '5m' / '1h' / '1d')
  */
-export function backtestMarkers(candles, markers, config = {}) {
+export function backtestMarkers(candles, markers, config = {}, interval) {
+  const intervalMinutes = parseIntervalToMinutes(interval);
+
   const margin = config.margin ?? 100;
   const leverage = config.leverage ?? 20;
   const feeRate = config.feeRate ?? 0.05;
@@ -59,6 +85,11 @@ export function backtestMarkers(candles, markers, config = {}) {
   const entryBarOffset = config.entryBarOffset ?? 0;
   // entryPriceSource: 'open' | 'close' | 'high' | 'low'
   const entryPriceSource = config.entryPriceSource ?? 'close';
+
+  // Метрика "свічок у правильний бік з входу":
+  // якщо вхід по open — свічка входу теж ще "попереду" входу і враховується,
+  // в інших випадках рахуємо лише свічки ПІСЛЯ свічки входу
+  const countEntryCandleInStreak = entryPriceSource === 'open';
 
   // 1. Прив'язуємо маркери до індексів масиву свічок через Map
   const timeToIndex = new Map();
@@ -114,7 +145,7 @@ export function backtestMarkers(candles, markers, config = {}) {
 
         activeTrades.push({
           scenarioCode,
-          action: getScenarioAction(scenario), // НОВЕ: вид дії сценарію
+          action: getScenarioAction(scenario), // вид дії сценарію
           type: directionType,
           entryPrice,
           takeProfit,
@@ -135,6 +166,11 @@ export function backtestMarkers(candles, markers, config = {}) {
           exitTime: null,
           netProfitUSD: 0,
           finalRoePercent: 0,
+
+          // НОВЕ: серія свічок з входу, що йдуть у правильний бік
+          favorableStreak: 0,       // скільки свічок підряд закрилось "в плюс" до попередньої
+          streakActive: true,       // серія ще не обірвалась
+          streakRef: entryPrice,    // з чим порівнюємо close наступної свічки
         });
       }
     }
@@ -145,6 +181,23 @@ export function backtestMarkers(candles, markers, config = {}) {
     for (let j = activeTrades.length - 1; j >= 0; j--) {
       const trade = activeTrades[j];
       trade.barsHeld += 1;
+
+      // --- НОВЕ: серія свічок у правильному напрямку ---
+      // Свічка "правильна", якщо її close краще за попередню точку відліку
+      // (для першої — ціна входу, далі — close попередньої свічки).
+      // Перша свічка, яка не пройшла (або дорівнює), обриває серію.
+      if (trade.streakActive && (i > trade.entryBarIndex || countEntryCandleInStreak)) {
+        const favorable = trade.type === 'LONG'
+          ? candle.close > trade.streakRef
+          : candle.close < trade.streakRef;
+
+        if (favorable) {
+          trade.favorableStreak += 1;
+          trade.streakRef = candle.close;
+        } else {
+          trade.streakActive = false;
+        }
+      }
 
       let hitTP = false;
       let hitSL = false;
@@ -226,6 +279,7 @@ export function backtestMarkers(candles, markers, config = {}) {
     leverage,
     tpRoePercent,
     slRoePercent,
+    intervalMinutes,
   });
 }
 
@@ -270,6 +324,14 @@ function summarize(closedTrades, stillOpenCount, meta) {
     const slBars = minMaxAvg(slTrades.map(t => t.barsHeld));
     const allBars = minMaxAvg(trades.map(t => t.barsHeld));
 
+    // НОВЕ: мін / сер. / макс свічок з входу у правильний бік
+    const streak = minMaxAvg(trades.map(t => t.favorableStreak));
+
+    // НОВЕ: час угоди в хвилинах = кількість свічок * інтервал свічки
+    const durationMin = meta.intervalMinutes
+      ? minMaxAvg(trades.map(t => t.barsHeld * meta.intervalMinutes))
+      : { min: null, max: null, avg: null };
+
     const totalNetUSD = +trades.reduce((sum, t) => sum + t.netProfitUSD, 0).toFixed(2);
     const avgNetUSD = +(totalNetUSD / trades.length).toFixed(2);
     const avgRoePercent = +(
@@ -309,6 +371,14 @@ function summarize(closedTrades, stillOpenCount, meta) {
       barsAvg: allBars.avg,
       barsMin: allBars.min,
       barsMax: allBars.max,
+
+      streakMin: streak.min,
+      streakAvg: streak.avg,
+      streakMax: streak.max,
+
+      durationMinMin: durationMin.min,
+      durationMinAvg: durationMin.avg,
+      durationMinMax: durationMin.max,
     };
   }
 
@@ -400,6 +470,16 @@ const COLUMNS = [
   { key: 'barsAvg', label: 'Час угоди: сер. (св.)' },
   { key: 'barsMin', label: 'Час угоди: мін' },
   { key: 'barsMax', label: 'Час угоди: макс' },
+
+  // НОВЕ: свічок з входу у правильний бік
+  { key: 'streakMin', label: 'Свічок у правильний бік: мін' },
+  { key: 'streakAvg', label: 'Свічок у правильний бік: сер.' },
+  { key: 'streakMax', label: 'Свічок у правильний бік: макс' },
+
+  // НОВЕ: час угоди в хвилинах
+  { key: 'durationMinMin', label: 'Час угоди, хв: мін', render: r => dash(r.durationMinMin) },
+  { key: 'durationMinAvg', label: 'Час угоди, хв: сер.', render: r => dash(r.durationMinAvg) },
+  { key: 'durationMinMax', label: 'Час угоди, хв: макс', render: r => dash(r.durationMinMax) },
 ];
 
 let lastRows = [];

@@ -35,7 +35,7 @@ import { updateAllMarkers } from "../menus/dots-panel.js";
 
 import { initPointsPanel } from "../menus/global-analytics-panel.js";
 import { localSettingByInterval,localRenderDataByInterval  } from "../program-settings.js";
-import { renderPivotPointLines } from "../renderFunction/render-pivot-point-line.js";
+import { renderPivotPointLines, renderPivotPointLine } from "../renderFunction/render-pivot-point-line.js";
 
 export let zigzag = [];
 
@@ -241,13 +241,21 @@ export function renderChartLine(renderData, settings, markersScenarios) {
     }
   }
 
-  renderPivotPointLines(pivotPiontLinesByInterval["1m"], localRenderDataByInterval[interval].pivotPoint_1m);
-  renderPivotPointLines(pivotPiontLinesByInterval["5m"], localRenderDataByInterval[interval].pivotPoint_5m);
-  renderPivotPointLines(pivotPiontLinesByInterval["15m"], localRenderDataByInterval[interval].pivotPoint_15m);
-  renderPivotPointLines(pivotPiontLinesByInterval["30m"], localRenderDataByInterval[interval].pivotPoint_30m);
-  renderPivotPointLines(pivotPiontLinesByInterval["1h"], localRenderDataByInterval[interval].pivotPoint_1h);
-  renderPivotPointLines(pivotPiontLinesByInterval["4h"], localRenderDataByInterval[interval].pivotPoint_4h);
-  renderPivotPointLines(pivotPiontLinesByInterval["1d"], localRenderDataByInterval[interval].pivotPoint_1d);
+  // renderPivotPointLines(pivotPiontLinesByInterval["1m"], localRenderDataByInterval[interval].pivotPoint_1m);
+  // renderPivotPointLines(pivotPiontLinesByInterval["5m"], localRenderDataByInterval[interval].pivotPoint_5m);
+  // renderPivotPointLines(pivotPiontLinesByInterval["15m"], localRenderDataByInterval[interval].pivotPoint_15m);
+  // renderPivotPointLines(pivotPiontLinesByInterval["30m"], localRenderDataByInterval[interval].pivotPoint_30m);
+  // renderPivotPointLines(pivotPiontLinesByInterval["1h"], localRenderDataByInterval[interval].pivotPoint_1h);
+  // renderPivotPointLines(pivotPiontLinesByInterval["4h"], localRenderDataByInterval[interval].pivotPoint_4h);
+  // renderPivotPointLines(pivotPiontLinesByInterval["1d"], localRenderDataByInterval[interval].pivotPoint_1d);
+
+  renderPivotPointLine(pivotPiontLinesByInterval["1m"], localRenderDataByInterval[interval].pivotPoint_1m);
+  renderPivotPointLine(pivotPiontLinesByInterval["5m"], localRenderDataByInterval[interval].pivotPoint_5m);
+  renderPivotPointLine(pivotPiontLinesByInterval["15m"], localRenderDataByInterval[interval].pivotPoint_15m);
+  renderPivotPointLine(pivotPiontLinesByInterval["30m"], localRenderDataByInterval[interval].pivotPoint_30m);
+  renderPivotPointLine(pivotPiontLinesByInterval["1h"], localRenderDataByInterval[interval].pivotPoint_1h);
+  renderPivotPointLine(pivotPiontLinesByInterval["4h"], localRenderDataByInterval[interval].pivotPoint_4h);
+  renderPivotPointLine(pivotPiontLinesByInterval["1d"], localRenderDataByInterval[interval].pivotPoint_1d);
 
   // ініціалізація даних про всі дивергенції на MACD
   initPointsPanel({

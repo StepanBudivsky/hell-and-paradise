@@ -401,6 +401,7 @@ export let localRenderData1m = {
     fibanachi_423: 0,
   },
   pivotPoint_1m: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -413,6 +414,7 @@ export let localRenderData1m = {
     thirdSupport: 0,
   },
   pivotPoint_5m: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -425,6 +427,7 @@ export let localRenderData1m = {
     thirdSupport: 0,
   },
   pivotPoint_15m: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -437,6 +440,7 @@ export let localRenderData1m = {
     thirdSupport: 0,
   },
   pivotPoint_30m: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -449,6 +453,7 @@ export let localRenderData1m = {
     thirdSupport: 0,
   },
   pivotPoint_1h: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -461,6 +466,7 @@ export let localRenderData1m = {
     thirdSupport: 0,
   },
   pivotPoint_4h: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -473,6 +479,7 @@ export let localRenderData1m = {
     thirdSupport: 0,
   },
   pivotPoint_1d: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -507,6 +514,7 @@ export let localRenderData5m = {
     fibanachi_423: 0,
   },
   pivotPoint_1m: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -519,6 +527,7 @@ export let localRenderData5m = {
     thirdSupport: 0,
   },
   pivotPoint_5m: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -531,6 +540,7 @@ export let localRenderData5m = {
     thirdSupport: 0,
   },
   pivotPoint_15m: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -543,6 +553,7 @@ export let localRenderData5m = {
     thirdSupport: 0,
   },
   pivotPoint_30m: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -555,6 +566,7 @@ export let localRenderData5m = {
     thirdSupport: 0,
   },
   pivotPoint_1h: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -567,6 +579,7 @@ export let localRenderData5m = {
     thirdSupport: 0,
   },
   pivotPoint_4h: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -579,6 +592,7 @@ export let localRenderData5m = {
     thirdSupport: 0,
   },
   pivotPoint_1d: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -613,6 +627,7 @@ export let localRenderData15m = {
     fibanachi_423: 0,
   },
   pivotPoint_1m: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -625,6 +640,7 @@ export let localRenderData15m = {
     thirdSupport: 0,
   },
   pivotPoint_5m: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -637,6 +653,7 @@ export let localRenderData15m = {
     thirdSupport: 0,
   },
   pivotPoint_15m: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -649,6 +666,7 @@ export let localRenderData15m = {
     thirdSupport: 0,
   },
   pivotPoint_30m: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -661,6 +679,7 @@ export let localRenderData15m = {
     thirdSupport: 0,
   },
   pivotPoint_1h: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -673,6 +692,7 @@ export let localRenderData15m = {
     thirdSupport: 0,
   },
   pivotPoint_4h: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -685,6 +705,7 @@ export let localRenderData15m = {
     thirdSupport: 0,
   },
   pivotPoint_1d: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -719,6 +740,7 @@ export let localRenderData30m = {
     fibanachi_423: 0,
   },
   pivotPoint_1m: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -731,6 +753,7 @@ export let localRenderData30m = {
     thirdSupport: 0,
   },
   pivotPoint_5m: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -743,6 +766,7 @@ export let localRenderData30m = {
     thirdSupport: 0,
   },
   pivotPoint_15m: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -755,6 +779,7 @@ export let localRenderData30m = {
     thirdSupport: 0,
   },
   pivotPoint_30m: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -767,6 +792,7 @@ export let localRenderData30m = {
     thirdSupport: 0,
   },
   pivotPoint_1h: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -779,6 +805,7 @@ export let localRenderData30m = {
     thirdSupport: 0,
   },
   pivotPoint_4h: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -791,6 +818,7 @@ export let localRenderData30m = {
     thirdSupport: 0,
   },
   pivotPoint_1d: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -825,6 +853,7 @@ export let localRenderData1h = {
     fibanachi_423: 0,
   },
   pivotPoint_1m: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -837,6 +866,7 @@ export let localRenderData1h = {
     thirdSupport: 0,
   },
   pivotPoint_5m: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -849,6 +879,7 @@ export let localRenderData1h = {
     thirdSupport: 0,
   },
   pivotPoint_15m: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -861,6 +892,7 @@ export let localRenderData1h = {
     thirdSupport: 0,
   },
   pivotPoint_30m: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -873,6 +905,7 @@ export let localRenderData1h = {
     thirdSupport: 0,
   },
   pivotPoint_1h: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -885,6 +918,7 @@ export let localRenderData1h = {
     thirdSupport: 0,
   },
   pivotPoint_4h: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,
@@ -897,6 +931,7 @@ export let localRenderData1h = {
     thirdSupport: 0,
   },
   pivotPoint_1d: {
+    history: [],
     start: 0,
     openTime: 0,
     lenLine: 0,

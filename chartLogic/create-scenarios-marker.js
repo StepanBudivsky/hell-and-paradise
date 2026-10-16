@@ -1,7 +1,6 @@
 import { checkClass } from "../control.js";
 import { allScenarios } from "../settingsData/all-scenarios.js";
 
-
 // Tweezers режими відображенння маркерів сценаріїв
 const regim1ScenariosTweezers = document.querySelector("#regim1ScenariosTweezers");
 const regim2ScenariosTweezers = document.querySelector("#regim2ScenariosTweezers");
@@ -205,10 +204,6 @@ export function createScenariosMarker(analyzeData) {
     const filterQuery = scenarioFilterInput?.value?.trim().toUpperCase();
     const selectedDayOfWeek = daySelectFilter?.value; // Наприклад: "1" (Пн) - "0" (Нд) або назви
     const selectedSession = sessionSelectFilter?.value?.toLowerCase(); // "sydney", "tokyo", "london", "new_york"
-
-    // if (filterQuery) {
-    //     allMarkers = allMarkers.filter(marker => marker.text.toUpperCase() === filterQuery);
-    // }
 
     // ==========================================
     // ЗАГАЛЬНИЙ ФІЛЬТР (INPUT, ДЕНЬ ТИЖНЯ, СЕСІЯ)
