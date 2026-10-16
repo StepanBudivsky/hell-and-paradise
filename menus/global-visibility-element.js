@@ -16,6 +16,7 @@ const triggerVis = document.querySelector("#triggerVis");
 const ma10Vis = document.querySelector("#ma10Vis");
 const ma30Vis = document.querySelector("#ma30Vis");
 const autoFibanachiVis = document.querySelector("#autoFibanachiVis");
+const pivotPointVis = document.querySelector("#pivotPointVis");
 
 // Tweezers режими відображенння маркерів сценаріїв
 const regim1ScenariosTweezers = document.querySelector("#regim1ScenariosTweezers");
@@ -147,7 +148,7 @@ const allMarkers = [
 ];
 
 const allLines = [
-  triggerVis, ma10Vis, ma30Vis, autoFibanachiVis
+  triggerVis, ma10Vis, ma30Vis, autoFibanachiVis, pivotPointVis
 ];
 
 /**

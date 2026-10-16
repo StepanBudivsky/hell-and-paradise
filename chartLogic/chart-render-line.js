@@ -1,5 +1,6 @@
 import { getPointsFromLine } from "../calcFunction/various/additons-points-func.js";
 import { klines } from "../chart-data.js";
+import { checkClass } from "../control.js";
 import {
   chart,
   candlestickSeries,
@@ -79,6 +80,7 @@ const triggerVis = document.querySelector("#triggerVis");
 const ma10Vis = document.querySelector("#ma10Vis");
 const ma30Vis = document.querySelector("#ma30Vis");
 const autoFibanachiVis = document.querySelector("#autoFibanachiVis");
+const pivotPointVis = document.querySelector("#pivotPointVis");
 
 export function renderChartLine(renderData, settings, markersScenarios) {
   const { klinesLimited } = settings;
@@ -91,15 +93,15 @@ export function renderChartLine(renderData, settings, markersScenarios) {
   zigzag = renderData.data.zigzag;
   // console.log(renderData.markers);
 
-  markersMinMax = !markerVisDivergenceMACD.classList.contains('active') ? renderData.markers.markersMinMax : [];
-  markersDivergenceRsi = !markerVisDivergenceRSI.classList.contains('active') ? renderData.markers.markersDivergenceRsi : [];
-  markersMA = !markerVisMA.classList.contains('active') ? renderData.markers.markersMA : [];
-  markersMACD = !markerVisMACD.classList.contains('active') ? renderData.markers.markersMACD : [];
-  markersTrigger = !markerVisTrigger.classList.contains('active') ? renderData.markers.markersTrigger : [];
-  markersAutoFibanachi = !markerVisAutoFibanachi.classList.contains('active') ? renderData.markers.markersAutoFibanachi : [];
-  markersWawe = !markerVisWawe.classList.contains('active') ? renderData.markers.markersWawe : [];
-  markersFibanachi = !markerVisFibanachi.classList.contains('active') ? renderData.markers.markersFibanachi : [];
-  markersPivotPoint = !markerVisPivotPoint.classList.contains('active') ? renderData.markers.markersPivotPoint : [];
+  markersMinMax = checkClass(markerVisDivergenceMACD) ? renderData.markers.markersMinMax : [];
+  markersDivergenceRsi = checkClass(markerVisDivergenceRSI) ? renderData.markers.markersDivergenceRsi : [];
+  markersMA = checkClass(markerVisMA) ? renderData.markers.markersMA : [];
+  markersMACD = checkClass(markerVisMACD) ? renderData.markers.markersMACD : [];
+  markersTrigger = checkClass(markerVisTrigger) ? renderData.markers.markersTrigger : [];
+  markersAutoFibanachi = checkClass(markerVisAutoFibanachi) ? renderData.markers.markersAutoFibanachi : [];
+  markersWawe = checkClass(markerVisWawe) ? renderData.markers.markersWawe : [];
+  markersFibanachi = checkClass(markerVisFibanachi) ? renderData.markers.markersFibanachi : [];
+  markersPivotPoint = checkClass(markerVisPivotPoint) ? renderData.markers.markersPivotPoint : [];
 
   markersRsiScenarios = markersScenarios;
   // console.log(markersRsiScenarios);
@@ -110,11 +112,11 @@ export function renderChartLine(renderData, settings, markersScenarios) {
   
   adxLine.setData(adxValue);
   
-  tweezersLine.setData(!tweezersVis.classList.contains('active') ? tweezers.series : []);
+  tweezersLine.setData(checkClass(tweezersVis) ? tweezers.series : []);
   
-  hammersLine.setData(!hammersVis.classList.contains('active') ? hammers : []);  
+  hammersLine.setData(checkClass(hammersVis) ? hammers : []);  
   
-  engulfingsLine.setData(!engulfingsVis.classList.contains('active') ? engulfings.series : []);
+  engulfingsLine.setData(checkClass(engulfingsVis) ? engulfings.series : []);
     
   macdLine.setData(macd.macd);
   signalLine.setData(macd.signal);
@@ -124,7 +126,7 @@ export function renderChartLine(renderData, settings, markersScenarios) {
 
   rsiLine.setData(rsiValue);
 
-  if (!triggerVis.classList.contains('active')) {
+  if (checkClass(triggerVis)) {
     rsiOverboughtZoneLine.setData([
       { time: klines[rsiZone.overboughtZone.start].time, value: klines[rsiZone.overboughtZone.start].high },
       { time: klines[rsiZone.overboughtZone.end].time, value: klines[rsiZone.overboughtZone.start].high }
@@ -154,7 +156,7 @@ export function renderChartLine(renderData, settings, markersScenarios) {
     rsiOversoldZoneMinLine.setData([]);
   }
 
-  if (!autoFibanachiVis.classList.contains('active')) {
+  if (checkClass(autoFibanachiVis)) {
     autoFibanachiStart.fibanachi_0.setData(autoFiboValueStart.line.autoFib0);
     autoFibanachiStart.fibanachi_23.setData(autoFiboValueStart.line.autoFib23);
     autoFibanachiStart.fibanachi_38.setData(autoFiboValueStart.line.autoFib38);
@@ -204,7 +206,7 @@ export function renderChartLine(renderData, settings, markersScenarios) {
     autoFibanachiEnd.fibanachi_100.setData([]);
   }
 
-  if (!ma10Vis.classList.contains('active')) {
+  if (checkClass(ma10Vis)) {
     ma10Line.setData(ma10);
     ma10LineTrend.setData(ma10Trend);
   } else {
@@ -212,7 +214,7 @@ export function renderChartLine(renderData, settings, markersScenarios) {
     ma10LineTrend.setData([]);
   }
 
-  if (!ma30Vis.classList.contains('active')) {
+  if (checkClass(ma30Vis)) {
     ma30Line.setData(ma30);
     ma30LineTrend.setData(ma30Trend);
   } else {
@@ -231,7 +233,7 @@ export function renderChartLine(renderData, settings, markersScenarios) {
   zigzagLineUpTrend.setData([]);
   zigzagLineDownTrend.setData([]);
 
-  if (!ZigZagTrendVis.classList.contains('active')){
+  if (checkClass(ZigZagTrendVis)){
     if (trendsData.preLastTrend.type === "Uptrend") {
       zigzagLineUpTrend.setData(trendsData.preLastTrend.points);
       zigzagLineDownTrend.setData(trendsData.lastTrend.points);
@@ -241,21 +243,15 @@ export function renderChartLine(renderData, settings, markersScenarios) {
     }
   }
 
-  // renderPivotPointLines(pivotPiontLinesByInterval["1m"], localRenderDataByInterval[interval].pivotPoint_1m);
-  // renderPivotPointLines(pivotPiontLinesByInterval["5m"], localRenderDataByInterval[interval].pivotPoint_5m);
-  // renderPivotPointLines(pivotPiontLinesByInterval["15m"], localRenderDataByInterval[interval].pivotPoint_15m);
-  // renderPivotPointLines(pivotPiontLinesByInterval["30m"], localRenderDataByInterval[interval].pivotPoint_30m);
-  // renderPivotPointLines(pivotPiontLinesByInterval["1h"], localRenderDataByInterval[interval].pivotPoint_1h);
-  // renderPivotPointLines(pivotPiontLinesByInterval["4h"], localRenderDataByInterval[interval].pivotPoint_4h);
-  // renderPivotPointLines(pivotPiontLinesByInterval["1d"], localRenderDataByInterval[interval].pivotPoint_1d);
+  const pivotPointVisStatus = checkClass(pivotPointVis);
 
-  renderPivotPointLine(pivotPiontLinesByInterval["1m"], localRenderDataByInterval[interval].pivotPoint_1m);
-  renderPivotPointLine(pivotPiontLinesByInterval["5m"], localRenderDataByInterval[interval].pivotPoint_5m);
-  renderPivotPointLine(pivotPiontLinesByInterval["15m"], localRenderDataByInterval[interval].pivotPoint_15m);
-  renderPivotPointLine(pivotPiontLinesByInterval["30m"], localRenderDataByInterval[interval].pivotPoint_30m);
-  renderPivotPointLine(pivotPiontLinesByInterval["1h"], localRenderDataByInterval[interval].pivotPoint_1h);
-  renderPivotPointLine(pivotPiontLinesByInterval["4h"], localRenderDataByInterval[interval].pivotPoint_4h);
-  renderPivotPointLine(pivotPiontLinesByInterval["1d"], localRenderDataByInterval[interval].pivotPoint_1d);
+  renderPivotPointLine(pivotPiontLinesByInterval["1m"], localRenderDataByInterval[interval].pivotPoint_1m, pivotPointVisStatus);
+  renderPivotPointLine(pivotPiontLinesByInterval["5m"], localRenderDataByInterval[interval].pivotPoint_5m, pivotPointVisStatus);
+  renderPivotPointLine(pivotPiontLinesByInterval["15m"], localRenderDataByInterval[interval].pivotPoint_15m, pivotPointVisStatus);
+  renderPivotPointLine(pivotPiontLinesByInterval["30m"], localRenderDataByInterval[interval].pivotPoint_30m, pivotPointVisStatus);
+  renderPivotPointLine(pivotPiontLinesByInterval["1h"], localRenderDataByInterval[interval].pivotPoint_1h, pivotPointVisStatus);
+  renderPivotPointLine(pivotPiontLinesByInterval["4h"], localRenderDataByInterval[interval].pivotPoint_4h, pivotPointVisStatus);
+  renderPivotPointLine(pivotPiontLinesByInterval["1d"], localRenderDataByInterval[interval].pivotPoint_1d, pivotPointVisStatus);
 
   // ініціалізація даних про всі дивергенції на MACD
   initPointsPanel({

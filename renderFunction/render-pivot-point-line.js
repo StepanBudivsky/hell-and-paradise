@@ -3,9 +3,9 @@ import { currentInterval, klinesData } from "../chart-data.js";
 import { dotsByInterval, globalSettingByInterval } from "../program-settings.js";
 import { changeTextStatus, createHorizontalLine } from "../render.js";
 
-export function renderPivotPointLine(line, data) {
+export function renderPivotPointLine(line, data, visStatus) {
     // Якщо історія порожня або data.history взагалі не існує (статус false)
-    if (!data.history || data.history.length === 0) {
+    if (!data.history || data.history.length === 0 || !visStatus) {
         // Обнулення ліній
         line.pivotPoint.setData([]);
         line.firstResistance.setData([]);

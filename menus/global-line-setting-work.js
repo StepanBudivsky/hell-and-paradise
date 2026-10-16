@@ -8,7 +8,7 @@ const ZigZagTrendVis = document.querySelector("#ZigZagTrendVis");
 const zigZagInput = document.querySelector("#zigZagInput");
 
 // Pivot Point 
-const PivotPointVis = document.querySelector("#PivotPointVis");
+// const PivotPointVis = document.querySelector("#PivotPointVis");
 
 const pivotPointBtn1m = document.querySelector("#pivotPointBtn1m");
 const pivotPointBtn5m = document.querySelector("#pivotPointBtn5m");
@@ -117,7 +117,7 @@ const statusTimeframeButtons = [
 
 // Масив усіх елементів, які лише перемикають свій клас 'active' при кліку
 const simpleToggleElements = [
-  ZigZagVis, ZigZagTrendVis, PivotPointVis,
+  ZigZagVis, ZigZagTrendVis,
   regim1Trigger, regim2Trigger, regim3Trigger,
   graph5mVis, graph15mVis, graph30mVis, graph1hVis,
   tweezersVis, engulfingsVis, hammersVis
@@ -239,7 +239,7 @@ pivotPointTimeframeConfig.forEach(([btn, timeframe, settingKey]) => {
 export function updateCurrentGlobalLineSetting () {
   const currentSetting = localSettingByInterval[currentInterval];
   
-  setPivotPointStatus(checkClass(PivotPointVis));
+  // setPivotPointStatus(checkClass(PivotPointVis));
 
   currentSetting.zigZagSettings.zigZagValue = Number(zigZagInput.value);
   currentSetting.zigZagSettings.zigZagVisible = checkClass(ZigZagVis);
