@@ -59,147 +59,157 @@ const level1DotBtn7 = document.querySelector("#level1DotBtn7");
 
 const groupeLevel1Btn = [level1DotBtn1, level1DotBtn2, level1DotBtn3, level1DotBtn4, level1DotBtn5, level1DotBtn6, level1DotBtn7];
 
-// вибір першої точки для хвиль
-startDotBtnMax.addEventListener('click', () => switchGroupButtonActive(groupeStartDotBtn, startDotBtnMax));
-startDotBtnMin.addEventListener('click', () => switchGroupButtonActive(groupeStartDotBtn, startDotBtnMin));
 
-// Робота кнопок переключення видимості хвиль
-wawe1Vis.addEventListener('click', () => { 
-  wawe1Vis.classList.toggle('active');
-  if (!checkClass(wawe1Vis)) {
-    wawe2Vis.classList.add('active');
-    wawe3Vis.classList.add('active');
-    wawe4Vis.classList.add('active');
-    wawe5Vis.classList.add('active');
-  }
+/* ==========================================================================
+   БЛОК 1: СТРУКТУРИ ДАНИХ ТА КОНФІГУРАЦІЯ
+   ========================================================================== */
+
+// Усі радіо-групи кнопок вибору точок (порядок кнопок у групі = значення в налаштуваннях)
+const radioGroups = [groupeStartDotBtn, groupeLevel1Btn, groupeFiboStart, groupeFiboEnd];
+
+// Масив елементів, які лише перемикають свій клас 'active' при кліку
+const simpleToggleElements = [level1Dir, level1Vis, fiboVis];
+
+/**
+ * Конфігурація поведінки кнопок видимості хвиль.
+ * Формат: [Кнопка, [Кнопки для вимкнення (add active)], [Кнопки для ввімкнення (remove active)]]
+ */
+const waveVisBehaviorConfig = [
+  [wawe1Vis, [wawe2Vis, wawe3Vis, wawe4Vis, wawe5Vis], []],
+  [wawe2Vis, [wawe3Vis, wawe4Vis, wawe5Vis], [wawe1Vis]],
+  [wawe3Vis, [wawe4Vis, wawe5Vis], [wawe1Vis, wawe2Vis]],
+  [wawe4Vis, [wawe5Vis], [wawe1Vis, wawe2Vis, wawe3Vis]],
+  [wawe5Vis, [], [wawe1Vis, wawe2Vis, wawe3Vis, wawe4Vis]]
+];
+
+/**
+ * Матриця конфігурації хвиль для синхронізації з налаштуваннями.
+ * Формат: [КнопкаВидимості, ПолеДовжини, НомерХвилі]
+ * Ключі в налаштуваннях формуються динамічно: wawe{N}Settings / wawe{N}Visibility / wawe{N}Length
+ */
+const waveSettingsConfig = [
+  [wawe1Vis, wawe1Len, 1],
+  [wawe2Vis, wawe2Len, 2],
+  [wawe3Vis, wawe3Len, 3],
+  [wawe4Vis, wawe4Len, 4],
+  [wawe5Vis, wawe5Len, 5]
+];
+
+
+/* ==========================================================================
+   БЛОК 2: ДОПОМІЖНІ ФУНКЦІЇ
+   ========================================================================== */
+
+/**
+ * Повертає індекс вибраної кнопки в радіо-групі.
+ * Вибрана кнопка = та, на якій НЕМАЄ класу 'active' (checkClass повертає false).
+ * Якщо жодна не вибрана — повертає 0.
+ */
+function getSelectedIndex(group) {
+  return Math.max(0, group.findIndex(btn => !checkClass(btn)));
+}
+
+/**
+ * Синхронізує кнопку видимості з булевим значенням.
+ * visible = true -> прибираємо 'active'; visible = false -> додаємо 'active' (інверсія).
+ */
+function setVisibilityClass(btn, visible) {
+  btn.classList.toggle('active', !visible);
+}
+
+
+/* ==========================================================================
+   БЛОК 3: ОБРОБНИКИ ПОДІЙ (ІНТЕРФЕЙС ТА КНОПКИ)
+   ========================================================================== */
+
+// Радіо-групи: перша точка хвиль, точка рівня 1, початок та кінець фібоначчі
+radioGroups.forEach(group => {
+  group.forEach(btn => {
+    btn.addEventListener('click', () => switchGroupButtonActive(group, btn));
+  });
 });
-wawe2Vis.addEventListener('click', () => { 
-  wawe2Vis.classList.toggle('active') 
-  if (!checkClass(wawe2Vis)) {
-    wawe3Vis.classList.add('active');
-    wawe4Vis.classList.add('active');
-    wawe5Vis.classList.add('active');
-  } else {
-    wawe1Vis.classList.remove('active');
-  }
-});
-wawe3Vis.addEventListener('click', () => { 
-  wawe3Vis.classList.toggle('active') 
-  if (!checkClass(wawe3Vis)) {
-    wawe4Vis.classList.add('active');
-    wawe5Vis.classList.add('active');
-  } else {
-    wawe1Vis.classList.remove('active');
-    wawe2Vis.classList.remove('active');
-  }
-});
-wawe4Vis.addEventListener('click', () => { 
-  wawe4Vis.classList.toggle('active') 
-  if (!checkClass(wawe4Vis)) {
-    wawe5Vis.classList.add('active');
-  } else {
-    wawe1Vis.classList.remove('active');
-    wawe2Vis.classList.remove('active');
-    wawe3Vis.classList.remove('active');
-  }
-});
-wawe5Vis.addEventListener('click', () => {
-  wawe5Vis.classList.toggle('active')
-  if (checkClass(wawe5Vis)) {
-    wawe1Vis.classList.remove('active');
-    wawe2Vis.classList.remove('active');
-    wawe3Vis.classList.remove('active');
-    wawe4Vis.classList.remove('active');
-  }
+
+// Прості перемикачі: напрямок рівня 1, видимість рівня 1, видимість фібоначчі
+simpleToggleElements.forEach(element => {
+  element.addEventListener('click', () => element.classList.toggle('active'));
 });
 
-// робота кнопок переключення настройок рівня 1
-level1Dir.addEventListener('click', () => level1Dir.classList.toggle('active'));
-level1Vis.addEventListener('click', () => level1Vis.classList.toggle('active'));
 
-// Робота кнопок вибору точки рівня 1
-level1DotBtn1.addEventListener('click', () => switchGroupButtonActive(groupeLevel1Btn, level1DotBtn1));
-level1DotBtn2.addEventListener('click', () => switchGroupButtonActive(groupeLevel1Btn, level1DotBtn2));
-level1DotBtn3.addEventListener('click', () => switchGroupButtonActive(groupeLevel1Btn, level1DotBtn3));
-level1DotBtn4.addEventListener('click', () => switchGroupButtonActive(groupeLevel1Btn, level1DotBtn4));
-level1DotBtn5.addEventListener('click', () => switchGroupButtonActive(groupeLevel1Btn, level1DotBtn5));
-level1DotBtn6.addEventListener('click', () => switchGroupButtonActive(groupeLevel1Btn, level1DotBtn6));
-level1DotBtn7.addEventListener('click', () => switchGroupButtonActive(groupeLevel1Btn, level1DotBtn7));
+/* ==========================================================================
+   БЛОК 4: СКЛАДНА КАСКАДНА ЛОГІКА
+   ========================================================================== */
 
-// робота кнопок переключення настройок фібоначі
-fiboVis.addEventListener('click', () => fiboVis.classList.toggle('active'));
+// Каскадна логіка видимості хвиль на основі матриці waveVisBehaviorConfig
+waveVisBehaviorConfig.forEach(([currentBtn, toTurnOff, toTurnOn]) => {
+  currentBtn.addEventListener('click', () => {
+    currentBtn.classList.toggle('active');
+    const isActive = checkClass(currentBtn);
 
-// Робота кнопок вибору першої точки фібоначчі
-startFiboBtn1.addEventListener('click', () => switchGroupButtonActive(groupeFiboStart, startFiboBtn1));
-startFiboBtn2.addEventListener('click', () => switchGroupButtonActive(groupeFiboStart, startFiboBtn2));
-startFiboBtn3.addEventListener('click', () => switchGroupButtonActive(groupeFiboStart, startFiboBtn3));
-startFiboBtn4.addEventListener('click', () => switchGroupButtonActive(groupeFiboStart, startFiboBtn4));
-startFiboBtn5.addEventListener('click', () => switchGroupButtonActive(groupeFiboStart, startFiboBtn5));
-startFiboBtn6.addEventListener('click', () => switchGroupButtonActive(groupeFiboStart, startFiboBtn6));
-startFiboBtn7.addEventListener('click', () => switchGroupButtonActive(groupeFiboStart, startFiboBtn7));
+    if (!isActive) {
+      // Якщо кнопку ВИМКНЕНО (немає класу active) — гасимо залежні наступні кнопки
+      toTurnOff.forEach(btn => btn.classList.add('active'));
+    } else {
+      // Якщо кнопку ВВІМКНЕНО (є клас active) — запалюємо залежні попередні кнопки
+      toTurnOn.forEach(btn => btn.classList.remove('active'));
+    }
+  });
+});
 
-// Робота кнопок вибору другої точки фібоначчі
-endFiboBtn1.addEventListener('click', () => switchGroupButtonActive(groupeFiboEnd, endFiboBtn1));
-endFiboBtn2.addEventListener('click', () => switchGroupButtonActive(groupeFiboEnd, endFiboBtn2));
-endFiboBtn3.addEventListener('click', () => switchGroupButtonActive(groupeFiboEnd, endFiboBtn3));
-endFiboBtn4.addEventListener('click', () => switchGroupButtonActive(groupeFiboEnd, endFiboBtn4));
-endFiboBtn5.addEventListener('click', () => switchGroupButtonActive(groupeFiboEnd, endFiboBtn5));
-endFiboBtn6.addEventListener('click', () => switchGroupButtonActive(groupeFiboEnd, endFiboBtn6));
-endFiboBtn7.addEventListener('click', () => switchGroupButtonActive(groupeFiboEnd, endFiboBtn7));
 
-export function updateCurrentLocalLineSetting (){
-  let currentSetting = localSettingByInterval[currentInterval];
-  
-  currentSetting.startDot = Number(!checkClass(startDotBtnMax)) * 0 + Number(!checkClass(startDotBtnMin)) * 1;
-  console.log(localSettingByInterval[currentInterval]);
+/* ==========================================================================
+   БЛОК 5: ФУНКЦІЇ ЕКСПОРТУ (ІМПОРТ/ЕКСПОРТ СТАНУ НАЛАШТУВАНЬ)
+   ========================================================================== */
 
-  currentSetting.wawe1Settings.wawe1Visibility = checkClass(wawe1Vis);
-  currentSetting.wawe2Settings.wawe2Visibility = checkClass(wawe2Vis);
-  currentSetting.wawe3Settings.wawe3Visibility = checkClass(wawe3Vis);
-  currentSetting.wawe4Settings.wawe4Visibility = checkClass(wawe4Vis);
-  currentSetting.wawe5Settings.wawe5Visibility = checkClass(wawe5Vis);
+/**
+ * Зчитує поточний стан з інтерфейсу (DOM) та зберігає його в локальний об'єкт налаштувань
+ */
+export function updateCurrentLocalLineSetting () {
+  const currentSetting = localSettingByInterval[currentInterval];
 
-  currentSetting.wawe1Settings.wawe1Length = Number(wawe1Len.value);
-  currentSetting.wawe2Settings.wawe2Length = Number(wawe2Len.value);
-  currentSetting.wawe3Settings.wawe3Length = Number(wawe3Len.value);
-  currentSetting.wawe4Settings.wawe4Length = Number(wawe4Len.value);
-  currentSetting.wawe5Settings.wawe5Length = Number(wawe5Len.value);
+  currentSetting.startDot = getSelectedIndex(groupeStartDotBtn);
 
+  // Хвилі: видимість та довжина (динамічні ключі за номером хвилі)
+  waveSettingsConfig.forEach(([visBtn, lenInput, n]) => {
+    currentSetting[`wawe${n}Settings`][`wawe${n}Visibility`] = checkClass(visBtn);
+    currentSetting[`wawe${n}Settings`][`wawe${n}Length`] = Number(lenInput.value);
+  });
+
+  // Фібоначчі
   currentSetting.fibanachiSettings.fibanachiVisibility = checkClass(fiboVis);
   currentSetting.fibanachiSettings.fibanachiLength = Number(fiboLen.value);
-  currentSetting.fibanachiSettings.fibanachiStart = Number(!checkClass(startFiboBtn1)) * 0 + Number(!checkClass(startFiboBtn2)) * 1 + Number(!checkClass(startFiboBtn3)) * 2 + Number(!checkClass(startFiboBtn4)) * 3 + Number(!checkClass(startFiboBtn5)) * 4 + Number(!checkClass(startFiboBtn6)) * 5 + Number(!checkClass(startFiboBtn7)) * 6;
-  currentSetting.fibanachiSettings.fibanachiEnd = Number(!checkClass(endFiboBtn1)) * 0 + Number(!checkClass(endFiboBtn2)) * 1 + Number(!checkClass(endFiboBtn3)) * 2 + Number(!checkClass(endFiboBtn4)) * 3 + Number(!checkClass(endFiboBtn5)) * 4 + Number(!checkClass(endFiboBtn6)) * 5 + Number(!checkClass(endFiboBtn7)) * 6;
+  currentSetting.fibanachiSettings.fibanachiStart = getSelectedIndex(groupeFiboStart);
+  currentSetting.fibanachiSettings.fibanachiEnd = getSelectedIndex(groupeFiboEnd);
 
+  // Рівень 1
   currentSetting.level1Settings.level1DirectionUp = checkClass(level1Dir);
   currentSetting.level1Settings.level1Visibility = checkClass(level1Vis);
   currentSetting.level1Settings.level1Length = Number(level1Len.value);
-  currentSetting.level1Settings.level1Dot = Number(!checkClass(level1DotBtn1)) * 0 + Number(!checkClass(level1DotBtn2)) * 1 + Number(!checkClass(level1DotBtn3)) * 2 + Number(!checkClass(level1DotBtn4)) * 3 + Number(!checkClass(level1DotBtn5)) * 4 + Number(!checkClass(level1DotBtn6)) * 5 + Number(!checkClass(level1DotBtn7)) * 6;
+  currentSetting.level1Settings.level1Dot = getSelectedIndex(groupeLevel1Btn);
 }
 
+/**
+ * Приймає збережені налаштування з об'єкта та синхронізує з ними стан кнопок в інтерфейсі
+ */
 export function setCurrentLocalLineSetting () {
-  let currentSetting = localSettingByInterval[currentInterval];
+  const currentSetting = localSettingByInterval[currentInterval];
 
   switchGroupButtonActive(groupeStartDotBtn, groupeStartDotBtn[currentSetting.startDot]);
 
-  currentSetting.wawe1Settings.wawe1Visibility ? wawe1Vis.classList.remove('active') : wawe1Vis.classList.add('active');
-  currentSetting.wawe2Settings.wawe2Visibility ? wawe2Vis.classList.remove('active') : wawe2Vis.classList.add('active');
-  currentSetting.wawe3Settings.wawe3Visibility ? wawe3Vis.classList.remove('active') : wawe3Vis.classList.add('active');
-  currentSetting.wawe4Settings.wawe4Visibility ? wawe4Vis.classList.remove('active') : wawe4Vis.classList.add('active');
-  currentSetting.wawe5Settings.wawe5Visibility ? wawe5Vis.classList.remove('active') : wawe5Vis.classList.add('active');
+  // Хвилі: видимість та довжина (динамічні ключі за номером хвилі)
+  waveSettingsConfig.forEach(([visBtn, lenInput, n]) => {
+    setVisibilityClass(visBtn, currentSetting[`wawe${n}Settings`][`wawe${n}Visibility`]);
+    lenInput.value = currentSetting[`wawe${n}Settings`][`wawe${n}Length`];
+  });
 
-  wawe1Len.value = currentSetting.wawe1Settings.wawe1Length;
-  wawe2Len.value = currentSetting.wawe2Settings.wawe2Length;
-  wawe3Len.value = currentSetting.wawe3Settings.wawe3Length;
-  wawe4Len.value = currentSetting.wawe4Settings.wawe4Length;
-  wawe5Len.value = currentSetting.wawe5Settings.wawe5Length;
-
-  currentSetting.fibanachiSettings.fibanachiVisibility ? fiboVis.classList.remove('active') : fiboVis.classList.add('active');
+  // Фібоначчі
+  setVisibilityClass(fiboVis, currentSetting.fibanachiSettings.fibanachiVisibility);
   fiboLen.value = currentSetting.fibanachiSettings.fibanachiLength;
   switchGroupButtonActive(groupeFiboStart, groupeFiboStart[currentSetting.fibanachiSettings.fibanachiStart]);
   switchGroupButtonActive(groupeFiboEnd, groupeFiboEnd[currentSetting.fibanachiSettings.fibanachiEnd]);
 
-  currentSetting.level1Settings.level1DirectionUp ? level1Dir.classList.remove('active') : level1Dir.classList.add('active');
-  currentSetting.level1Settings.level1Visibility ? level1Vis.classList.remove('active') : level1Vis.classList.add('active');
+  // Рівень 1
+  setVisibilityClass(level1Dir, currentSetting.level1Settings.level1DirectionUp);
+  setVisibilityClass(level1Vis, currentSetting.level1Settings.level1Visibility);
   level1Len.value = currentSetting.level1Settings.level1Length;
   switchGroupButtonActive(groupeLevel1Btn, groupeLevel1Btn[currentSetting.level1Settings.level1Dot]);
 }
