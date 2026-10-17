@@ -1,5 +1,5 @@
 import { klines } from "../chart-data.js";
-import { dotsByInterval, localRenderDataByInterval, localSettingByInterval } from "../program-settings.js";
+import { dotsByInterval, localRenderDataByInterval, localSettingByInterval } from "../settingsData/program-settings.js";
 import { pivotPiontLinesByInterval } from "../main.js";
 
 import { calculateADX } from "../indecators/find-adx.js";

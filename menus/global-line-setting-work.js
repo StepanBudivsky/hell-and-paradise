@@ -1,6 +1,6 @@
 import { currentInterval } from "../chart-data.js";
 import { checkClass, switchGroupButtonActive } from "../control.js";
-import { localSettingByInterval, setPivotPointStatus, setPivotPointRegim, globalSettingByInterval } from "../program-settings.js";
+import { localSettingByInterval, setPivotPointStatus, setPivotPointRegim, globalSettingByInterval } from "../settingsData/program-settings.js";
 
 // настройки зіг загу
 const ZigZagVis = document.querySelector("#ZigZagVis");

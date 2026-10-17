@@ -1,7 +1,7 @@
 import { klinesData, currentInterval } from "../chart-data.js";
 import { markersRsiScenarios, markersAutoFibanachi, markersDivergenceRsi, markersFibanachi, markersMA, markersMACD, markersMinMax, markersPivotPoint, markersTrigger, markersWawe } from "../chartLogic/chart-render-line.js";
 import { candlestickSeries } from "../main.js";
-import { dotsByInterval } from "../program-settings.js";
+import { dotsByInterval } from "../settingsData/program-settings.js";
 
 const pointIds = [
   "point1","point2","point3","point4","point5","point6","point7", "point8"

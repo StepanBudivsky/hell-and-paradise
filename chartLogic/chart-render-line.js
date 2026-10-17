@@ -35,7 +35,7 @@ import {
 import { updateAllMarkers } from "../menus/dots-panel.js";
 
 import { initPointsPanel } from "../menus/global-analytics-panel.js";
-import { localSettingByInterval,localRenderDataByInterval  } from "../program-settings.js";
+import { localSettingByInterval,localRenderDataByInterval  } from "../settingsData/program-settings.js";
 import { renderPivotPointLines, renderPivotPointLine } from "../renderFunction/render-pivot-point-line.js";
 
 export let zigzag = [];

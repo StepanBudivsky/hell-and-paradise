@@ -1,7 +1,7 @@
 import { klines, klinesData, currentInterval} from "./chart-data.js";
 import { onIntervalChange } from "./control.js";
 import * as main from "./main.js";
-import { globalSettingByInterval, localSettingByInterval, localRenderDataByInterval} from "./program-settings.js";
+import { globalSettingByInterval, localSettingByInterval, localRenderDataByInterval} from "./settingsData/program-settings.js";
 import { autoPlacement } from "./renderFunction/auto-placment.js";
 import { autoSort } from "./renderFunction/auto-sort.js";
 import { zigzag } from "./chartLogic/chart-render-line.js";

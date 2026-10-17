@@ -1,6 +1,6 @@
 import { currentInterval } from "../chart-data.js";
 import { checkClass, switchGroupButtonActive } from "../control.js";
-import { localSettingByInterval } from "../program-settings.js";
+import { localSettingByInterval } from "../settingsData/program-settings.js";
 
 // зміна початкової точки хвиль
 const startDotBtnMax = document.querySelector("#startDotBtnMax");
@@ -170,7 +170,7 @@ export function updateCurrentLocalLineSetting (){
   currentSetting.fibanachiSettings.fibanachiStart = Number(!checkClass(startFiboBtn1)) * 0 + Number(!checkClass(startFiboBtn2)) * 1 + Number(!checkClass(startFiboBtn3)) * 2 + Number(!checkClass(startFiboBtn4)) * 3 + Number(!checkClass(startFiboBtn5)) * 4 + Number(!checkClass(startFiboBtn6)) * 5 + Number(!checkClass(startFiboBtn7)) * 6;
   currentSetting.fibanachiSettings.fibanachiEnd = Number(!checkClass(endFiboBtn1)) * 0 + Number(!checkClass(endFiboBtn2)) * 1 + Number(!checkClass(endFiboBtn3)) * 2 + Number(!checkClass(endFiboBtn4)) * 3 + Number(!checkClass(endFiboBtn5)) * 4 + Number(!checkClass(endFiboBtn6)) * 5 + Number(!checkClass(endFiboBtn7)) * 6;
 
-  currentSetting.level1Settings.level1DirectionUp = !checkClass(level1Dir);
+  currentSetting.level1Settings.level1DirectionUp = checkClass(level1Dir);
   currentSetting.level1Settings.level1Visibility = checkClass(level1Vis);
   currentSetting.level1Settings.level1Length = Number(level1Len.value);
   currentSetting.level1Settings.level1Dot = Number(!checkClass(level1DotBtn1)) * 0 + Number(!checkClass(level1DotBtn2)) * 1 + Number(!checkClass(level1DotBtn3)) * 2 + Number(!checkClass(level1DotBtn4)) * 3 + Number(!checkClass(level1DotBtn5)) * 4 + Number(!checkClass(level1DotBtn6)) * 5 + Number(!checkClass(level1DotBtn7)) * 6;

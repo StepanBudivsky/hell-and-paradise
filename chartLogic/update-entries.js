@@ -1,4 +1,4 @@
-import { analyzeDataByInterval } from "../program-analyze-data.js"
+import { analyzeDataByInterval } from "../settingsData/program-analyze-data.js"
 import { allScenarios, strategyBlocks } from "../settingsData/all-scenarios.js"
 
 const text1m = {

@@ -1,7 +1,7 @@
 import { getChartSettings } from "./chartLogic/chart-get-settings.js";
 import { chartProcessor } from "./chartLogic/chart-processor.js";
 import { renderChartLine } from "./chartLogic/chart-render-line.js";
-import { analyzeDataByInterval, analyzeResultByInterval } from "./program-analyze-data.js";
+import { analyzeDataByInterval, analyzeResultByInterval } from "./settingsData/program-analyze-data.js";
 import { updateAnalyze } from "./chartLogic/update-analyze.js";
 import { updateUnifiedAnalyze } from "./chartLogic/update-unified-analyze.js";
 import { updateEntries } from "./chartLogic/update-entries.js";
