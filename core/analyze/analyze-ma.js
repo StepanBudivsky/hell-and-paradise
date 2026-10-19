@@ -1,4 +1,4 @@
-import { calculateSlopeAngle, getLatestAndPreviousScenarios } from "../calcFunction/various/mathematical-func.js";
+import { calculateSlopeAngle, getLatestAndPreviousScenarios } from "../../calcFunction/various/mathematical-func.js";
 
 const ma30Offset = 30; 
 const ma10Offset = 10;

@@ -19,15 +19,15 @@ import { findTweezersSeries } from "../core/indecators/find-tweezers-series.js";
 import { findHammersSeries } from "../core/indecators/find-hammers-series.js";
 import { findEngulfingSeries } from "../core/indecators/find-engulfing-series.js";
 
-import { analyzeMACD } from "../analyze/analyze-macd.js";
-import { analyzeRSI } from "../analyze/analyze-rsi.js";
-import { analyzeTrigger } from "../analyze/analyze-trigger.js";
-import { analyzeTrend } from "../analyze/analyze-trend.js";
-import { analyzeFibanachi } from "../analyze/analyze-fibanachi.js";
-import { analyzeWaves } from "../analyze/analyze-wave.js";
-import { analyzePattern } from "../analyze/analyze-pattern.js";
-import { analyzePivotPoint } from "../analyze/analyze-pivot-point.js";
-import { analyzeMA } from "../analyze/analyze-ma.js";
+import { analyzeMACD } from "../core/analyze/analyze-macd.js";
+import { analyzeRSI } from "../core/analyze/analyze-rsi.js";
+import { analyzeTrigger } from "../core/analyze/analyze-trigger.js";
+import { analyzeTrend } from "../core/analyze/analyze-trend.js";
+import { analyzeFibanachi } from "../core/analyze/analyze-fibanachi.js";
+import { analyzeWaves } from "../core/analyze/analyze-wave.js";
+import { analyzePattern } from "../core/analyze/analyze-pattern.js";
+import { analyzePivotPoint } from "../core/analyze/analyze-pivot-point.js";
+import { analyzeMA } from "../core/analyze/analyze-ma.js";
 import { renderSettings } from "../render.js";
 
 const rsiAmplitude = document.querySelector("#rsiAmplitude");
