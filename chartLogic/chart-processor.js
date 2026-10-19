@@ -2,22 +2,22 @@ import { klines } from "../chart-data.js";
 import { dotsByInterval, localRenderDataByInterval, localSettingByInterval } from "../settingsData/program-settings.js";
 import { pivotPiontLinesByInterval } from "../main.js";
 
-import { calculateADX } from "../indecators/find-adx.js";
+import { calculateADX } from "../core/indecators/find-adx.js";
 import { analyzeADXTrends, syncZigzagColors } from "../calcFunction/various/adx-trend-coloring-func.js";
-import { calculateMA, calculateMACD, calculateRSI } from "../indecators/ema-macd-rsi-ma-indecator.js";
-import { findMacdSegments } from "../indecators/find-macd-segments.js";
-import { extractColoredMarkers } from "../indecators/find-min-max-dots.js";
-import { findDivergencesWithMarkers } from "../indecators/find-last-rsi-divergence.js";
-import { categorizeZones, createAutoFibo, createZoneLine, getAllRSIZones } from "../indecators/find-zones-rsi.js";
-import { findLastTrendSegment } from "../indecators/find-last-trend-segment.js";
-import { calculateZigZagClassic } from "../indecators/ZigZagIndecator.js";
+import { calculateMA, calculateMACD, calculateRSI } from "../core/indecators/ema-macd-rsi-ma-indecator.js";
+import { findMacdSegments } from "../core/indecators/find-macd-segments.js";
+import { extractColoredMarkers } from "../core/indecators/find-min-max-dots.js";
+import { findDivergencesWithMarkers } from "../core/indecators/find-last-rsi-divergence.js";
+import { categorizeZones, createAutoFibo, createZoneLine, getAllRSIZones } from "../core/indecators/find-zones-rsi.js";
+import { findLastTrendSegment } from "../core/indecators/find-last-trend-segment.js";
+import { calculateZigZagClassic } from "../core/indecators/ZigZagIndecator.js";
 import { fillMissingPoints } from "../calcFunction/various/additons-points-func.js";
-import { getLastTwoTrendArrays } from "../indecators/find-last-two-trend.js";
+import { getLastTwoTrendArrays } from "../core/indecators/find-last-two-trend.js";
 import { createPivotPointLines, createPivotPointLine } from "../renderFunction/create-pivot-point-lines.js";
 
-import { findTweezersSeries } from "../indecators/find-tweezers-series.js";
-import { findHammersSeries } from "../indecators/find-hammers-series.js";
-import { findEngulfingSeries } from "../indecators/find-engulfing-series.js";
+import { findTweezersSeries } from "../core/indecators/find-tweezers-series.js";
+import { findHammersSeries } from "../core/indecators/find-hammers-series.js";
+import { findEngulfingSeries } from "../core/indecators/find-engulfing-series.js";
 
 import { analyzeMACD } from "../analyze/analyze-macd.js";
 import { analyzeRSI } from "../analyze/analyze-rsi.js";
