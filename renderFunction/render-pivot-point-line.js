@@ -1,4 +1,4 @@
-import { findClosestLowerBoundIndex } from "../calcFunction/various/find-closest-lower-bound-index.js";
+import { findClosestLowerBoundIndex } from "../core/lib/find-closest-lower-bound-index.js";
 import { currentInterval, klinesData } from "../chart-data.js";
 import { dotsByInterval, globalSettingByInterval } from "../settingsData/program-settings.js";
 import { changeTextStatus, createHorizontalLine } from "../render.js";

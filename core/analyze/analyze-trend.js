@@ -1,4 +1,4 @@
-import { calculateSlopeAngle } from "../calcFunction/various/mathematical-func.js";
+import { calculateSlopeAngle } from "../lib/mathematical-func.js";
 
 const volumeZone = document.getElementById("volume-zone");
 const volumeStack = document.getElementById("volume-stack");

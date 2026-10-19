@@ -1,4 +1,4 @@
-import { calculateSlopeAngle, getLatestAndPreviousScenarios } from "../calcFunction/various/mathematical-func.js";
+import { calculateSlopeAngle, getLatestAndPreviousScenarios } from "../lib/mathematical-func.js";
 
 export function analyzeMACD(analyzeData, macd, signal, histogramData, divergenceData, dataKlines) {
   if (!histogramData || histogramData.length === 0) return;

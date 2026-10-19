@@ -1,4 +1,4 @@
-import { getPointsFromLine } from "../calcFunction/various/additons-points-func.js";
+import { getPointsFromLine } from "../core/lib/additons-points-func.js";
 import { klines } from "../chart-data.js";
 import { checkClass } from "../control.js";
 import {

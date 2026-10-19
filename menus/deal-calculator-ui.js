@@ -1,6 +1,6 @@
 import { klinesData, currentInterval } from '../chart-data.js';
 import { checkClass } from '../control.js';
-import { calculateDeal } from '../calcFunction/various/deal-calculator.js';
+import { calculateDeal } from "../core/lib/deal-calculator.js";
 
 // Імпортуємо лінії та функцію налаштування з файлу графіка
 import { 

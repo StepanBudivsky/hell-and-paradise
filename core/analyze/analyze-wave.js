@@ -1,4 +1,4 @@
-import { getLatestAndPreviousScenarios } from "../../calcFunction/various/mathematical-func.js";
+import { getLatestAndPreviousScenarios } from "../lib/mathematical-func.js";
 import { isBodyCrossedDown } from "./analyze-ma.js";
 import { isBodyCrossedUp } from "./analyze-ma.js";
 import { isRetestDownToUp } from "./analyze-ma.js";

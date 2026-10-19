@@ -3,7 +3,7 @@ import { dotsByInterval, localRenderDataByInterval, localSettingByInterval } fro
 import { pivotPiontLinesByInterval } from "../main.js";
 
 import { calculateADX } from "../core/indecators/find-adx.js";
-import { analyzeADXTrends, syncZigzagColors } from "../calcFunction/various/adx-trend-coloring-func.js";
+import { analyzeADXTrends, syncZigzagColors } from "../core/lib/adx-trend-coloring-func.js";
 import { calculateMA, calculateMACD, calculateRSI } from "../core/indecators/ema-macd-rsi-ma-indecator.js";
 import { findMacdSegments } from "../core/indecators/find-macd-segments.js";
 import { extractColoredMarkers } from "../core/indecators/find-min-max-dots.js";
@@ -11,7 +11,7 @@ import { findDivergencesWithMarkers } from "../core/indecators/find-last-rsi-div
 import { categorizeZones, createAutoFibo, createZoneLine, getAllRSIZones } from "../core/indecators/find-zones-rsi.js";
 import { findLastTrendSegment } from "../core/indecators/find-last-trend-segment.js";
 import { calculateZigZagClassic } from "../core/indecators/ZigZagIndecator.js";
-import { fillMissingPoints } from "../calcFunction/various/additons-points-func.js";
+import { fillMissingPoints } from "../core/lib/additons-points-func.js";
 import { getLastTwoTrendArrays } from "../core/indecators/find-last-two-trend.js";
 import { createPivotPointLines, createPivotPointLine } from "../renderFunction/create-pivot-point-lines.js";
 

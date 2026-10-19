@@ -1,7 +1,7 @@
 import { isBodyCrossedDown, isBodyCrossedUp, isRetestDownToUp, isRetestUpToDown, isRetestBounce } from "./analyze-ma.js";
 import { getClosestHorizontalLevel } from "./analyze-fibanachi.js";
-import { getLatestAndPreviousScenarios } from "../calcFunction/various/mathematical-func.js";
-import { findClosestLowerBoundIndex } from "../calcFunction/various/find-closest-lower-bound-index.js";
+import { getLatestAndPreviousScenarios } from "../lib/mathematical-func.js";
+import { findClosestLowerBoundIndex } from "../lib/find-closest-lower-bound-index.js";
 
 // Допоміжна функція: шукає актуальні рівні півота для конкретного часу
 function getActivePivotLevels(history, targetTime) {

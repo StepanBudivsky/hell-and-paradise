@@ -1,4 +1,4 @@
-import { calculateSlopeAngle, getLatestAndPreviousScenarios } from "../calcFunction/various/mathematical-func.js";
+import { calculateSlopeAngle, getLatestAndPreviousScenarios } from "../lib/mathematical-func.js";
 
 export function analyzeRSI(analyzeData, rsiData, divergence) {
   // analyzeData.additional.zoneTightness.color = "#ffffff";

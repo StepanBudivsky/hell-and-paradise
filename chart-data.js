@@ -1,4 +1,4 @@
-import { updateTradingZoneUI } from "./calcFunction/various/get-time-zone.js";
+import { updateTradingZoneUI } from "./core/lib/get-time-zone.js";
 import { setChartInterval } from "./chart-control.js";
 
 const currentInstrument = document.getElementById("currentInstrument");
