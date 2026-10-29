@@ -8,7 +8,7 @@ import { calculateMA, calculateMACD, calculateRSI } from "../core/indecators/ema
 import { findMacdSegments } from "../core/indecators/find-macd-segments.js";
 import { extractColoredMarkers } from "../core/indecators/find-min-max-dots.js";
 import { findDivergencesWithMarkers } from "../core/indecators/find-last-rsi-divergence.js";
-import { categorizeZones, createAutoFibo, createZoneLine, getAllRSIZones } from "../core/indecators/find-zones-rsi.js";
+import { categorizeZones, createAutoFibo, createZoneLine, getAllRSIZones, getAllRSIZonesNew } from "../core/indecators/find-zones-rsi.js";
 import { findLastTrendSegment } from "../core/indecators/find-last-trend-segment.js";
 import { calculateZigZagClassic } from "../core/indecators/ZigZagIndecator.js";
 import { fillMissingPoints } from "../core/lib/additons-points-func.js";
@@ -112,10 +112,14 @@ export function chartProcessor(settings, analyzeData) {
   // rsiLine.setMarkers(rsiZone.markerRetest);
 
   // аналіз Трігера i створення маркерів на рітести
-  const markersTrigger = analyzeTrigger(analyzeData.trigger, rsiZone, klinesLimited);
+  // const markersTrigger = analyzeTrigger(analyzeData.trigger, rsiZone, klinesLimited);
+  let markersTrigger = [];
 
   // знаходження всіх зон вище 70 і нище 30 на RSI
-  const allZones = getAllRSIZones(rsiValueLimited);
+  // const allZones = getAllRSIZones(rsiValueLimited);
+
+  // const allZones = getAllRSIZonesNew(rsiValueLimited, { minLength: 3 });
+  const allZones = getAllRSIZonesNew(rsiValueLimited);
 
   // Розділяємо їх на категорії
   const { overbought, oversold } = categorizeZones(allZones);
@@ -136,7 +140,10 @@ export function chartProcessor(settings, analyzeData) {
     const resOversold = createZoneLine(oversold, klines, 1);
     autoFiboValueStart = createAutoFibo(true, resOverbought.group, resOversold.group, klines); 
 
-    if (currentTriggerRegim === 2) currentLastTrigger = autoFiboValueStart;
+    if (currentTriggerRegim === 2) {
+      currentLastTrigger = autoFiboValueStart;
+      markersTrigger = analyzeTrigger(analyzeData.trigger, [...resOversold.group, ...resOverbought.group], klinesLimited); 
+    }
   }
 
   if (regim2Trigger.classList.contains('active')) {
@@ -144,7 +151,10 @@ export function chartProcessor(settings, analyzeData) {
     const resOversold = createZoneLine(oversold, klines, 2);
     autoFiboValueExtrem = createAutoFibo(true, resOverbought.group, resOversold.group, klines); 
 
-    if (currentTriggerRegim === 3) currentLastTrigger = autoFiboValueExtrem;
+    if (currentTriggerRegim === 3) {
+      currentLastTrigger = autoFiboValueExtrem;
+      markersTrigger = analyzeTrigger(analyzeData.trigger, [...resOversold.group, ...resOverbought.group], klinesLimited); 
+    }
   }
 
   if (regim3Trigger.classList.contains('active')) {
@@ -152,7 +162,10 @@ export function chartProcessor(settings, analyzeData) {
     const resOversold = createZoneLine(oversold, klines, 3);
     autoFiboValueEnd = createAutoFibo(true, resOverbought.group, resOversold.group, klines); 
 
-    if (currentTriggerRegim === 1) currentLastTrigger = autoFiboValueEnd;
+    if (currentTriggerRegim === 1) { 
+      currentLastTrigger = autoFiboValueEnd;
+      markersTrigger = analyzeTrigger(analyzeData.trigger, [...resOversold.group, ...resOverbought.group], klinesLimited); 
+    }
   }
 
   let markersAutoFibanachi = [];

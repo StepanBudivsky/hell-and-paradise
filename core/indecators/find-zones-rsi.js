@@ -50,6 +50,59 @@ export function getAllRSIZones(rsiData) {
   return zones;
 }
 
+export function getAllRSIZonesNew(
+  rsiData,
+  { upper = 70, lower = 30, minLength = 1, minDepth = 0 } = {}
+) {
+  const zones = [];
+  let zone = null;
+
+  // endIndex — остання свічка ВСЕРЕДИНІ зони, exitIndex — перша поза нею
+  const closeZone = (endIndex, exitIndex, isOpen = false) => {
+    zone.endIndex = endIndex;
+    zone.exitIndex = exitIndex;
+    zone.length = endIndex - zone.startIndex + 1;
+    zone.depth = zone.type === 'overbought'
+      ? zone.extremeValue - upper
+      : lower - zone.extremeValue;
+    zone.isOpen = isOpen;
+
+    if (zone.length >= minLength && zone.depth >= minDepth) {
+      zones.push(zone);
+    }
+    zone = null;
+  };
+
+  for (let i = 0; i < rsiData.length; i++) {
+    const val = rsiData[i].value;
+    const type = val >= upper ? 'overbought' : val <= lower ? 'oversold' : null;
+
+    // вихід із зони або пряма зміна типу (overbought -> oversold)
+    if (zone && zone.type !== type) {
+      closeZone(i - 1, i);
+    }
+
+    if (type) {
+      if (!zone) {
+        zone = { type, startIndex: i, extremeIndex: i, extremeValue: val };
+      } else {
+        const isNewExtreme = type === 'overbought'
+          ? val > zone.extremeValue
+          : val < zone.extremeValue;
+        if (isNewExtreme) {
+          zone.extremeValue = val;
+          zone.extremeIndex = i;
+        }
+      }
+    }
+  }
+
+  // RSI досі в зоні
+  if (zone) closeZone(rsiData.length - 1, null, true);
+
+  return zones;
+}
+
 export function categorizeZones(allZones) {
   const result = {
     overbought: [], // Зони вище 70

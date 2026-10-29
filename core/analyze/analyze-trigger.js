@@ -5,15 +5,8 @@ import { isRetestDownToUp } from "./analyze-ma.js";
 import { isRetestUpToDown } from "./analyze-ma.js";
 import { isRetestBounce } from "./analyze-ma.js";
 
-export function analyzeTrigger(analyzeData, rsiZone, dataKlines) {
-    const startLevel30 = rsiZone.oversoldZone.start;
-    const startLevel70 = rsiZone.overboughtZone.start;
-    const startDots = startLevel30 < startLevel70 ? startLevel30 : startLevel70;
-
-    const LEVELS = { L30: dataKlines[startLevel30].low, L70: dataKlines[startLevel70].high };
-
-    let previousID = "U2000";
-    let currentID = "U2000";
+// zoneGroups = [...g30, ...g70] (createZoneLine(...).group)
+export function analyzeTrigger(analyzeData, zoneGroups, dataKlines) {
     let scenariosID = [];
 
     let markerApproachAndRebound30 = [];
@@ -21,110 +14,123 @@ export function analyzeTrigger(analyzeData, rsiZone, dataKlines) {
     let markerRetest30 = [];
     let markerRetest70 = [];
 
-    for (let i = startDots + 1; i < dataKlines.length; i++) {
-        const prev = dataKlines[i - 1];
-        const cur = dataKlines[i];
-        const next = i + 1 < dataKlines.length ? dataKlines[i + 1] : null;
+    // ——— Кожну зону перевіряємо окремо ———
+    for (const zone of zoneGroups) {
+        const LEVEL = zone.value;
 
-        if (i >= startLevel30) {
-            if (next && isBodyCrossedUp(prev, cur, next, LEVELS.L30, LEVELS.L30, LEVELS.L30)) {
-                previousID = currentID;
-                currentID = "U7001";
-                scenariosID.push({time: dataKlines[i].time, id: "U7001"}); 
-                markerApproachAndRebound30 = [];
-                markerApproachAndRebound70 = [];
-                markerRetest30 = [];
-                markerRetest70 = [];
+        // сценарії та маркери тільки цієї зони
+        let zoneScenarios = [];
+        let zoneRetest = [];
+        let zoneRebound = [];
+
+        // +1 щоб захопити першу свічку наступної зони (шов), не виходячи за масив
+        const lastI = Math.min(zone.end + 1, dataKlines.length - 1);
+
+        for (let i = zone.start + 1; i <= lastI; i++) {
+            const prev = dataKlines[i - 1];
+            const cur = dataKlines[i];
+            const next = i + 1 < dataKlines.length ? dataKlines[i + 1] : null;
+
+            if (zone.type === "oversold") {
+                if (next && isBodyCrossedUp(prev, cur, next, LEVEL, LEVEL, LEVEL)) {
+                    zoneScenarios.push({ index: i, time: cur.time, id: "U7001" });
+                    zoneRebound = [];
+                    zoneRetest = [];
+                }
+
+                if (next && isBodyCrossedDown(prev, cur, next, LEVEL, LEVEL, LEVEL)) {
+                    zoneScenarios.push({ index: i, time: cur.time, id: "U7003" });
+                    zoneRebound = [];
+                    zoneRetest = [];
+                }
+
+                if (next && isRetestDownToUp(prev, cur, next, LEVEL, LEVEL, LEVEL)) {
+                    zoneScenarios.push({ index: i, time: cur.time, id: "U7002" });
+                    zoneRetest.push({ time: cur.time, position: "belowBar", color: "#00ff00", shape: "arrowUp", text: "TR30", size: 2 });
+                }
+
+                if (next && cur.low > LEVEL && isRetestBounce(prev, cur, next, LEVEL, LEVEL, LEVEL)) {
+                    zoneScenarios.push({ index: i, time: cur.time, id: "U7007" });
+                    zoneRebound.push({ time: cur.time, position: "belowBar", color: "#00ff00", shape: "arrowUp", text: "TFR30", size: 2 });
+                }
             }
 
-            if (next && isBodyCrossedDown(prev, cur, next, LEVELS.L30, LEVELS.L30, LEVELS.L30)) {
-                previousID = currentID;
-                currentID = "U7003";
-                scenariosID.push({time: dataKlines[i].time, id: "U7003"}); 
-                markerApproachAndRebound30 = [];
-                markerApproachAndRebound70 = [];
-                markerRetest30 = [];
-                markerRetest70 = [];
-            }
+            if (zone.type === "overbought") {
+                if (next && isBodyCrossedUp(prev, cur, next, LEVEL, LEVEL, LEVEL)) {
+                    zoneScenarios.push({ index: i, time: cur.time, id: "U7006" });
+                    zoneRebound = [];
+                    zoneRetest = [];
+                }
 
-            if (next && isRetestDownToUp(prev, cur, next, LEVELS.L30, LEVELS.L30, LEVELS.L30)) {
-                previousID = currentID;
-                currentID = "U7002";
-                scenariosID.push({time: dataKlines[i].time, id: "U7002"}); 
-                markerRetest30.push({ time: cur.time, position: "belowBar", color: "#00ff00", shape: "arrowUp", text: "TR30", size: 2});
-            }
+                if (next && isBodyCrossedDown(prev, cur, next, LEVEL, LEVEL, LEVEL)) {
+                    zoneScenarios.push({ index: i, time: cur.time, id: "U7004" });
+                    zoneRebound = [];
+                    zoneRetest = [];
+                }
 
-            if (next && cur.low > LEVELS.L30 && isRetestBounce(prev, cur, next, LEVELS.L30, LEVELS.L30, LEVELS.L30)) { 
-                previousID = currentID;
-                currentID = "U7007";
-                scenariosID.push({time: dataKlines[i].time, id: "U7007"}); 
-                markerApproachAndRebound30.push({ time: cur.time, position: "belowBar", color: "#00ff00", shape: "arrowUp", text: "TFR30", size: 2});
-            } 
-            
-        } 
-        
-        if (i >= startLevel70) {
-            if (next && isBodyCrossedUp(prev, cur, next, LEVELS.L70, LEVELS.L70, LEVELS.L70)) {
-                previousID = currentID;
-                currentID = "U7006";
-                scenariosID.push({time: dataKlines[i].time, id: "U7006"}); 
-                markerApproachAndRebound30 = [];
-                markerApproachAndRebound70 = [];
-                markerRetest30 = [];
-                markerRetest70 = [];
-            }
+                if (next && isRetestUpToDown(prev, cur, next, LEVEL, LEVEL, LEVEL)) {
+                    zoneScenarios.push({ index: i, time: cur.time, id: "U7005" });
+                    zoneRetest.push({ time: cur.time, position: "aboveBar", color: "#ff0000", shape: "arrowDown", text: "TR70", size: 2 });
+                }
 
-            if (next && isBodyCrossedDown(prev, cur, next, LEVELS.L70, LEVELS.L70, LEVELS.L70)) {
-                previousID = currentID;
-                currentID = "U7004";
-                scenariosID.push({time: dataKlines[i].time, id: "U7004"}); 
-                markerApproachAndRebound30 = [];
-                markerApproachAndRebound70 = [];
-                markerRetest30 = [];
-                markerRetest70 = [];
+                if (next && cur.high < LEVEL && isRetestBounce(prev, cur, next, LEVEL, LEVEL, LEVEL)) {
+                    zoneScenarios.push({ index: i, time: cur.time, id: "U7008" });
+                    zoneRebound.push({ time: cur.time, position: "aboveBar", color: "#ff0000", shape: "arrowDown", text: "TFR70", size: 2 });
+                }
             }
+        }
 
-            if (next && isRetestUpToDown(prev, cur, next, LEVELS.L70, LEVELS.L70, LEVELS.L70)) {
-                previousID = currentID;
-                currentID = "U7005";
-                scenariosID.push({time: dataKlines[i].time, id: "U7005"}); 
-                markerRetest70.push({ time: cur.time, position: "aboveBar", color: "#ff0000", shape: "arrowDown", text: "TR70", size: 2});
-            }
+        // зводимо результат зони в загальний
+        scenariosID.push(...zoneScenarios);
 
-            if (next && cur.high < LEVELS.L70 && isRetestBounce(prev, cur, next, LEVELS.L70, LEVELS.L70, LEVELS.L70)) { 
-                previousID = currentID;
-                currentID = "U7008";
-                scenariosID.push({time: dataKlines[i].time, id: "U7008"}); 
-                markerApproachAndRebound70.push({ time: cur.time, position: "aboveBar", color: "#ff0000", shape: "arrowDown", text: "TFR70", size: 2});
-            } 
+        if (zone.type === "oversold") {
+            markerRetest30.push(...zoneRetest);
+            markerApproachAndRebound30.push(...zoneRebound);
+        } else {
+            markerRetest70.push(...zoneRetest);
+            markerApproachAndRebound70.push(...zoneRebound);
         }
     }
 
-    // ——— НОВА ЛОГІКА ТОРКАННЯ (аналіз останніх свічок) ———
-    const lastPrev = dataKlines[dataKlines.length - 2];
-    const lastCur = dataKlines[dataKlines.length - 1];
-    
+    // ——— Усе разом у хронологічному порядку ———
+    scenariosID.sort((a, b) => a.index - b.index);
+    scenariosID = scenariosID.map(({ time, id }) => ({ time, id }));
+
+    const currentID = scenariosID.length > 0 ? scenariosID[scenariosID.length - 1].id : "U2000";
+    const previousID = scenariosID.length > 1 ? scenariosID[scenariosID.length - 2].id : "U2000";
+
+    // ——— ТОРКАННЯ (останні рівні 30 і 70) ———
     let touchingInfo = "";
 
-    // Перевірка для рівня L30
-    const prevStrictlyAbove30 = lastPrev.low > LEVELS.L30;
-    const prevStrictlyBelow30 = lastPrev.high < LEVELS.L30;
-    const isTouching30 = lastCur.low <= LEVELS.L30 && lastCur.high >= LEVELS.L30;
+    if (dataKlines.length >= 2) {
+        const last30 = zoneGroups.filter(z => z.type === "oversold").at(-1);
+        const last70 = zoneGroups.filter(z => z.type === "overbought").at(-1);
 
-    if (isTouching30) {
-        if (prevStrictlyAbove30) touchingInfo = "Торкання рівня 30 зверху";
-        else if (prevStrictlyBelow30) touchingInfo = "Торкання рівня 30 знизу";
-    }
+        const lastPrev = dataKlines[dataKlines.length - 2];
+        const lastCur = dataKlines[dataKlines.length - 1];
 
-    // Перевірка для рівня L70 (якщо торкання 30 не знайдено)
-    if (!touchingInfo) {
-        const prevStrictlyAbove70 = lastPrev.low > LEVELS.L70;
-        const prevStrictlyBelow70 = lastPrev.high < LEVELS.L70;
-        const isTouching70 = lastCur.low <= LEVELS.L70 && lastCur.high >= LEVELS.L70;
+        if (last30) {
+            const L30 = last30.value;
+            const prevStrictlyAbove30 = lastPrev.low > L30;
+            const prevStrictlyBelow30 = lastPrev.high < L30;
+            const isTouching30 = lastCur.low <= L30 && lastCur.high >= L30;
 
-        if (isTouching70) {
-            if (prevStrictlyAbove70) touchingInfo = "Торкання рівня 70 зверху";
-            else if (prevStrictlyBelow70) touchingInfo = "Торкання рівня 70 знизу";
+            if (isTouching30) {
+                if (prevStrictlyAbove30) touchingInfo = "Торкання рівня 30 зверху";
+                else if (prevStrictlyBelow30) touchingInfo = "Торкання рівня 30 знизу";
+            }
+        }
+
+        if (!touchingInfo && last70) {
+            const L70 = last70.value;
+            const prevStrictlyAbove70 = lastPrev.low > L70;
+            const prevStrictlyBelow70 = lastPrev.high < L70;
+            const isTouching70 = lastCur.low <= L70 && lastCur.high >= L70;
+
+            if (isTouching70) {
+                if (prevStrictlyAbove70) touchingInfo = "Торкання рівня 70 зверху";
+                else if (prevStrictlyBelow70) touchingInfo = "Торкання рівня 70 знизу";
+            }
         }
     }
 
@@ -138,21 +144,19 @@ export function analyzeTrigger(analyzeData, rsiZone, dataKlines) {
     analyzeData.main.previousIDs = previous;
     analyzeData.main.currentIDs = latest;
 
-    // Оновлюємо новий статус торкання
-
-    if(touchingInfo === "Торкання рівня 30 зверху") {
+    if (touchingInfo === "Торкання рівня 30 зверху") {
         analyzeData.additional.touching.currentID = "B2001";
     }
 
-    if(touchingInfo === "Торкання рівня 30 знизу") {
+    if (touchingInfo === "Торкання рівня 30 знизу") {
         analyzeData.additional.touching.currentID = "B2002";
     }
 
-    if(touchingInfo === "Торкання рівня 70 зверху") {
+    if (touchingInfo === "Торкання рівня 70 зверху") {
         analyzeData.additional.touching.currentID = "B2003";
     }
 
-    if(touchingInfo === "Торкання рівня 70 знизу") {
+    if (touchingInfo === "Торкання рівня 70 знизу") {
         analyzeData.additional.touching.currentID = "B2004";
     }
 

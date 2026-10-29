@@ -28,6 +28,9 @@ import {
   rsiOversoldZoneMinLine,
   rsiOverboughtZoneLine,
   rsiOverboughtZoneMaxLine,
+  triggerStart,
+  triggerExtrem,
+  triggerEnd,
   autoFibanachiStart,
   autoFibanachiExtrem,
   autoFibanachiEnd
@@ -126,34 +129,54 @@ export function renderChartLine(renderData, settings, markersScenarios) {
 
   rsiLine.setData(rsiValue);
 
-  if (checkClass(triggerVis)) {
-    rsiOverboughtZoneLine.setData([
-      { time: klines[rsiZone.overboughtZone.start].time, value: klines[rsiZone.overboughtZone.start].high },
-      { time: klines[rsiZone.overboughtZone.end].time, value: klines[rsiZone.overboughtZone.start].high }
-    ]);
+  // if (checkClass(triggerVis)) {
+  //   rsiOverboughtZoneLine.setData([
+  //     { time: klines[rsiZone.overboughtZone.start].time, value: klines[rsiZone.overboughtZone.start].high },
+  //     { time: klines[rsiZone.overboughtZone.end].time, value: klines[rsiZone.overboughtZone.start].high }
+  //   ]);
 
-    rsiOverboughtZoneMaxLine.setData([
-      { time: klines[rsiZone.overboughtZone.max].time, value: klines[rsiZone.overboughtZone.max].high },
-      { time: klines[rsiZone.overboughtZone.end].time, value: klines[rsiZone.overboughtZone.max].high }
-    ]);
+  //   rsiOverboughtZoneMaxLine.setData([
+  //     { time: klines[rsiZone.overboughtZone.max].time, value: klines[rsiZone.overboughtZone.max].high },
+  //     { time: klines[rsiZone.overboughtZone.end].time, value: klines[rsiZone.overboughtZone.max].high }
+  //   ]);
 
-    rsiOversoldZoneLine.setData([
-      { time: klines[rsiZone.oversoldZone.start].time, value: klines[rsiZone.oversoldZone.start].low },
-      { time: klines[rsiZone.oversoldZone.end].time, value: klines[rsiZone.oversoldZone.start].low }
-    ]);
+  //   rsiOversoldZoneLine.setData([
+  //     { time: klines[rsiZone.oversoldZone.start].time, value: klines[rsiZone.oversoldZone.start].low },
+  //     { time: klines[rsiZone.oversoldZone.end].time, value: klines[rsiZone.oversoldZone.start].low }
+  //   ]);
 
-    rsiOversoldZoneMinLine.setData([
-      { time: klines[rsiZone.oversoldZone.min].time, value: klines[rsiZone.oversoldZone.min].low },
-      { time: klines[rsiZone.oversoldZone.end].time, value: klines[rsiZone.oversoldZone.min].low }
-    ]);
+  //   rsiOversoldZoneMinLine.setData([
+  //     { time: klines[rsiZone.oversoldZone.min].time, value: klines[rsiZone.oversoldZone.min].low },
+  //     { time: klines[rsiZone.oversoldZone.end].time, value: klines[rsiZone.oversoldZone.min].low }
+  //   ]);
+  // } else {
+  //   rsiOverboughtZoneLine.setData([]);
+
+  //   rsiOverboughtZoneMaxLine.setData([]);
+
+  //   rsiOversoldZoneLine.setData([]);
+
+  //   rsiOversoldZoneMinLine.setData([]);
+  // }
+
+    if (checkClass(triggerVis)) {
+    triggerStart.fibanachi_0.setData(autoFiboValueStart.line.autoFib0);
+    triggerStart.fibanachi_100.setData(autoFiboValueStart.line.autoFib100);
+
+    triggerExtrem.fibanachi_0.setData(autoFiboValueExtrem.line.autoFib0);
+    triggerExtrem.fibanachi_100.setData(autoFiboValueExtrem.line.autoFib100);
+
+    triggerEnd.fibanachi_0.setData(autoFiboValueEnd.line.autoFib0);
+    triggerEnd.fibanachi_100.setData(autoFiboValueEnd.line.autoFib100);
   } else {
-    rsiOverboughtZoneLine.setData([]);
+    triggerStart.fibanachi_0.setData([]);
+    triggerStart.fibanachi_100.setData([]);
 
-    rsiOverboughtZoneMaxLine.setData([]);
+    triggerExtrem.fibanachi_0.setData([]);
+    triggerExtrem.fibanachi_100.setData([]);
 
-    rsiOversoldZoneLine.setData([]);
-
-    rsiOversoldZoneMinLine.setData([]);
+    triggerEnd.fibanachi_0.setData([]);
+    triggerEnd.fibanachi_100.setData([]);
   }
 
   if (checkClass(autoFibanachiVis)) {

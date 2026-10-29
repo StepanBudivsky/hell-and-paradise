@@ -121,6 +121,22 @@ export const autoFibanachiEnd = {
   fibanachi_100: chart.addLineSeries({ color: "#1100ff", ...standartLineOption, lineStyle: 2,}),
 };
 
+// лінії для trigger по точці початку зони
+export const triggerStart = {
+  fibanachi_0: chart.addLineSeries({ color: "#8a8484", ...standartLineOption}), 
+  fibanachi_100: chart.addLineSeries({ color: "#8a8484", ...standartLineOption}),
+};
+
+export const triggerExtrem = {
+  fibanachi_0: chart.addLineSeries({ color: "#8a8484", ...standartLineOption, lineStyle: 2,}), 
+  fibanachi_100: chart.addLineSeries({ color: "#8a8484", ...standartLineOption, lineStyle: 2,}),
+};
+
+export const triggerEnd = {
+  fibanachi_0: chart.addLineSeries({ color: "#1100ff", ...standartLineOption, lineStyle: 2,}), 
+  fibanachi_100: chart.addLineSeries({ color: "#1100ff", ...standartLineOption, lineStyle: 2,}),
+};
+
 const fibanachiTextLineOption = {
   price: 1,
   color: '#8b32a8', 
