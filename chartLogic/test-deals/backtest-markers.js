@@ -180,6 +180,11 @@ export function backtestMarkers(candles, markers, config = {}, interval) {
     // --- ОНОВЛЕННЯ ТА ЗАКРИТТЯ АКТИВНИХ ПОЗИЦІЙ ---
     for (let j = activeTrades.length - 1; j >= 0; j--) {
       const trade = activeTrades[j];
+
+      // ФІКС: якщо вхід НЕ по open, то high/low свічки входу були ДО самого входу,
+      // тому свічку входу пропускаємо повністю (TP/SL, серія, barsHeld).
+      if (trade.entryBarIndex === i && entryPriceSource !== 'open') continue;
+
       trade.barsHeld += 1;
 
       // --- НОВЕ: серія свічок у правильному напрямку ---

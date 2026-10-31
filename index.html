@@ -181,6 +181,26 @@
             </div>
           </div>
 
+          
+          <h3>Відображення всіх ліній і маркерів</h3>
+            <div class="two-buttons">
+              <button
+                id="allOffVisActBtn"
+                title="Виключити"
+                class="mode-btn"
+              >
+              Виключити
+              </button>
+              <button
+                id="allOnVisActBtn"
+                title="Вклачити"
+                class="mode-btn"
+              >
+              Включити
+              </button>
+            </div>
+          
+
           <button type="button" class="start-btn">Запуск</button>
         </section>
       </div>
@@ -361,6 +381,20 @@
               type="datetime-local"
               id="graficLimitInputData"
               name="graficLimitInputData"
+            />
+          </div>
+        </div>
+
+        <div class="control-section wave-block">
+          <h3>Кількість свічок для рендуру</h3>
+          <div class="input-eye">
+            <!-- <label>Кількість свічок для рендуру</label> -->
+            <input
+              id="renderingLimitInput"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="10000"
             />
           </div>
         </div>
@@ -871,20 +905,6 @@
         </div>
 
         <div class="control-section wave-block">
-          <h3>Кількість свічок для рендуру</h3>
-          <div class="input-eye">
-            <!-- <label>Кількість свічок для рендуру</label> -->
-            <input
-              id="renderingLimitInput"
-              type="number"
-              step="1"
-              placeholder="Введіть значення"
-              value="10000"
-            />
-          </div>
-        </div>
-
-        <div class="control-section wave-block">
           <label>Графіки</label>
           <p></p>
 
@@ -984,6 +1004,19 @@
             <button id="allOnMarkerActBtn" title="Влючити всі">Вкл</button>
             <button id="allOffMarkerActBtn" title="Виключити всі">Викл</button>
             </div>
+          </div>
+
+          <p></p>
+          
+          <div class="label-with-eye">
+            <label>Сценарії</label>
+            <button
+              id="markerVisScenarios"
+              class="eye-btn"
+              title="Показати/Приховати"
+            >
+              👁
+            </button>
           </div>
 
           <p></p>
@@ -2640,7 +2673,7 @@
           <h3>Тестування</h3>
           
           <div class="input-eye">
-            <label>Лот ($)</label>
+            <label>Лот($)</label>
             <input
               id="cashInputParametr"
               type="number"
@@ -2648,9 +2681,6 @@
               placeholder="Введіть значення"
               value="100"
             />
-          </div>
-
-          <div class="input-eye">
             <label>Плече</label>
             <input
               id="shoulderInputParametr"
@@ -2659,8 +2689,35 @@
               placeholder="Введіть значення"
               value="20"
             />
+            <label>Тейк(% ROE)</label>
+            <input
+              id="takeProfitAmountInputParametr"
+              type="number"
+              step="0.1"
+              placeholder="Введіть значення"
+              value="10"
+            />
+            <label><b>Стоп(% ROE)</b></label>
+            <input
+              id="stopLossAmountInputParametr"
+              type="number"
+              step="0.1"
+              placeholder="Введіть значення"
+              value="-10"
+            />
           </div>
-
+          <!-- <p></p> -->
+          <!-- <div class="input-eye">
+            <label>Плече</label>
+            <input
+              id="shoulderInputParametr"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="20"
+            />
+          </div> -->
+          <!-- <p></p>
           <div class="input-eye">
             <label>Тейкпрофіт (% ROE)</label>
             <input
@@ -2671,8 +2728,8 @@
               value="30"
             />
           </div>
-
-          <div class="input-eye">
+          <p></p> -->
+          <!-- <div class="input-eye">
             <label><b>Стоплос (% ROE)</b></label>
             <input
               id="stopLossAmountInputParametr"
@@ -2681,19 +2738,8 @@
               placeholder="Введіть значення"
               value="-10"
             />
-          </div>
-
-          <div class="input-eye">
-            <label>Зсув свічки (0 — ця ж, 1 — наступна)</label>
-            <input
-              id="candleOffsetInput"
-              type="number"
-              step="1"
-              placeholder="Введіть значення"
-              value="1"
-            />
-          </div>
-
+          </div> -->
+          <p></p>
           <div class="input-eye">
             <label>Параметр старту свічки</label>
             <select id="candleStartParameter">
@@ -2702,8 +2748,48 @@
               <option value="high">high</option>
               <option value="low">low</option>
             </select>
-          </div>
 
+            <label>Зсув свічки (0 — ця ж, 1 — наступна)</label>
+            <input
+              id="candleOffsetInput"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="2"
+            />
+          </div>
+          <p></p>
+          <div class="input-eye">
+            <!-- <label>Параметр старту свічки</label>
+            <select id="candleStartParameter">
+              <option value="open" selected>open</option>
+              <option value="close">close</option>
+              <option value="high">high</option>
+              <option value="low">low</option>
+            </select> -->
+            
+            <label>Фільтр по дню тижня</label>
+            <select id="daySelectFilter">
+                <option value="all">Всі дні</option>
+                <option value="1">Понеділок</option>
+                <option value="2">Вівторок</option>
+                <option value="3">Середа</option>
+                <option value="4">Четвер</option>
+                <option value="5">П'ятниця</option>
+                <option value="6">Субота</option>
+                <option value="0">Неділя</option>
+            </select>
+
+            <label>Фільтр по торгових сесіях</label>
+            <select id="sessionSelectFilter">
+                <option value="all">Всі сесії</option>
+                <option value="sydney">Sydney</option>
+                <option value="tokyo">Tokyo</option>
+                <option value="london">London</option>
+                <option value="new_york">New York</option>
+            </select>
+          </div>
+          <!-- <p></p>
           <div class="input-eye">
             <label>Фільтр по дню тижня</label>
             <select id="daySelectFilter">
@@ -2716,8 +2802,8 @@
                 <option value="6">Субота</option>
                 <option value="0">Неділя</option>
             </select>
-          </div>
-
+          </div> -->
+          <!-- <p></p>
           <div class="input-eye">
             <label>Фільтр по торгових сесіях</label>
             <select id="sessionSelectFilter">
@@ -2727,7 +2813,7 @@
                 <option value="london">London</option>
                 <option value="new_york">New York</option>
             </select>
-          </div>
+          </div> -->
 
           <!-- Контейнер виводу підсумкових метрик -->
           <div id="testResultsContainer" style="margin-top: 15px; border-top: 1px solid #444; padding-top: 10px;">
@@ -2806,9 +2892,9 @@
             <label>Пінцет</label>
           </div>
           <div class="fib-group">
-            <button id="regim1ScenariosTweezers" title="Нема">Нема</button>
+            <button class="active" id="regim1ScenariosTweezers" title="Нема">Нема</button>
             <button id="regim2ScenariosTweezers" title="Всі">Всі</button>
-            <button class="active" id="regim3ScenariosTweezers" title="Кінець">Кінець</button>
+            <button id="regim3ScenariosTweezers" title="Кінець">Кінець</button>
           </div>
 
           <p></p>
@@ -2817,9 +2903,9 @@
             <label>Поглинання</label>
           </div>
           <div class="fib-group">
-            <button id="regim1ScenariosEngulfings" title="Нема">Нема</button>
+            <button class="active" id="regim1ScenariosEngulfings" title="Нема">Нема</button>
             <button id="regim2ScenariosEngulfings" title="Всі">Всі</button>
-            <button class="active" id="regim3ScenariosEngulfings" title="Кінець">Кінець</button>
+            <button id="regim3ScenariosEngulfings" title="Кінець">Кінець</button>
           </div>
 
           <p></p>
@@ -2828,9 +2914,9 @@
             <label>MACD</label>
           </div>
           <div class="fib-group">
-            <button id="regim1ScenariosMACD" title="Нема">Нема</button>
+            <button class="active" id="regim1ScenariosMACD" title="Нема">Нема</button>
             <button id="regim2ScenariosMACD" title="Всі">Всі</button>
-            <button class="active" id="regim3ScenariosMACD" title="Кінець">Кінець</button>
+            <button id="regim3ScenariosMACD" title="Кінець">Кінець</button>
           </div>
         
           <p></p>
@@ -2839,9 +2925,9 @@
             <label>M30 i MA10</label>
           </div>
           <div class="fib-group">
-            <button id="regim1ScenariosMA" title="Нема">Нема</button>
+            <button class="active" id="regim1ScenariosMA" title="Нема">Нема</button>
             <button id="regim2ScenariosMA" title="Всі">Всі</button>
-            <button class="active" id="regim3ScenariosMA" title="Кінець">Кінець</button>
+            <button id="regim3ScenariosMA" title="Кінець">Кінець</button>
           </div>
 
           <p></p>
@@ -2850,9 +2936,9 @@
             <label>RSI</label>
           </div>
           <div class="fib-group">
-            <button id="regim1ScenariosRSI" title="Нема">Нема</button>
+            <button class="active" id="regim1ScenariosRSI" title="Нема">Нема</button>
             <button id="regim2ScenariosRSI" title="Всі">Всі</button>
-            <button class="active" id="regim3ScenariosRSI" title="Кінець">Кінець</button>
+            <button id="regim3ScenariosRSI" title="Кінець">Кінець</button>
           </div>
 
           <p></p>
@@ -2861,9 +2947,9 @@
             <label>Хвилі</label>
           </div>
           <div class="fib-group">
-            <button id="regim1ScenariosWawe" title="Нема">Нема</button>
+            <button class="active" id="regim1ScenariosWawe" title="Нема">Нема</button>
             <button id="regim2ScenariosWawe" title="Всі">Всі</button>
-            <button class="active" id="regim3ScenariosWawe" title="Кінець">Кінець</button>
+            <button id="regim3ScenariosWawe" title="Кінець">Кінець</button>
           </div>
 
           <p></p>
@@ -2872,9 +2958,9 @@
             <label>Fibonachi</label>
           </div>
           <div class="fib-group">
-            <button id="regim1ScenariosFibonachi" title="Нема">Нема</button>
+            <button class="active" id="regim1ScenariosFibonachi" title="Нема">Нема</button>
             <button id="regim2ScenariosFibonachi" title="Всі">Всі</button>
-            <button class="active" id="regim3ScenariosFibonachi" title="Кінець">Кінець</button>
+            <button id="regim3ScenariosFibonachi" title="Кінець">Кінець</button>
           </div>
 
           <p></p>
@@ -2883,9 +2969,9 @@
             <label>Авто Fibanachi</label>
           </div>
           <div class="fib-group">
-            <button id="regim1ScenariosAutoFibanachi" title="Нема">Нема</button>
+            <button class="active" id="regim1ScenariosAutoFibanachi" title="Нема">Нема</button>
             <button id="regim2ScenariosAutoFibanachi" title="Всі">Всі</button>
-            <button class="active" id="regim3ScenariosAutoFibanachi" title="Кінець">Кінець</button>
+            <button id="regim3ScenariosAutoFibanachi" title="Кінець">Кінець</button>
           </div>
 
           <p></p>
@@ -2894,9 +2980,9 @@
             <label>Трігер</label>
           </div>
           <div class="fib-group">
-            <button id="regim1ScenariosTrigger" title="Нема">Нема</button>
+            <button class="active" id="regim1ScenariosTrigger" title="Нема">Нема</button>
             <button id="regim2ScenariosTrigger" title="Всі">Всі</button>
-            <button class="active" id="regim3ScenariosTrigger" title="Кінець">Кінець</button>
+            <button id="regim3ScenariosTrigger" title="Кінець">Кінець</button>
           </div>
 
           <p></p>
@@ -2905,9 +2991,9 @@
             <label>Pivot Point 5m</label>
           </div>
           <div class="fib-group">
-            <button id="regim1ScenariosPivotPoint_5m" title="Нема">Нема</button>
+            <button class="active" id="regim1ScenariosPivotPoint_5m" title="Нема">Нема</button>
             <button id="regim2ScenariosPivotPoint_5m" title="Всі">Всі</button>
-            <button class="active" id="regim3ScenariosPivotPoint_5m" title="Кінець">Кінець</button>
+            <button id="regim3ScenariosPivotPoint_5m" title="Кінець">Кінець</button>
           </div>
 
           <p></p>
@@ -2916,9 +3002,9 @@
             <label>Pivot Point 15m</label>
           </div>
           <div class="fib-group">
-            <button id="regim1ScenariosPivotPoint_15m" title="Нема">Нема</button>
+            <button class="active" id="regim1ScenariosPivotPoint_15m" title="Нема">Нема</button>
             <button id="regim2ScenariosPivotPoint_15m" title="Всі">Всі</button>
-            <button class="active" id="regim3ScenariosPivotPoint_15m" title="Кінець">Кінець</button>
+            <button id="regim3ScenariosPivotPoint_15m" title="Кінець">Кінець</button>
           </div>
 
           <p></p>
@@ -2927,9 +3013,9 @@
             <label>Pivot Point 30m</label>
           </div>
           <div class="fib-group">
-            <button id="regim1ScenariosPivotPoint_30m" title="Нема">Нема</button>
+            <button class="active" id="regim1ScenariosPivotPoint_30m" title="Нема">Нема</button>
             <button id="regim2ScenariosPivotPoint_30m" title="Всі">Всі</button>
-            <button class="active" id="regim3ScenariosPivotPoint_30m" title="Кінець">Кінець</button>
+            <button id="regim3ScenariosPivotPoint_30m" title="Кінець">Кінець</button>
           </div>
 
           <p></p>
@@ -2938,9 +3024,9 @@
             <label>Pivot Point 1h</label>
           </div>
           <div class="fib-group">
-            <button id="regim1ScenariosPivotPoint_1h" title="Нема">Нема</button>
+            <button class="active" id="regim1ScenariosPivotPoint_1h" title="Нема">Нема</button>
             <button id="regim2ScenariosPivotPoint_1h" title="Всі">Всі</button>
-            <button class="active" id="regim3ScenariosPivotPoint_1h" title="Кінець">Кінець</button>
+            <button id="regim3ScenariosPivotPoint_1h" title="Кінець">Кінець</button>
           </div>
 
           <p></p>
@@ -2949,9 +3035,9 @@
             <label>Pivot Point 4h</label>
           </div>
           <div class="fib-group">
-            <button id="regim1ScenariosPivotPoint_4h" title="Нема">Нема</button>
+            <button class="active" id="regim1ScenariosPivotPoint_4h" title="Нема">Нема</button>
             <button id="regim2ScenariosPivotPoint_4h" title="Всі">Всі</button>
-            <button class="active" id="regim3ScenariosPivotPoint_4h" title="Кінець">Кінець</button>
+            <button id="regim3ScenariosPivotPoint_4h" title="Кінець">Кінець</button>
           </div>
 
           <p></p>
@@ -2960,9 +3046,9 @@
             <label>Pivot Point 1d</label>
           </div>
           <div class="fib-group">
-            <button id="regim1ScenariosPivotPoint_1d" title="Нема">Нема</button>
+            <button class="active" id="regim1ScenariosPivotPoint_1d" title="Нема">Нема</button>
             <button id="regim2ScenariosPivotPoint_1d" title="Всі">Всі</button>
-            <button class="active" id="regim3ScenariosPivotPoint_1d" title="Кінець">Кінець</button>
+            <button id="regim3ScenariosPivotPoint_1d" title="Кінець">Кінець</button>
           </div>
         </div>
 

@@ -50,14 +50,11 @@ const graph15mVis = document.querySelector("#graph15mVis");
 const graph30mVis = document.querySelector("#graph30mVis");
 const graph1hVis = document.querySelector("#graph1hVis");
 
-// пінцет
-const tweezersVis = document.querySelector("#tweezersVis");
-
 // поглинання
-const engulfingsVis = document.querySelector("#engulfingsVis");
+// const engulfingsVis = document.querySelector("#engulfingsVis");
 
 // молот
-const hammersVis = document.querySelector("#hammersVis");
+// const hammersVis = document.querySelector("#hammersVis");
 
 // кнопки включеня/виключення авторостановки
 const wawe1AutoVis = document.querySelector("#wawe1AutoVis");
@@ -120,7 +117,6 @@ const simpleToggleElements = [
   ZigZagVis, ZigZagTrendVis,
   regim1Trigger, regim2Trigger, regim3Trigger,
   graph5mVis, graph15mVis, graph30mVis, graph1hVis,
-  tweezersVis, engulfingsVis, hammersVis
 ];
 
 // Група кнопок для режимів відображення MACD

@@ -156,14 +156,3 @@ const wait = setInterval(() => {
     updateAllMarkers();
   }
 }, 100);
-
-// робота кнопки лімітів
-const graficLimitVis = document.querySelector("#graficLimitVis");
-const graficLimitRelated = document.querySelector("#graficLimitRelated");
-
-graficLimitVis.addEventListener('click', () => graficLimitVis.classList.toggle('active'));
-graficLimitRelated.addEventListener('click', () => graficLimitRelated.classList.toggle('active'));
-
-
-
-

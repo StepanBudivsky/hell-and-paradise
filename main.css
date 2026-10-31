@@ -354,6 +354,10 @@ body {
   align-items: center;
   gap: 6px;
 }
+.input-eye label {
+  flex-shrink: 0; /* Текст більше ніколи не стиснеться */
+  /* margin-right: 10px; Невеличкий відступ до поля */
+}
 .input-eye input {
   flex: 1;
   padding: 6px;

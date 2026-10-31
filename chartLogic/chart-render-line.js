@@ -68,6 +68,7 @@ const engulfingsVis = document.querySelector("#engulfingsVis");
 const hammersVis = document.querySelector("#hammersVis");
 
 // маркери
+const markerVisScenarios = document.querySelector("#markerVisScenarios");
 const markerVisDivergenceMACD = document.querySelector("#markerVisDivergenceMACD");
 const markerVisDivergenceRSI = document.querySelector("#markerVisDivergenceRSI");
 const markerVisMA = document.querySelector("#markerVisMA");
@@ -106,7 +107,7 @@ export function renderChartLine(renderData, settings, markersScenarios) {
   markersFibanachi = checkClass(markerVisFibanachi) ? renderData.markers.markersFibanachi : [];
   markersPivotPoint = checkClass(markerVisPivotPoint) ? renderData.markers.markersPivotPoint : [];
 
-  markersRsiScenarios = markersScenarios;
+  markersRsiScenarios = checkClass(markerVisScenarios) ? markersScenarios : [];
   // console.log(markersRsiScenarios);
 
   candlestickSeries.setData(klines);

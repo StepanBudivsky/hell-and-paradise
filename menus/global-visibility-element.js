@@ -10,6 +10,7 @@ const markerVisAutoFibanachi = document.querySelector("#markerVisAutoFibanachi")
 const markerVisWawe = document.querySelector("#markerVisWawe");
 const markerVisFibanachi = document.querySelector("#markerVisFibanachi");
 const markerVisPivotPoint = document.querySelector("#markerVisPivotPoint");
+const markerVisScenarios = document.querySelector("#markerVisScenarios");
 
 // лінії на графіку
 const triggerVis = document.querySelector("#triggerVis");
@@ -17,6 +18,13 @@ const ma10Vis = document.querySelector("#ma10Vis");
 const ma30Vis = document.querySelector("#ma30Vis");
 const autoFibanachiVis = document.querySelector("#autoFibanachiVis");
 const pivotPointVis = document.querySelector("#pivotPointVis");
+const tweezersVis = document.querySelector("#tweezersVis");
+const engulfingsVis = document.querySelector("#engulfingsVis");
+const hammersVis = document.querySelector("#hammersVis");
+
+// робота кнопки лімітів
+const graficLimitVis = document.querySelector("#graficLimitVis");
+const graficLimitRelated = document.querySelector("#graficLimitRelated");
 
 // Tweezers режими відображенння маркерів сценаріїв
 const regim1ScenariosTweezers = document.querySelector("#regim1ScenariosTweezers");
@@ -136,19 +144,29 @@ const regim1ScenariosAll = document.querySelector("#regim1ScenariosAll");
 const regim2ScenariosAll = document.querySelector("#regim2ScenariosAll");
 const regim3ScenariosAll = document.querySelector("#regim3ScenariosAll");
 
+// кнопки для повного вимкнення або ввімкнення і маркерів, і ліній одразу
+const allOffVisActBtn = document.querySelector("#allOffVisActBtn");
+const allOnVisActBtn = document.querySelector("#allOnVisActBtn");
+
 /* ==========================================================================
    БЛОК 1: СТРУКТУРИ ДАНИХ ТА КОНФІГУРАЦІЯ
    ========================================================================== */
 
 // Списки UI-елементів для масового керування видимістю на графіку
 const allMarkers = [
+  markerVisScenarios,
   markerVisDivergenceMACD, markerVisDivergenceRSI, markerVisMA, 
   markerVisMACD, markerVisTrigger, markerVisAutoFibanachi, 
   markerVisWawe, markerVisFibanachi, markerVisPivotPoint
 ];
 
 const allLines = [
-  triggerVis, ma10Vis, ma30Vis, autoFibanachiVis, pivotPointVis
+  triggerVis, ma10Vis, ma30Vis, autoFibanachiVis, pivotPointVis,
+  tweezersVis, engulfingsVis, hammersVis,
+];
+
+const limitChartBtn = [
+  graficLimitVis, graficLimitRelated
 ];
 
 /**
@@ -173,16 +191,26 @@ const scenariosConfig = [
   [regimScenariosPivotPoint_1dBtnGroupe, regim1ScenariosPivotPoint_1d, regim2ScenariosPivotPoint_1d, regim3ScenariosPivotPoint_1d]
 ];
 
+// Усі елементи видимості на графіку (маркери + лінії)
+const allVisibilityElements = [...allMarkers, ...allLines, ...limitChartBtn];
 
 /* ==========================================================================
    БЛОК 2: ЛОГІКА ДЛЯ МАРКЕРІВ ТА ЛІНІЙ (TOGGLE, MASS ON/OFF)
    ========================================================================== */
 
 // Перемикання стану 'active' при кліку на будь-який індивідуальний маркер чи лінію
-[...allMarkers, ...allLines].forEach(element => {
-  element.addEventListener('click', () => {
-    element.classList.toggle('active');
-  });
+allVisibilityElements.forEach(element => {
+  element.addEventListener('click', () => element.classList.toggle('active'));
+});
+
+// Масове вимкнення ВСІХ маркерів і ліній (додаємо клас активності)
+allOffVisActBtn.addEventListener('click', () => {
+  allVisibilityElements.forEach(element => element.classList.add('active'));
+});
+
+// Масове ввімкнення ВСІХ маркерів і ліній (видаляємо клас активності)
+allOnVisActBtn.addEventListener('click', () => {
+  allVisibilityElements.forEach(element => element.classList.remove('active'));
 });
 
 // Масове ввімкнення всіх маркерів (видаляємо клас активності)
