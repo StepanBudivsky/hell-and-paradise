@@ -395,6 +395,18 @@ function summarize(closedTrades, stillOpenCount, meta) {
   };
 }
 
+// const config = {
+//   margin: 100,           // 100$ на угоду
+//   leverage: 20,          // 20x плече (об'єм $2,000)
+//   slRoePercent: 10,      // Стоп: -10% ROE (-$10 від маржі, або 0.5% ціни)
+//   tpRoePercent: 30,      // Тейк: +30% ROE (+$30 до маржі, або 1.5% ціни)
+//   feeRate: 0.05,         // 0.05% комісія
+
+//   // Параметри точки входу:
+//   entryBarOffset: 1,     // 0 = ця ж свічка, 1 = наступна свічка (для ретестів/підтверджень)
+//   entryPriceSource: 'open' // 'open' | 'close' | 'high' | 'low'
+// };
+
 /**
  * Зчитує актуальні значення з DOM-елементів та формує конфіг
  */
