@@ -1213,6 +1213,337 @@
           </div>
         </div>
 
+        <div class="control-section wave-block">
+         <!-- CSS (додайте до своїх стилів) -->
+<style>
+  .eye-btn-group {
+    display: flex;
+    gap: 4px;
+  }
+</style>
+
+<!-- MACD -->
+<div class="label-with-eye">
+  <label>MACD</label>
+  <div class="eye-btn-group">
+    <button
+      id="macdExcludeBtn"
+      class="eye-btn"
+      title="Виключити MACD із суми"
+    >
+      Σ
+    </button>
+    <button
+      id="macdNoMultBtn"
+      class="eye-btn"
+      title="Виключити множники MACD"
+    >
+      ×
+    </button>
+  </div>
+</div>
+
+<!-- MA -->
+<div class="label-with-eye">
+  <label>MA</label>
+  <div class="eye-btn-group">
+    <button
+      id="maExcludeBtn"
+      class="eye-btn"
+      title="Виключити MA із суми"
+    >
+      Σ
+    </button>
+    <button
+      id="maNoMultBtn"
+      class="eye-btn"
+      title="Виключити множники MA"
+    >
+      ×
+    </button>
+  </div>
+</div>
+
+<!-- RSI -->
+<div class="label-with-eye">
+  <label>RSI</label>
+  <div class="eye-btn-group">
+    <button
+      id="rsiExcludeBtn"
+      class="eye-btn"
+      title="Виключити RSI із суми"
+    >
+      Σ
+    </button>
+    <button
+      id="rsiNoMultBtn"
+      class="eye-btn"
+      title="Виключити множники RSI"
+    >
+      ×
+    </button>
+  </div>
+</div>
+
+<!-- WAWE -->
+<div class="label-with-eye">
+  <label>WAWE</label>
+  <div class="eye-btn-group">
+    <button
+      id="waveExcludeBtn"
+      class="eye-btn"
+      title="Виключити WAWE із суми"
+    >
+      Σ
+    </button>
+    <button
+      id="waveNoMultBtn"
+      class="eye-btn"
+      title="Виключити множники WAWE"
+    >
+      ×
+    </button>
+  </div>
+</div>
+
+<!-- Standart Fibanachi -->
+<div class="label-with-eye">
+  <label>Standart Fibanachi</label>
+  <div class="eye-btn-group">
+    <button
+      id="fibanachiExcludeBtn"
+      class="eye-btn"
+      title="Виключити Standart Fibanachi із суми"
+    >
+      Σ
+    </button>
+    <button
+      id="fibanachiNoMultBtn"
+      class="eye-btn"
+      title="Виключити множники Standart Fibanachi"
+    >
+      ×
+    </button>
+  </div>
+</div>
+
+<!-- Pattern -->
+<div class="label-with-eye">
+  <label>Pattern</label>
+  <div class="eye-btn-group">
+    <button
+      id="patternExcludeBtn"
+      class="eye-btn"
+      title="Виключити Pattern із суми"
+    >
+      Σ
+    </button>
+  </div>
+</div>
+
+<!-- Trend -->
+<div class="label-with-eye">
+  <label>Trend</label>
+  <div class="eye-btn-group">
+    <button
+      id="trendNoMultBtn"
+      class="eye-btn"
+      title="Виключити множники Trend"
+    >
+      ×
+    </button>
+  </div>
+</div>
+
+<!-- Auto Fibanachi -->
+<div class="label-with-eye">
+  <label>Auto Fibanachi</label>
+  <div class="eye-btn-group">
+    <button
+      id="autoFibanachiExcludeBtn"
+      class="eye-btn"
+      title="Виключити Auto Fibanachi із суми"
+    >
+      Σ
+    </button>
+    <button
+      id="autoFibanachiNoMultBtn"
+      class="eye-btn"
+      title="Виключити множники Auto Fibanachi"
+    >
+      ×
+    </button>
+  </div>
+</div>
+
+<!-- Trigger -->
+<div class="label-with-eye">
+  <label>Trigger</label>
+  <div class="eye-btn-group">
+    <button
+      id="triggerExcludeBtn"
+      class="eye-btn"
+      title="Виключити Trigger із суми"
+    >
+      Σ
+    </button>
+    <button
+      id="triggerNoMultBtn"
+      class="eye-btn"
+      title="Виключити множники Trigger"
+    >
+      ×
+    </button>
+  </div>
+</div>
+
+<!-- Pivot Point 1m -->
+<div class="label-with-eye">
+  <label>Pivot Point 1m</label>
+  <div class="eye-btn-group">
+    <button
+      id="pivotPoint1mExcludeBtn"
+      class="eye-btn"
+      title="Виключити Pivot Point 1m із суми"
+    >
+      Σ
+    </button>
+    <button
+      id="pivotPoint1mNoMultBtn"
+      class="eye-btn"
+      title="Виключити множники Pivot Point 1m"
+    >
+      ×
+    </button>
+  </div>
+</div>
+
+<!-- Pivot Point 5m -->
+<div class="label-with-eye">
+  <label>Pivot Point 5m</label>
+  <div class="eye-btn-group">
+    <button
+      id="pivotPoint5mExcludeBtn"
+      class="eye-btn"
+      title="Виключити Pivot Point 5m із суми"
+    >
+      Σ
+    </button>
+    <button
+      id="pivotPoint5mNoMultBtn"
+      class="eye-btn"
+      title="Виключити множники Pivot Point 5m"
+    >
+      ×
+    </button>
+  </div>
+</div>
+
+<!-- Pivot Point 15m -->
+<div class="label-with-eye">
+  <label>Pivot Point 15m</label>
+  <div class="eye-btn-group">
+    <button
+      id="pivotPoint15mExcludeBtn"
+      class="eye-btn"
+      title="Виключити Pivot Point 15m із суми"
+    >
+      Σ
+    </button>
+    <button
+      id="pivotPoint15mNoMultBtn"
+      class="eye-btn"
+      title="Виключити множники Pivot Point 15m"
+    >
+      ×
+    </button>
+  </div>
+</div>
+
+<!-- Pivot Point 30m -->
+<div class="label-with-eye">
+  <label>Pivot Point 30m</label>
+  <div class="eye-btn-group">
+    <button
+      id="pivotPoint30mExcludeBtn"
+      class="eye-btn"
+      title="Виключити Pivot Point 30m із суми"
+    >
+      Σ
+    </button>
+    <button
+      id="pivotPoint30mNoMultBtn"
+      class="eye-btn"
+      title="Виключити множники Pivot Point 30m"
+    >
+      ×
+    </button>
+  </div>
+</div>
+
+<!-- Pivot Point 1h -->
+<div class="label-with-eye">
+  <label>Pivot Point 1h</label>
+  <div class="eye-btn-group">
+    <button
+      id="pivotPoint1hExcludeBtn"
+      class="eye-btn"
+      title="Виключити Pivot Point 1h із суми"
+    >
+      Σ
+    </button>
+    <button
+      id="pivotPoint1hNoMultBtn"
+      class="eye-btn"
+      title="Виключити множники Pivot Point 1h"
+    >
+      ×
+    </button>
+  </div>
+</div>
+
+<!-- Pivot Point 4h -->
+<div class="label-with-eye">
+  <label>Pivot Point 4h</label>
+  <div class="eye-btn-group">
+    <button
+      id="pivotPoint4hExcludeBtn"
+      class="eye-btn"
+      title="Виключити Pivot Point 4h із суми"
+    >
+      Σ
+    </button>
+    <button
+      id="pivotPoint4hNoMultBtn"
+      class="eye-btn"
+      title="Виключити множники Pivot Point 4h"
+    >
+      ×
+    </button>
+  </div>
+</div>
+
+<!-- Pivot Point 1d -->
+<div class="label-with-eye">
+  <label>Pivot Point 1d</label>
+  <div class="eye-btn-group">
+    <button
+      id="pivotPoint1dExcludeBtn"
+      class="eye-btn"
+      title="Виключити Pivot Point 1d із суми"
+    >
+      Σ
+    </button>
+    <button
+      id="pivotPoint1dNoMultBtn"
+      class="eye-btn"
+      title="Виключити множники Pivot Point 1d"
+    >
+      ×
+    </button>
+  </div>
+</div>
+        </div>
       </div>
 
       <!-- Панель збереження -->
@@ -2652,7 +2983,6 @@
         <div class="side" id="confidence-element">
           Загальна впевненість на ітервал
         </div>
-
       </div>
 
       <!-- Панель глобальної аналітики -->

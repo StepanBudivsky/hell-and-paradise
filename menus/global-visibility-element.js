@@ -148,6 +148,40 @@ const regim3ScenariosAll = document.querySelector("#regim3ScenariosAll");
 const allOffVisActBtn = document.querySelector("#allOffVisActBtn");
 const allOnVisActBtn = document.querySelector("#allOnVisActBtn");
 
+// кнопки виключення індикатора із суми (Σ)
+const macdExcludeBtn = document.querySelector("#macdExcludeBtn");
+const maExcludeBtn = document.querySelector("#maExcludeBtn");
+const rsiExcludeBtn = document.querySelector("#rsiExcludeBtn");
+const waveExcludeBtn = document.querySelector("#waveExcludeBtn");
+const fibanachiExcludeBtn = document.querySelector("#fibanachiExcludeBtn");
+const patternExcludeBtn = document.querySelector("#patternExcludeBtn");
+const autoFibanachiExcludeBtn = document.querySelector("#autoFibanachiExcludeBtn");
+const triggerExcludeBtn = document.querySelector("#triggerExcludeBtn");
+const pivotPoint1mExcludeBtn = document.querySelector("#pivotPoint1mExcludeBtn");
+const pivotPoint5mExcludeBtn = document.querySelector("#pivotPoint5mExcludeBtn");
+const pivotPoint15mExcludeBtn = document.querySelector("#pivotPoint15mExcludeBtn");
+const pivotPoint30mExcludeBtn = document.querySelector("#pivotPoint30mExcludeBtn");
+const pivotPoint1hExcludeBtn = document.querySelector("#pivotPoint1hExcludeBtn");
+const pivotPoint4hExcludeBtn = document.querySelector("#pivotPoint4hExcludeBtn");
+const pivotPoint1dExcludeBtn = document.querySelector("#pivotPoint1dExcludeBtn");
+ 
+// кнопки виключення множників індикатора (×)
+const macdNoMultBtn = document.querySelector("#macdNoMultBtn");
+const maNoMultBtn = document.querySelector("#maNoMultBtn");
+const rsiNoMultBtn = document.querySelector("#rsiNoMultBtn");
+const waveNoMultBtn = document.querySelector("#waveNoMultBtn");
+const fibanachiNoMultBtn = document.querySelector("#fibanachiNoMultBtn");
+const trendNoMultBtn = document.querySelector("#trendNoMultBtn");
+const autoFibanachiNoMultBtn = document.querySelector("#autoFibanachiNoMultBtn");
+const triggerNoMultBtn = document.querySelector("#triggerNoMultBtn");
+const pivotPoint1mNoMultBtn = document.querySelector("#pivotPoint1mNoMultBtn");
+const pivotPoint5mNoMultBtn = document.querySelector("#pivotPoint5mNoMultBtn");
+const pivotPoint15mNoMultBtn = document.querySelector("#pivotPoint15mNoMultBtn");
+const pivotPoint30mNoMultBtn = document.querySelector("#pivotPoint30mNoMultBtn");
+const pivotPoint1hNoMultBtn = document.querySelector("#pivotPoint1hNoMultBtn");
+const pivotPoint4hNoMultBtn = document.querySelector("#pivotPoint4hNoMultBtn");
+const pivotPoint1dNoMultBtn = document.querySelector("#pivotPoint1dNoMultBtn");
+
 /* ==========================================================================
    БЛОК 1: СТРУКТУРИ ДАНИХ ТА КОНФІГУРАЦІЯ
    ========================================================================== */
@@ -163,6 +197,16 @@ const allMarkers = [
 const allLines = [
   triggerVis, ma10Vis, ma30Vis, autoFibanachiVis, pivotPointVis,
   tweezersVis, engulfingsVis, hammersVis,
+];
+
+// Кнопки виключення індикаторів із суми
+const allExcludeBtns = [
+  macdExcludeBtn, maExcludeBtn, rsiExcludeBtn, waveExcludeBtn, fibanachiExcludeBtn, patternExcludeBtn, autoFibanachiExcludeBtn, triggerExcludeBtn, pivotPoint1mExcludeBtn, pivotPoint5mExcludeBtn, pivotPoint15mExcludeBtn, pivotPoint30mExcludeBtn, pivotPoint1hExcludeBtn, pivotPoint4hExcludeBtn, pivotPoint1dExcludeBtn
+];
+ 
+// Кнопки виключення множників індикаторів
+const allNoMultBtns = [
+  macdNoMultBtn, maNoMultBtn, rsiNoMultBtn, waveNoMultBtn, fibanachiNoMultBtn, trendNoMultBtn, autoFibanachiNoMultBtn, triggerNoMultBtn, pivotPoint1mNoMultBtn, pivotPoint5mNoMultBtn, pivotPoint15mNoMultBtn, pivotPoint30mNoMultBtn, pivotPoint1hNoMultBtn, pivotPoint4hNoMultBtn, pivotPoint1dNoMultBtn
 ];
 
 const limitChartBtn = [
@@ -194,12 +238,20 @@ const scenariosConfig = [
 // Усі елементи видимості на графіку (маркери + лінії)
 const allVisibilityElements = [...allMarkers, ...allLines, ...limitChartBtn];
 
+// щоб кнопки "all on/off" для маркерів і ліній їх не чіпали)
+const indicatorToggleBtns = [...allExcludeBtns, ...allNoMultBtns];
+
 /* ==========================================================================
    БЛОК 2: ЛОГІКА ДЛЯ МАРКЕРІВ ТА ЛІНІЙ (TOGGLE, MASS ON/OFF)
    ========================================================================== */
 
 // Перемикання стану 'active' при кліку на будь-який індивідуальний маркер чи лінію
 allVisibilityElements.forEach(element => {
+  element.addEventListener('click', () => element.classList.toggle('active'));
+});
+
+// Перемикання стану 'active' для кнопок виключення індикаторів і множників
+indicatorToggleBtns.forEach(element => {
   element.addEventListener('click', () => element.classList.toggle('active'));
 });
 
