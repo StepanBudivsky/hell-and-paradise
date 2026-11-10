@@ -405,6 +405,11 @@ body {
     transform 0.1s ease;
 }
 
+.eye-btn-group {
+  display: flex;
+  gap: 4px;
+}
+
 .direction-change-btn:hover {
   background-color: #e0e0e0;
   transform: scale(1.05);

@@ -29,30 +29,6 @@ const timeframeButtons = [
 ];
 
 // Повертаємо масив об'єктів { id, tf } для кожного знайденого сценарію
-// function getScenariosForTimeframe(dataTF, tfLabel) {
-//   if (!dataTF) return [];
-
-//   const rawIDs = [
-//     dataTF.macd?.main?.currentID,
-//     dataTF.ma?.main?.currentID,
-//     dataTF.rsi?.main?.currentID,
-//     dataTF.wawe?.main?.currentID,
-//     dataTF.standartFibanachi?.main?.currentID,
-//     dataTF.autoFibanachi?.main?.currentID,
-//     dataTF.pattern?.main?.tweezersID,
-//     dataTF.pattern?.main?.engulfingsID,
-//     dataTF.pivotPoint_1m?.main?.currentID,
-//     dataTF.pivotPoint_5m?.main?.currentID,
-//     dataTF.pivotPoint_15m?.main?.currentID,
-//     dataTF.pivotPoint_30m?.main?.currentID,
-//     dataTF.pivotPoint_1h?.main?.currentID,
-//     dataTF.pivotPoint_4h?.main?.currentID,
-//     dataTF.pivotPoint_1d?.main?.currentID,
-//   ].filter(Boolean);
-
-//   // Прив'язуємо назву таймфрейму до кожного ID
-//   return rawIDs.map(id => ({ id, tf: tfLabel }));
-// }
 
 function getScenariosForTimeframe(dataTF, tfLabel) {
   if (!dataTF) return [];

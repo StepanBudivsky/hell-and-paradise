@@ -81,6 +81,15 @@ const scenarioFilterInput = document.querySelector("#scenarioFilterInput");
 const daySelectFilter = document.querySelector("#daySelectFilter");
 const sessionSelectFilter = document.querySelector("#sessionSelectFilter");
 
+let colorByType = {
+    "ВХІД_LONG": "#72da85",
+    "ВХІД_SHORT": "#ec6b6b",
+    "СТЕЖИТИ_LONG": "#9dd8a8",
+    "СТЕЖИТИ_SHORT": "#ee9d9d",
+    "ІГНОРУВАТИ": "#c4b8b8",
+    "СТЕЖИТИ": "#fda65e"
+}
+
 function dataToMarkers(data) {
     if (!Array.isArray(data) || data.length === 0) {
         return [];
@@ -103,7 +112,7 @@ function dataToMarkers(data) {
             markersData.push({
                 time: Number(cur.time),
                 position: "aboveBar",
-                color: "#ef5350",
+                color: colorByType[allScenarios[cur.id].action],
                 shape: "arrowDown",
                 text: `${cur.id}`,
                 size: 2
@@ -113,7 +122,7 @@ function dataToMarkers(data) {
             markersData.push({
                 time: Number(cur.time),
                 position: "belowBar",
-                color: "#26a69a",
+                color: colorByType[allScenarios[cur.id].action],
                 shape: "arrowUp",
                 text: `${cur.id}`,
                 size: 2

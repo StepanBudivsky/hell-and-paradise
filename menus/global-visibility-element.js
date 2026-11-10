@@ -135,7 +135,7 @@ const regimScenariosPivotPoint_1dBtnGroupe = [regim1ScenariosPivotPoint_1d, regi
 const allOnMarkerActBtn = document.querySelector("#allOnMarkerActBtn");
 const allOffMarkerActBtn = document.querySelector("#allOffMarkerActBtn");
 
-// кнопки для повного виключення або повного виключення маркерів
+// кнопки для повного виключення або повного виключення ліній
 const allOnLinesActBtn = document.querySelector("#allOnLinesActBtn");
 const allOffLinesActBtn = document.querySelector("#allOffLinesActBtn");
 
@@ -181,6 +181,14 @@ const pivotPoint30mNoMultBtn = document.querySelector("#pivotPoint30mNoMultBtn")
 const pivotPoint1hNoMultBtn = document.querySelector("#pivotPoint1hNoMultBtn");
 const pivotPoint4hNoMultBtn = document.querySelector("#pivotPoint4hNoMultBtn");
 const pivotPoint1dNoMultBtn = document.querySelector("#pivotPoint1dNoMultBtn");
+
+// кнопки для повного вимкнення або ввімкнення блоків аналізу
+const allOffExcludeActBtn = document.querySelector("#allOffExcludeActBtn");
+const allOnExcludeActBtn = document.querySelector("#allOnExcludeActBtn");
+
+// кнопки для повного вимкнення або ввімкнення множників аналізу
+const allOffMultActBtn = document.querySelector("#allOffMultActBtn");
+const allOnMultActBtn = document.querySelector("#allOnMultActBtn");
 
 /* ==========================================================================
    БЛОК 1: СТРУКТУРИ ДАНИХ ТА КОНФІГУРАЦІЯ
@@ -285,6 +293,25 @@ allOffLinesActBtn.addEventListener('click', () => {
   allLines.forEach(line => line.classList.add('active'));
 });
 
+// Масове вимкнення ВСІХ блоків аналізу
+allOffExcludeActBtn.addEventListener('click', () => {
+  allExcludeBtns.forEach(element => element.classList.add('active'));
+});
+
+// Масове ввімкнення ВСІХ блоків аналізу
+allOnExcludeActBtn.addEventListener('click', () => {
+  allExcludeBtns.forEach(element => element.classList.remove('active'));
+});
+
+// Масове вимкнення ВСІХ блоків маркерів
+allOffMultActBtn.addEventListener('click', () => {
+  allNoMultBtns.forEach(element => element.classList.add('active'));
+});
+
+// Масове ввімкнення ВСІХ блоків маркерів
+allOnMultActBtn.addEventListener('click', () => {
+  allNoMultBtns.forEach(element => element.classList.remove('active'));
+});
 
 /* ==========================================================================
    БЛОК 3: ЛОГІКА КЕРУВАННЯ СЦЕНАРІЯМИ ЗА РЕЖИМАМИ
