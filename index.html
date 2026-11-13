@@ -3097,8 +3097,51 @@
               placeholder="Введіть значення"
               value="2"
             />
-          </div>
+          </div> 
           <p></p>
+          <div class="input-eye">
+            <label>Параметр комісії</label>
+            <input
+              id="feeRateInputParametr"
+              type="number"
+              step="0.01"
+              placeholder="Введіть значення"
+              value="0.05"
+            />
+          </div> 
+          <p></p>
+          <div class="input-eye">
+            <label>Параметр обмеження часу</label>
+            <input
+              id="holdBarsInputParametr"
+              type="number"
+              step="1"
+              placeholder="Введіть значення"
+              value="5"
+            />
+          </div> 
+          <p></p>
+      
+          <div class="checkbox-wrapper">
+            <span class="label-text">Режим: ліміт свічок (без TP/SL)</span>
+            <input type="checkbox" id="holdModeInput" class="styled-checkbox" />
+          </div>
+
+          <div class="checkbox-wrapper">
+            <span class="label-text">Симулювати ліквідацію</span>
+            <input type="checkbox" id="simulateLiquidationInput" class="styled-checkbox" checked />
+          </div>
+
+          <div class="checkbox-wrapper">
+            <span class="label-text">Порівняти з рандомним входом</span>
+            <input type="checkbox" id="randomCompareInput" class="styled-checkbox" />
+          </div>
+          <div class="input-eye">
+            <label>Кількість рандомних прогонів</label>
+            <input id="randomIterationsInput" type="number" min="20" step="10" value="200" />
+          </div>
+          <span id="randomProgress"></span> <!-- необов'язково, показує прогрес -->
+          
           <div class="input-eye">
             
             <label>Фільтр по дню тижня</label>
