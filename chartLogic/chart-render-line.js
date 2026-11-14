@@ -84,7 +84,13 @@ const triggerVis = document.querySelector("#triggerVis");
 const ma10Vis = document.querySelector("#ma10Vis");
 const ma30Vis = document.querySelector("#ma30Vis");
 const autoFibanachiVis = document.querySelector("#autoFibanachiVis");
-const pivotPointVis = document.querySelector("#pivotPointVis");
+const pivotPoint1dVis = document.querySelector("#pivotPoint1dVis");
+const pivotPoint4hVis = document.querySelector("#pivotPoint4hVis");
+const pivotPoint1hVis = document.querySelector("#pivotPoint1hVis");
+const pivotPoint30mVis = document.querySelector("#pivotPoint30mVis");
+const pivotPoint15mVis = document.querySelector("#pivotPoint15mVis");
+const pivotPoint5mVis = document.querySelector("#pivotPoint5mVis");
+const pivotPoint1mVis = document.querySelector("#pivotPoint1mVis");
 
 export function renderChartLine(renderData, settings, markersScenarios) {
   const { klinesLimited } = settings;
@@ -267,15 +273,13 @@ export function renderChartLine(renderData, settings, markersScenarios) {
     }
   }
 
-  const pivotPointVisStatus = checkClass(pivotPointVis);
-
-  renderPivotPointLine(pivotPiontLinesByInterval["1m"], localRenderDataByInterval[interval].pivotPoint_1m, pivotPointVisStatus);
-  renderPivotPointLine(pivotPiontLinesByInterval["5m"], localRenderDataByInterval[interval].pivotPoint_5m, pivotPointVisStatus);
-  renderPivotPointLine(pivotPiontLinesByInterval["15m"], localRenderDataByInterval[interval].pivotPoint_15m, pivotPointVisStatus);
-  renderPivotPointLine(pivotPiontLinesByInterval["30m"], localRenderDataByInterval[interval].pivotPoint_30m, pivotPointVisStatus);
-  renderPivotPointLine(pivotPiontLinesByInterval["1h"], localRenderDataByInterval[interval].pivotPoint_1h, pivotPointVisStatus);
-  renderPivotPointLine(pivotPiontLinesByInterval["4h"], localRenderDataByInterval[interval].pivotPoint_4h, pivotPointVisStatus);
-  renderPivotPointLine(pivotPiontLinesByInterval["1d"], localRenderDataByInterval[interval].pivotPoint_1d, pivotPointVisStatus);
+  renderPivotPointLine(pivotPiontLinesByInterval["1m"], localRenderDataByInterval[interval].pivotPoint_1m, checkClass(pivotPoint1mVis));
+  renderPivotPointLine(pivotPiontLinesByInterval["5m"], localRenderDataByInterval[interval].pivotPoint_5m, checkClass(pivotPoint5mVis));
+  renderPivotPointLine(pivotPiontLinesByInterval["15m"], localRenderDataByInterval[interval].pivotPoint_15m, checkClass(pivotPoint15mVis));
+  renderPivotPointLine(pivotPiontLinesByInterval["30m"], localRenderDataByInterval[interval].pivotPoint_30m, checkClass(pivotPoint30mVis));
+  renderPivotPointLine(pivotPiontLinesByInterval["1h"], localRenderDataByInterval[interval].pivotPoint_1h, checkClass(pivotPoint1hVis));
+  renderPivotPointLine(pivotPiontLinesByInterval["4h"], localRenderDataByInterval[interval].pivotPoint_4h, checkClass(pivotPoint4hVis));
+  renderPivotPointLine(pivotPiontLinesByInterval["1d"], localRenderDataByInterval[interval].pivotPoint_1d, checkClass(pivotPoint1dVis));
 
   // ініціалізація даних про всі дивергенції на MACD
   initPointsPanel({

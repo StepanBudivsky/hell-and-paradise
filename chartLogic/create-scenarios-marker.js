@@ -207,20 +207,32 @@ export function createScenariosMarker(analyzeData) {
         }
     });
 
-    // ==========================================
+// ==========================================
     // ЗАГАЛЬНИЙ ФІЛЬТР ПО INPUT
     // ==========================================
     const filterQuery = scenarioFilterInput?.value?.trim().toUpperCase();
     const selectedDayOfWeek = daySelectFilter?.value; // Наприклад: "1" (Пн) - "0" (Нд) або назви
     const selectedSession = sessionSelectFilter?.value?.toLowerCase(); // "sydney", "tokyo", "london", "new_york"
 
+    // Розбиваємо рядок з інпуту на масив сценаріїв за допомогою кому (наприклад: "trend, reversal" -> ["TREND", "REVERSAL"])
+    const scenarioList = filterQuery 
+        ? filterQuery.split(',').map(item => item.trim()).filter(Boolean) 
+        : [];
+
     // ==========================================
     // ЗАГАЛЬНИЙ ФІЛЬТР (INPUT, ДЕНЬ ТИЖНЯ, СЕСІЯ)
     // ==========================================
     allMarkers = allMarkers.filter(marker => {
-        // 1. Фільтр по текстовому input
-        if (filterQuery) {
-            const matchText = marker.text.toUpperCase() === filterQuery;
+        // 1. Фільтр по текстовому input (перевірка на кілька сценаріїв)
+        if (scenarioList.length > 0) {
+            const markerText = marker.text.toUpperCase();
+            
+            // Варіант А: Точний збіг хоча б з одним із введених слів/сценаріїв
+            const matchText = scenarioList.some(scenario => markerText === scenario);
+
+            // Варіант Б (якщо потрібно шукати за частковим співпадінням, розкоментуйте рядок нижче):
+            // const matchText = scenarioList.some(scenario => markerText.includes(scenario));
+
             if (!matchText) return false;
         }
 

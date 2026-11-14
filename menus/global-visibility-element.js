@@ -17,7 +17,13 @@ const triggerVis = document.querySelector("#triggerVis");
 const ma10Vis = document.querySelector("#ma10Vis");
 const ma30Vis = document.querySelector("#ma30Vis");
 const autoFibanachiVis = document.querySelector("#autoFibanachiVis");
-const pivotPointVis = document.querySelector("#pivotPointVis");
+const pivotPoint1dVis = document.querySelector("#pivotPoint1dVis");
+const pivotPoint4hVis = document.querySelector("#pivotPoint4hVis");
+const pivotPoint1hVis = document.querySelector("#pivotPoint1hVis");
+const pivotPoint30mVis = document.querySelector("#pivotPoint30mVis");
+const pivotPoint15mVis = document.querySelector("#pivotPoint15mVis");
+const pivotPoint5mVis = document.querySelector("#pivotPoint5mVis");
+const pivotPoint1mVis = document.querySelector("#pivotPoint1mVis");
 const tweezersVis = document.querySelector("#tweezersVis");
 const engulfingsVis = document.querySelector("#engulfingsVis");
 const hammersVis = document.querySelector("#hammersVis");
@@ -203,7 +209,8 @@ const allMarkers = [
 ];
 
 const allLines = [
-  triggerVis, ma10Vis, ma30Vis, autoFibanachiVis, pivotPointVis,
+  triggerVis, ma10Vis, ma30Vis, autoFibanachiVis,
+  pivotPoint1dVis, pivotPoint4hVis, pivotPoint1hVis, pivotPoint30mVis, pivotPoint15mVis, pivotPoint5mVis, pivotPoint1mVis,
   tweezersVis, engulfingsVis, hammersVis,
 ];
 

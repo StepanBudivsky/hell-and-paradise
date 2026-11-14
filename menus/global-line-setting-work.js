@@ -8,7 +8,6 @@ const ZigZagTrendVis = document.querySelector("#ZigZagTrendVis");
 const zigZagInput = document.querySelector("#zigZagInput");
 
 // Pivot Point 
-// const PivotPointVis = document.querySelector("#PivotPointVis");
 
 const pivotPointBtn1m = document.querySelector("#pivotPointBtn1m");
 const pivotPointBtn5m = document.querySelector("#pivotPointBtn5m");
@@ -234,8 +233,6 @@ pivotPointTimeframeConfig.forEach(([btn, timeframe, settingKey]) => {
  */
 export function updateCurrentGlobalLineSetting () {
   const currentSetting = localSettingByInterval[currentInterval];
-  
-  // setPivotPointStatus(checkClass(PivotPointVis));
 
   currentSetting.zigZagSettings.zigZagValue = Number(zigZagInput.value);
   currentSetting.zigZagSettings.zigZagVisible = checkClass(ZigZagVis);
