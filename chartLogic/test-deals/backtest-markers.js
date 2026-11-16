@@ -115,6 +115,7 @@ export function backtestMarkers(candles, markers, config = {}, interval) {
 
   const activeTrades = [];
   const closedTrades = [];
+  const entryIndexesByCode = {}; // НОВЕ: на яких свічках відкривались входи кожного сценарію
 
   // 2. Єдиний прохід по свічках
   for (let i = 0; i < candles.length; i++) {
@@ -142,6 +143,9 @@ export function backtestMarkers(candles, markers, config = {}, interval) {
 
         const notionalSize = margin * leverage;
         const contractsCount = notionalSize / entryPrice;
+
+        if (!entryIndexesByCode[scenarioCode]) entryIndexesByCode[scenarioCode] = [];
+        entryIndexesByCode[scenarioCode].push(i);
 
         activeTrades.push({
           scenarioCode,
@@ -285,6 +289,7 @@ export function backtestMarkers(candles, markers, config = {}, interval) {
     tpRoePercent,
     slRoePercent,
     intervalMinutes,
+    entryIndexesByCode,
   });
 }
 
@@ -341,6 +346,7 @@ export function backtestMarkersHoldBars(candles, markers, config = {}, interval)
 
   const activeTrades = [];
   const closedTrades = [];
+  const entryIndexesByCode = {}; // НОВЕ: на яких свічках відкривались входи кожного сценарію
 
   // 2. Єдиний прохід по свічках
   for (let i = 0; i < candles.length; i++) {
@@ -363,6 +369,9 @@ export function backtestMarkersHoldBars(candles, markers, config = {}, interval)
         const liquidationPrice = directionType === 'LONG'
           ? entryPrice * (1 - 1 / leverage)
           : entryPrice * (1 + 1 / leverage);
+
+        if (!entryIndexesByCode[scenarioCode]) entryIndexesByCode[scenarioCode] = [];
+        entryIndexesByCode[scenarioCode].push(i);
 
         activeTrades.push({
           scenarioCode,
@@ -482,6 +491,7 @@ export function backtestMarkersHoldBars(candles, markers, config = {}, interval)
     holdBars,
     intervalMinutes,
     simulateLiquidation,
+    entryIndexesByCode,
   });
 }
 
@@ -554,6 +564,13 @@ function summarizeHold(closedTrades, stillOpenCount, meta) {
     const pnlRange = minMaxAvg(pnls);   // min / max без spread (безпечно для великих масивів)
     const maeRange = minMaxAvg(mae);
 
+    // НОВЕ: серії прибуткових / збиткових угод підряд (в порядку закриття)
+    const winRuns = minMaxAvg(runLengthsOf(trades, t => t.netProfitUSD > 0));
+    const lossRuns = minMaxAvg(runLengthsOf(trades, t => t.netProfitUSD <= 0));
+
+    // НОВЕ: частота входів (по всіх входах, навіть тих, що не встигли закритись)
+    const frequency = entryFrequencyStats((meta.entryIndexesByCode || {})[code] || [], meta.intervalMinutes);
+
     scenarioStats[code] = {
       id: code,
       action: trades[0].action,
@@ -592,6 +609,15 @@ function summarizeHold(closedTrades, stillOpenCount, meta) {
       streakMin: streak.min,
       streakAvg: streak.avg,
       streakMax: streak.max,
+
+      winRunMin: winRuns.min,
+      winRunAvg: winRuns.avg,
+      winRunMax: winRuns.max,
+      lossRunMin: lossRuns.min,
+      lossRunAvg: lossRuns.avg,
+      lossRunMax: lossRuns.max,
+
+      ...frequency,
     };
   }
 
@@ -795,6 +821,66 @@ export function getRandomOptionsFromUI() {
   return { enabled: !!(enabledEl && enabledEl.checked), iterations };
 }
 
+/**
+ * Довжини серій однакових угод підряд.
+ * Приклад: [SL, SL, TP, SL, SL, SL] для "SL" дає [2, 3].
+ * Угоди мають іти в хронологічному порядку (порядку закриття).
+ */
+function runLengthsOf(trades, isTarget) {
+  const runs = [];
+  let current = 0;
+  for (const t of trades) {
+    if (isTarget(t)) {
+      current += 1;
+    } else if (current > 0) {
+      runs.push(current);
+      current = 0;
+    }
+  }
+  if (current > 0) runs.push(current);
+  return runs;
+}
+
+/** Відстані (у свічках) між сусідніми входами; entryIndexes — індекси свічок входу по зростанню */
+function gapsBetween(entryIndexes) {
+  const gaps = [];
+  for (let k = 1; k < entryIndexes.length; k++) {
+    gaps.push(entryIndexes[k] - entryIndexes[k - 1]);
+  }
+  return gaps;
+}
+
+/** Максимальна просадка (в $) на кривій накопиченого PnL; pnls — в порядку закриття угод */
+function maxDrawdownOf(pnls) {
+  let cumulative = 0;
+  let peak = 0;
+  let maxDrawdown = 0;
+  for (const v of pnls) {
+    cumulative += v;
+    if (cumulative > peak) peak = cumulative;
+    if (peak - cumulative > maxDrawdown) maxDrawdown = peak - cumulative;
+  }
+  return maxDrawdown;
+}
+
+const EMPTY_STATS = { min: null, max: null, avg: null };
+
+/** Статистика частоти входів сценарію: усього входів + відстань між ними у свічках і хвилинах */
+function entryFrequencyStats(entryIndexes, intervalMinutes) {
+  const gaps = gapsBetween(entryIndexes);
+  const bars = minMaxAvg(gaps);
+  const minutes = intervalMinutes ? minMaxAvg(gaps.map(g => g * intervalMinutes)) : EMPTY_STATS;
+  return {
+    entriesTotal: entryIndexes.length,
+    gapBarsMin: bars.min,
+    gapBarsAvg: bars.avg,
+    gapBarsMax: bars.max,
+    gapMinutesMin: minutes.min,
+    gapMinutesAvg: minutes.avg,
+    gapMinutesMax: minutes.max,
+  };
+}
+
 /** min / max / avg по масиву чисел (без Math.min(...arr), щоб не впасти на великих масивах) */
 function minMaxAvg(values) {
   if (values.length === 0) return { min: null, max: null, avg: null };
@@ -844,6 +930,13 @@ function summarize(closedTrades, stillOpenCount, meta) {
       ? minMaxAvg(trades.map(t => t.barsHeld * meta.intervalMinutes))
       : { min: null, max: null, avg: null };
 
+    // НОВЕ: серії стопів і тейків підряд (угоди вже в порядку закриття)
+    const slRuns = minMaxAvg(runLengthsOf(trades, t => t.exitReason === 'SL'));
+    const tpRuns = minMaxAvg(runLengthsOf(trades, t => t.exitReason === 'TP'));
+
+    // НОВЕ: частота входів (рахується по ВСІХ входах, навіть тих, що не встигли закритись)
+    const frequency = entryFrequencyStats((meta.entryIndexesByCode || {})[code] || [], meta.intervalMinutes);
+
     const totalNetUSD = +trades.reduce((sum, t) => sum + t.netProfitUSD, 0).toFixed(2);
     const avgNetUSD = +(totalNetUSD / trades.length).toFixed(2);
     const avgRoePercent = +(
@@ -891,6 +984,17 @@ function summarize(closedTrades, stillOpenCount, meta) {
       durationMinMin: durationMin.min,
       durationMinAvg: durationMin.avg,
       durationMinMax: durationMin.max,
+
+      maxDrawdownUSD: +maxDrawdownOf(trades.map(t => t.netProfitUSD)).toFixed(2),
+
+      slRunMin: slRuns.min,
+      slRunAvg: slRuns.avg,
+      slRunMax: slRuns.max,
+      tpRunMin: tpRuns.min,
+      tpRunAvg: tpRuns.avg,
+      tpRunMax: tpRuns.max,
+
+      ...frequency,
     };
   }
 
@@ -1010,6 +1114,26 @@ const COLUMNS = [
   { key: 'durationMinMin', label: 'Час угоди, хв: мін', render: r => dash(r.durationMinMin) },
   { key: 'durationMinAvg', label: 'Час угоди, хв: сер.', render: r => dash(r.durationMinAvg) },
   { key: 'durationMinMax', label: 'Час угоди, хв: макс', render: r => dash(r.durationMinMax) },
+
+  // НОВЕ: макс. просадка по кривій PnL сценарію
+  { key: 'maxDrawdownUSD', label: 'Макс. просадка серії, $', render: r => `${r.maxDrawdownUSD} $` },
+
+  // НОВЕ: серії стопів і тейків підряд
+  { key: 'slRunMin', label: 'Стопів підряд: мін' },
+  { key: 'slRunAvg', label: 'Стопів підряд: сер.' },
+  { key: 'slRunMax', label: 'Стопів підряд: макс' },
+  { key: 'tpRunMin', label: 'Тейків підряд: мін' },
+  { key: 'tpRunAvg', label: 'Тейків підряд: сер.' },
+  { key: 'tpRunMax', label: 'Тейків підряд: макс' },
+
+  // НОВЕ: частота входів
+  { key: 'entriesTotal', label: 'Входів усього' },
+  { key: 'gapBarsMin', label: 'Між входами, св.: мін' },
+  { key: 'gapBarsAvg', label: 'Між входами, св.: сер.' },
+  { key: 'gapBarsMax', label: 'Між входами, св.: макс' },
+  { key: 'gapMinutesMin', label: 'Між входами, хв: мін' },
+  { key: 'gapMinutesAvg', label: 'Між входами, хв: сер.' },
+  { key: 'gapMinutesMax', label: 'Між входами, хв: макс' },
 ];
 
 /* ---------- Колонки для режиму "ЛІМІТ СВІЧОК" ---------- */
@@ -1060,6 +1184,23 @@ const HOLD_COLUMNS = [
   pickCol('streakMin'),
   pickCol('streakAvg'),
   pickCol('streakMax'),
+
+  // НОВЕ: серії прибуткових / збиткових угод підряд
+  { key: 'winRunMin', label: 'Прибуткових підряд: мін' },
+  { key: 'winRunAvg', label: 'Прибуткових підряд: сер.' },
+  { key: 'winRunMax', label: 'Прибуткових підряд: макс' },
+  { key: 'lossRunMin', label: 'Збиткових підряд: мін' },
+  { key: 'lossRunAvg', label: 'Збиткових підряд: сер.' },
+  { key: 'lossRunMax', label: 'Збиткових підряд: макс' },
+
+  // НОВЕ: частота входів
+  pickCol('entriesTotal'),
+  pickCol('gapBarsMin'),
+  pickCol('gapBarsAvg'),
+  pickCol('gapBarsMax'),
+  pickCol('gapMinutesMin'),
+  pickCol('gapMinutesAvg'),
+  pickCol('gapMinutesMax'),
 ];
 
 /* ---------- Колонки порівняння з рандомним входом ---------- */
