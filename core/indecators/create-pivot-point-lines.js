@@ -1,7 +1,7 @@
-import { findClosestLowerBoundIndex } from "../core/lib/find-closest-lower-bound-index.js";
-import { klinesData } from "../chart-data.js";
-import { dotsByInterval, globalSettingByInterval } from "../settingsData/program-settings.js";
-import { changeTextStatus, createHorizontalLine } from "../render.js";
+import { findClosestLowerBoundIndex } from "../lib/find-closest-lower-bound-index.js";
+import { klinesData } from "../../chart-data.js";
+import { dotsByInterval, globalSettingByInterval } from "../../settingsData/program-settings.js";
+import { changeTextStatus, createHorizontalLine } from "../../render.js";
 
 export function createPivotPointLine(
     status = true, 

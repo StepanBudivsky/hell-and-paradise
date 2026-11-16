@@ -1,8 +1,8 @@
 import { clearLine, setActiveSettings } from "./render.js";
-import { initStateFromDots, updateAllUI, updateAllMarkers } from "./menus/dots-panel.js" 
+import { initStateFromDots, updateAllUI, updateAllMarkers } from "./ui/panels/dots-panel.js"; 
 import { setChartInterval } from "./chart-control.js";
-import { setCurrentLocalLineSetting, updateCurrentLocalLineSetting } from "./menus/local-line-setting-work.js";
-import { setCurrentGlobalLineSetting, updateCurrentGlobalLineSetting } from "./menus/global-line-setting-work.js";
+import { setCurrentLocalLineSetting, updateCurrentLocalLineSetting } from "./ui/components/setting-control/local-line-setting-work.js";
+import { setCurrentGlobalLineSetting, updateCurrentGlobalLineSetting } from "./ui/components/setting-control/global-line-setting-work.js";
 import { setCurrentGlobalAnalazeInterval, setCurrentInterval } from "./chart-data.js";
 
 // функція для вибору активної кнопки між багатьма

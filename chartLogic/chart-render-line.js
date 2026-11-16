@@ -35,11 +35,11 @@ import {
   autoFibanachiExtrem,
   autoFibanachiEnd
 } from "../main.js";
-import { updateAllMarkers } from "../menus/dots-panel.js";
+import { updateAllMarkers } from "../ui/panels/dots-panel.js";
 
-import { initPointsPanel } from "../menus/global-analytics-panel.js";
+import { initPointsPanel } from "../ui/components/setting-control/global-analytics-panel.js";
 import { localSettingByInterval,localRenderDataByInterval  } from "../settingsData/program-settings.js";
-import { renderPivotPointLines, renderPivotPointLine } from "../renderFunction/render-pivot-point-line.js";
+import { renderPivotPointLines, renderPivotPointLine } from "../chart/renderers/render-pivot-point-line.js";
 
 export let zigzag = [];
 

@@ -1,6 +1,6 @@
-import { currentInterval } from "../chart-data.js";
-import { checkClass, switchGroupButtonActive } from "../control.js";
-import { localSettingByInterval } from "../settingsData/program-settings.js";
+import { currentInterval } from "../../../chart-data.js";
+import { checkClass, switchGroupButtonActive } from "../../../control.js";
+import { localSettingByInterval } from "../../../settingsData/program-settings.js";
 
 // зміна початкової точки хвиль
 const startDotBtnMax = document.querySelector("#startDotBtnMax");

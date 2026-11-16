@@ -1,4 +1,4 @@
-import { changeTextStatus, createHorizontalLine } from "../render.js";
+import { changeTextStatus, createHorizontalLine } from "../../render.js";
 import { 
     fibanachi_0Text, 
     fibanachi_23Text, 
@@ -10,7 +10,7 @@ import {
     fibanachi_161Text,
     fibanachi_261Text,
     fibanachi_423Text,
-} from "../main.js";
+} from "../../main.js";
 
 
 export function createFibanachiLines (status = true, haveText = true, lines, data, dataGraph = [], dotStart = 0, dotEnd = 0, lenFibo = 0, scaleTime = 1) {

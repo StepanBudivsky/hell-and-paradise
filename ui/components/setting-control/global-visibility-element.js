@@ -1,4 +1,4 @@
-import { checkClass, switchGroupButtonActive } from "../control.js";
+import { checkClass, switchGroupButtonActive } from "../../../control.js";
 
 // маркери
 const markerVisDivergenceMACD = document.querySelector("#markerVisDivergenceMACD");

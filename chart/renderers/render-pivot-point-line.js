@@ -1,7 +1,7 @@
-import { findClosestLowerBoundIndex } from "../core/lib/find-closest-lower-bound-index.js";
-import { currentInterval, klinesData } from "../chart-data.js";
-import { dotsByInterval, globalSettingByInterval } from "../settingsData/program-settings.js";
-import { changeTextStatus, createHorizontalLine } from "../render.js";
+import { findClosestLowerBoundIndex } from "../../core/lib/find-closest-lower-bound-index.js";
+import { currentInterval, klinesData } from "../../chart-data.js";
+import { dotsByInterval, globalSettingByInterval } from "../../settingsData/program-settings.js";
+import { changeTextStatus, createHorizontalLine } from "../../render.js";
 
 export function renderPivotPointLine(line, data, visStatus) {
     // Якщо історія порожня або data.history взагалі не існує (статус false)

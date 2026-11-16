@@ -2,11 +2,11 @@ import { klines, klinesData, currentInterval} from "./chart-data.js";
 import { onIntervalChange } from "./control.js";
 import * as main from "./main.js";
 import { globalSettingByInterval, localSettingByInterval, localRenderDataByInterval} from "./settingsData/program-settings.js";
-import { autoPlacement } from "./renderFunction/auto-placment.js";
-import { autoSort } from "./renderFunction/auto-sort.js";
+import { autoPlacement } from "./core/lib/wave-methods/auto-placment.js";
+import { autoSort } from "./core/lib/wave-methods/auto-sort.js";
 import { zigzag } from "./chartLogic/chart-render-line.js";
-import { initStateFromDots, updateAllMarkers, updateAllUI } from "./menus/dots-panel.js";
-import { createFibanachiLines } from "./renderFunction/create-fibanachi-lines.js";
+import { initStateFromDots, updateAllMarkers, updateAllUI } from "./ui/panels/dots-panel.js";
+import { createFibanachiLines } from "./core/hand-held-indicators/create-fibanachi-lines.js";
 
 const calculateButton = document.querySelector("#calculate-button");
 const reloadButton = document.querySelector("#reload-button");

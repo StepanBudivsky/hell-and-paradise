@@ -1,4 +1,4 @@
-import { checkClass } from "../control.js";
+import { checkClass } from "../../control.js";
 
 // --- Панелі меню (твій код без змін) ---
 const panelStates = {

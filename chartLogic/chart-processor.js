@@ -13,7 +13,7 @@ import { findLastTrendSegment } from "../core/indecators/find-last-trend-segment
 import { calculateZigZagClassic } from "../core/indecators/ZigZagIndecator.js";
 import { fillMissingPoints } from "../core/lib/additons-points-func.js";
 import { getLastTwoTrendArrays } from "../core/indecators/find-last-two-trend.js";
-import { createPivotPointLines, createPivotPointLine } from "../renderFunction/create-pivot-point-lines.js";
+import { createPivotPointLines, createPivotPointLine } from "../core/indecators/create-pivot-point-lines.js";
 
 import { findTweezersSeries } from "../core/indecators/find-tweezers-series.js";
 import { findHammersSeries } from "../core/indecators/find-hammers-series.js";

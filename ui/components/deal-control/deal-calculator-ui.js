@@ -1,6 +1,6 @@
-import { klinesData, currentInterval } from '../chart-data.js';
-import { checkClass } from '../control.js';
-import { calculateDeal } from "../core/lib/deal-calculator.js";
+import { klinesData, currentInterval } from '../../../chart-data.js';
+import { checkClass } from '../../../control.js';
+import { calculateDeal } from "../../../core/lib/deal-calculator.js";
 
 // Імпортуємо лінії та функцію налаштування з файлу графіка
 import { 
@@ -8,7 +8,7 @@ import {
   stopLossPriceLine, 
   takeProfitPriceLine, 
   setTradeLineConfig 
-} from '../main.js';
+} from '../../../main.js';
 
 // Кнопки увімкнення та вимкнення кожної лінії
 const toggleEntryBtn = document.getElementById('toggleEntryBtn');

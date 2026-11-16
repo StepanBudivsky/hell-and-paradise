@@ -1,4 +1,4 @@
-import { checkClass } from "../control.js";
+import { checkClass } from "../../../control.js";
 
 const wawe1AutoLen = document.querySelector("#wawe1AutoLen");
 const wawe2AutoLen = document.querySelector("#wawe2AutoLen");
