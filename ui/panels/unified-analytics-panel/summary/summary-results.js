@@ -1,4 +1,4 @@
-import { checkClass } from "../control.js";
+import { checkClass } from "../../../../control.js";
 
 let totalLong = document.getElementById("global-total-long");
 let totalShort = document.getElementById("global-total-short"); 

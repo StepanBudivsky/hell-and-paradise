@@ -1,5 +1,5 @@
 import { klinesData, currentInterval } from "../../chart-data.js";
-import { markersRsiScenarios, markersAutoFibanachi, markersDivergenceRsi, markersFibanachi, markersMA, markersMACD, markersMinMax, markersPivotPoint, markersTrigger, markersWawe } from "../../chartLogic/chart-render-line.js";
+import { markersRsiScenarios, markersAutoFibanachi, markersDivergenceRsi, markersFibanachi, markersMA, markersMACD, markersMinMax, markersPivotPoint, markersTrigger, markersWawe } from "../../chart/renderers/chart-render-line.js";
 import { candlestickSeries } from "../../main.js";
 import { dotsByInterval } from "../../settingsData/program-settings.js";
 

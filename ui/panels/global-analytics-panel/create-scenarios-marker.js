@@ -1,5 +1,5 @@
-import { checkClass } from "../control.js";
-import { allScenarios } from "../settingsData/all-scenarios.js";
+import { checkClass } from "../../../control.js";
+import { allScenarios } from "../../../settingsData/all-scenarios.js";
 
 // Tweezers режими відображенння маркерів сценаріїв
 const regim1ScenariosTweezers = document.querySelector("#regim1ScenariosTweezers");

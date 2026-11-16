@@ -1,5 +1,5 @@
-import { analyzeDataByInterval } from "../settingsData/program-analyze-data.js"
-import { allScenarios, strategyBlocks } from "../settingsData/all-scenarios.js"
+import { analyzeDataByInterval } from "../../../../settingsData/program-analyze-data.js"
+import { allScenarios, strategyBlocks } from "../../../../settingsData/all-scenarios.js"
 
 const text1m = {
     tweezers: document.getElementById("tweezers-entries-1m"),

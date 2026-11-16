@@ -4,7 +4,7 @@ import * as main from "./main.js";
 import { globalSettingByInterval, localSettingByInterval, localRenderDataByInterval} from "./settingsData/program-settings.js";
 import { autoPlacement } from "./core/lib/wave-methods/auto-placment.js";
 import { autoSort } from "./core/lib/wave-methods/auto-sort.js";
-import { zigzag } from "./chartLogic/chart-render-line.js";
+import { zigzag } from "./chart/renderers/chart-render-line.js";
 import { initStateFromDots, updateAllMarkers, updateAllUI } from "./ui/panels/dots-panel.js";
 import { createFibanachiLines } from "./core/hand-held-indicators/create-fibanachi-lines.js";
 

@@ -1,16 +1,16 @@
 import { getChartSettings } from "./chartLogic/chart-get-settings.js";
 import { chartProcessor } from "./chartLogic/chart-processor.js";
-import { renderChartLine } from "./chartLogic/chart-render-line.js";
+import { renderChartLine } from "./chart/renderers/chart-render-line.js";
 import { analyzeDataByInterval, analyzeResultByInterval } from "./settingsData/program-analyze-data.js";
 import { updateAnalyze } from "./chartLogic/update-analyze.js";
 import { updateUnifiedAnalyze } from "./chartLogic/update-unified-analyze.js";
-import { updateEntries } from "./chartLogic/update-entries.js";
+import { updateEntries } from "./ui/panels/unified-analytics-panel/entries/update-entries.js";
 import { currentGlobalAnalazeInterval, currentInterval, klines } from "./chart-data.js";
 import { updateUnifiedAnalyzeUI } from "./chartLogic/update-unified-analyze-ui.js";
-import { getSummaryResult } from "./chartLogic/summary-results.js";
-import { updateActions } from "./chartLogic/update-actions.js";
-import { createScenariosMarker } from "./chartLogic/create-scenarios-marker.js";
-import { backtestMarkers, backtestMarkersHoldBars, compareWithRandomEntry, getConfigFromUI, getRandomOptionsFromUI, renderResultsToUI } from "./chartLogic/test-deals/backtest-markers.js";
+import { getSummaryResult } from "./ui/panels/unified-analytics-panel/summary/summary-results.js";
+import { updateActions } from "./ui/panels/unified-analytics-panel/actions/update-actions.js";
+import { createScenariosMarker } from "./ui/panels/global-analytics-panel/create-scenarios-marker.js";
+import { backtestMarkers, backtestMarkersHoldBars, compareWithRandomEntry, getConfigFromUI, getRandomOptionsFromUI, renderResultsToUI } from "./core/backtest/backtest-markers.js";
 
 // const config = getConfigFromUI();
 const holdMode = document.getElementById('holdModeInput');

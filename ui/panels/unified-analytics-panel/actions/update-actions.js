@@ -1,5 +1,5 @@
-import { checkClass } from "../control.js";
-import { allScenarios, tradingRulesDB, tradingRulesDB_15m_5m_1h } from "../settingsData/all-scenarios.js";
+import { checkClass } from "../../../../control.js";
+import { allScenarios, tradingRulesDB, tradingRulesDB_15m_5m_1h } from "../../../../settingsData/all-scenarios.js";
 
 const scenariosLongEntryText = document.getElementById('scenariosLongEntryText');
 const scenariosShortEntryText = document.getElementById('scenariosShortEntryText');
