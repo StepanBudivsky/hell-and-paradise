@@ -1,6 +1,6 @@
-import { findClosestLowerBoundIndex } from "../core/lib/find-closest-lower-bound-index.js";
-import { currentInterval, klines, klinesData, mode, setKlines } from "../chart-data.js";
-import { dotsByInterval } from "../settingsData/program-settings.js";
+import { findClosestLowerBoundIndex } from "../lib/find-closest-lower-bound-index.js";
+import { currentInterval, klines, klinesData, mode, setKlines } from "../../chart-data.js";
+import { dotsByInterval } from "../../settingsData/program-settings.js";
 
 const graficLimitVis = document.querySelector("#graficLimitVis");
 const graficLimitRelated = document.querySelector("#graficLimitRelated");

@@ -1,34 +1,35 @@
-import { klines } from "../chart-data.js";
-import { dotsByInterval, localRenderDataByInterval, localSettingByInterval } from "../settingsData/program-settings.js";
-import { pivotPiontLinesByInterval } from "../main.js";
+import { klines } from "../../chart-data.js";
 
-import { calculateADX } from "../core/indecators/find-adx.js";
-import { analyzeADXTrends, syncZigzagColors } from "../core/lib/adx-trend-coloring-func.js";
-import { calculateMA, calculateMACD, calculateRSI } from "../core/indecators/ema-macd-rsi-ma-indecator.js";
-import { findMacdSegments } from "../core/indecators/find-macd-segments.js";
-import { extractColoredMarkers } from "../core/indecators/find-min-max-dots.js";
-import { findDivergencesWithMarkers } from "../core/indecators/find-last-rsi-divergence.js";
-import { categorizeZones, createAutoFibo, createZoneLine, getAllRSIZones, getAllRSIZonesNew } from "../core/indecators/find-zones-rsi.js";
-import { findLastTrendSegment } from "../core/indecators/find-last-trend-segment.js";
-import { calculateZigZagClassic } from "../core/indecators/ZigZagIndecator.js";
-import { fillMissingPoints } from "../core/lib/additons-points-func.js";
-import { getLastTwoTrendArrays } from "../core/indecators/find-last-two-trend.js";
-import { createPivotPointLines, createPivotPointLine } from "../core/indecators/create-pivot-point-lines.js";
+import { dotsByInterval, localRenderDataByInterval, localSettingByInterval } from "../../settingsData/program-settings.js";
+import { pivotPiontLinesByInterval } from "../../main.js";
 
-import { findTweezersSeries } from "../core/indecators/find-tweezers-series.js";
-import { findHammersSeries } from "../core/indecators/find-hammers-series.js";
-import { findEngulfingSeries } from "../core/indecators/find-engulfing-series.js";
+import { calculateADX } from "../indecators/find-adx.js";
+import { analyzeADXTrends, syncZigzagColors } from "../lib/adx-trend-coloring-func.js";
+import { calculateMA, calculateMACD, calculateRSI } from "../indecators/ema-macd-rsi-ma-indecator.js";
+import { findMacdSegments } from "../indecators/find-macd-segments.js";
+import { extractColoredMarkers } from "../indecators/find-min-max-dots.js";
+import { findDivergencesWithMarkers } from "../indecators/find-last-rsi-divergence.js";
+import { categorizeZones, createAutoFibo, createZoneLine, getAllRSIZones, getAllRSIZonesNew } from "../indecators/find-zones-rsi.js";
+import { findLastTrendSegment } from "../indecators/find-last-trend-segment.js";
+import { calculateZigZagClassic } from "../indecators/ZigZagIndecator.js";
+import { fillMissingPoints } from "../lib/additons-points-func.js";
+import { getLastTwoTrendArrays } from "../indecators/find-last-two-trend.js";
+import { createPivotPointLines, createPivotPointLine } from "../indecators/create-pivot-point-lines.js";
 
-import { analyzeMACD } from "../core/analyze/analyze-macd.js";
-import { analyzeRSI } from "../core/analyze/analyze-rsi.js";
-import { analyzeTrigger } from "../core/analyze/analyze-trigger.js";
-import { analyzeTrend } from "../core/analyze/analyze-trend.js";
-import { analyzeFibanachi } from "../core/analyze/analyze-fibanachi.js";
-import { analyzeWaves } from "../core/analyze/analyze-wave.js";
-import { analyzePattern } from "../core/analyze/analyze-pattern.js";
-import { analyzePivotPoint } from "../core/analyze/analyze-pivot-point.js";
-import { analyzeMA } from "../core/analyze/analyze-ma.js";
-import { renderSettings } from "../render.js";
+import { findTweezersSeries } from "../indecators/find-tweezers-series.js";
+import { findHammersSeries } from "../indecators/find-hammers-series.js";
+import { findEngulfingSeries } from "../indecators/find-engulfing-series.js";
+
+import { analyzeMACD } from "../analyze/analyze-macd.js";
+import { analyzeRSI } from "../analyze/analyze-rsi.js";
+import { analyzeTrigger } from "../analyze/analyze-trigger.js";
+import { analyzeTrend } from "../analyze/analyze-trend.js";
+import { analyzeFibanachi } from "../analyze/analyze-fibanachi.js";
+import { analyzeWaves } from "../analyze/analyze-wave.js";
+import { analyzePattern } from "../analyze/analyze-pattern.js";
+import { analyzePivotPoint } from "../analyze/analyze-pivot-point.js";
+import { analyzeMA } from "../analyze/analyze-ma.js";
+import { renderSettings } from "../../render.js";
 
 const rsiAmplitude = document.querySelector("#rsiAmplitude");
 const priceAmplitude = document.querySelector("#priceAmplitude");
@@ -260,7 +261,7 @@ export function chartProcessor(settings, analyzeData) {
 
   // аналіз всіх патернів
   analyzePattern(analyzeData.pattern, analyzeData.tweezers, analyzeData.engulfings, tweezers.signals, engulfings.signals, klinesLimited.length);
-
+  
   return {
     data: {
       volumeData, adxValue, tweezers, hammers, engulfings,

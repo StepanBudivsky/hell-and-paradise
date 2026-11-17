@@ -1,5 +1,4 @@
-import { allScenarios, strategyBlocks } from "../settingsData/all-scenarios.js";
-import { PIVOT_TIMEFRAMES } from "./analyzeConfig.js";
+import { allScenarios, strategyBlocks } from "../../../settingsData/all-scenarios.js";
 import { ELEMENTS } from "./analyzeElements.js";
 
 /* ------------------------------------------------------------------ */
@@ -13,11 +12,14 @@ const X_FIELDS = {
     rsi: ["trend", "zoneTightness", "ritest"],
     wawe: ["waweZone", "waweTightness", "waweCountInCandle", "waweZigzag"],
     trend: ["adxTrend", "volumeStack"],
+    pivotPoint_1m: ["zone"],
+    pivotPoint_5m: ["zone"],
+    pivotPoint_15m: ["zone"],
+    pivotPoint_30m: ["zone"],
+    pivotPoint_1h: ["zone"],
+    pivotPoint_4h: ["zone"],
+    pivotPoint_1d: ["zone"],
 };
-
-for (const tf of PIVOT_TIMEFRAMES) {
-    X_FIELDS[`pivotPoint_${tf}`] = ["zone"];
-}
 
 /* ------------------------------------------------------------------ */
 /* Рендер                                                              */

@@ -1,12 +1,12 @@
-import { getChartSettings } from "./chartLogic/chart-get-settings.js";
-import { chartProcessor } from "./chartLogic/chart-processor.js";
+import { getChartSettings } from "./core/pipeline/chart-get-settings.js";
+import { chartProcessor } from "./core/pipeline/chart-processor.js";
 import { renderChartLine } from "./chart/renderers/chart-render-line.js";
 import { analyzeDataByInterval, analyzeResultByInterval } from "./settingsData/program-analyze-data.js";
-import { updateAnalyze } from "./chartLogic/update-analyze.js";
-import { updateUnifiedAnalyze } from "./chartLogic/update-unified-analyze.js";
+import { updateAnalyze } from "./ui/panels/analytics-panel/update-analyze.js";
+import { updateUnifiedAnalyze } from "./ui/panels/analytics-panel/update-unified-analyze.js";
 import { updateEntries } from "./ui/panels/unified-analytics-panel/entries/update-entries.js";
 import { currentGlobalAnalazeInterval, currentInterval, klines } from "./chart-data.js";
-import { updateUnifiedAnalyzeUI } from "./chartLogic/update-unified-analyze-ui.js";
+import { updateUnifiedAnalyzeUI } from "./ui/panels/analytics-panel/update-unified-analyze-ui.js";
 import { getSummaryResult } from "./ui/panels/unified-analytics-panel/summary/summary-results.js";
 import { updateActions } from "./ui/panels/unified-analytics-panel/actions/update-actions.js";
 import { createScenariosMarker } from "./ui/panels/global-analytics-panel/create-scenarios-marker.js";

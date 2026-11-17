@@ -1,4 +1,4 @@
-import { allScenarios, strategyBlocks } from "../settingsData/all-scenarios.js";
+import { allScenarios, strategyBlocks } from "../../../settingsData/all-scenarios.js";
 import { INDICATORS, TREND_MULTIPLIERS, GROUP_ORDER } from "./analyzeConfig.js";
 import { ELEMENTS } from "./analyzeElements.js";
 
@@ -68,13 +68,13 @@ function analyzeTrend(analyzeData) {
     // Кнопка "×" тренда з active: усі множники тренда стають 1
     const noMult = isActive(ELEMENTS.trend.noMultBtn);
 
-    for (const [additionalKey, outName] of Object.entries(TREND_MULTIPLIERS)) {
-        const block = strategyBlocks[analyzeData.trend.additional[additionalKey].currentID];
+    for (const name of TREND_MULTIPLIERS) {
+        const block = strategyBlocks[analyzeData.trend.additional[name].currentID];
         const long = noMult ? 1 : block.multiplierLong;
         const short = noMult ? 1 : block.multiplierShort;
 
-        result[`${outName}MultiplierLong`] = long;
-        result[`${outName}MultiplierShort`] = short;
+        result[`${name}MultiplierLong`] = long;
+        result[`${name}MultiplierShort`] = short;
         longs.push(long);
         shorts.push(short);
     }

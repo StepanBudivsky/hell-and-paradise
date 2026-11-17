@@ -1,4 +1,4 @@
-import { checkClass } from "../control.js";
+import { checkClass } from "../../../control.js";
 import { INDICATORS, TREND_MULTIPLIERS } from "./analyzeConfig.js";
 import { ELEMENTS } from "./analyzeElements.js";
 
@@ -51,12 +51,11 @@ function renderTrend(data) {
         return;
     }
 
-    const names = Object.entries(TREND_MULTIPLIERS); // [ключ в additional, назва в data]
-    const longs = names.map(([, name]) => data[`${name}MultiplierLong`]);
-    const shorts = names.map(([, name]) => data[`${name}MultiplierShort`]);
+    const longs = TREND_MULTIPLIERS.map(name => data[`${name}MultiplierLong`]);
+    const shorts = TREND_MULTIPLIERS.map(name => data[`${name}MultiplierShort`]);
 
-    names.forEach(([additionalKey], i) => {
-        fields[additionalKey].innerText += `. множник ${longs[i]} і ${shorts[i]}`;
+    TREND_MULTIPLIERS.forEach((name, i) => {
+        fields[name].innerText += `. множник ${longs[i]} і ${shorts[i]}`;
     });
 
     total.innerText =
