@@ -1235,9 +1235,9 @@ const RANDOM_COLUMNS = [
   { key: 'verdict', label: 'Вердикт', render: r => verdictCell(r.verdict) },
 ];
 
-let lastRows = [];
-let activeColumns = COLUMNS;
-let sortState = { key: 'totalNetUSD', dir: -1 }; // -1 = спадання
+// Стан кожної таблиці (рядки, колонки, сортування) зберігається окремо для кожного контейнера,
+// тому на сторінці може бути одразу кілька таблиць (наприклад, по одній на кожен таймфрейм)
+const tableStateByEl = new WeakMap();
 
 function compareRows(a, b, key, dir) {
   const va = a[key];
@@ -1249,14 +1249,18 @@ function compareRows(a, b, key, dir) {
 }
 
 function drawTable(listEl) {
-  const rows = [...lastRows].sort((a, b) => compareRows(a, b, sortState.key, sortState.dir));
+  const state = tableStateByEl.get(listEl);
+  if (!state) return;
+
+  const { columns, sortState } = state;
+  const rows = [...state.rows].sort((a, b) => compareRows(a, b, sortState.key, sortState.dir));
 
   const thStyle =
     'padding:6px 8px;text-align:left;cursor:pointer;white-space:nowrap;' +
     'border-bottom:1px solid rgb(223, 223, 223);position:sticky;top:0;background:#ffffff;';
   const tdStyle = 'padding:5px 8px;white-space:nowrap;border-bottom:1px solid rgb(231, 226, 226);';
 
-  const head = activeColumns.map(c => {
+  const head = columns.map(c => {
     const arrow = sortState.key === c.key ? (sortState.dir === 1 ? ' ▲' : ' ▼') : '';
     const sticky = c.sticky ? 'left:0;z-index:2;' : '';
     return `<th data-key="${c.key}" style="${thStyle}${sticky}">${c.label}${arrow}</th>`;
@@ -1264,7 +1268,7 @@ function drawTable(listEl) {
 
   const body = rows
     .map(r => {
-      const cells = activeColumns.map(c => {
+      const cells = columns.map(c => {
         const content = c.render ? c.render(r) : dash(r[c.key]);
         const sticky = c.sticky ? 'position:sticky;left:0;background:#ffffff;' : '';
         return `<td style="${tdStyle}${sticky}">${content}</td>`;
@@ -1285,9 +1289,9 @@ function drawTable(listEl) {
   listEl.querySelectorAll('th[data-key]').forEach(th => {
     th.addEventListener('click', () => {
       const key = th.dataset.key;
-      sortState = {
+      state.sortState = {
         key,
-        dir: sortState.key === key ? -sortState.dir : -1,
+        dir: state.sortState.key === key ? -state.sortState.dir : -1,
       };
       drawTable(listEl);
     });
@@ -1295,22 +1299,28 @@ function drawTable(listEl) {
 }
 
 /**
- * Відображає розраховані результати в DOM-елементах
+ * Відображає розраховані результати в DOM-елементах.
+ *
+ * @param {Object} report - результат backtestMarkers / backtestMarkersHoldBars (або compareWithRandomEntry)
+ * @param {Object} [target] - куди малювати: { overallEl, listEl }.
+ *                            Без target використовуються елементи #overallStats і #scenariosStatsList.
  */
-export function renderResultsToUI(report) {
-  const overallEl = document.getElementById('overallStats');
-  const listEl = document.getElementById('scenariosStatsList');
+export function renderResultsToUI(report, target = {}) {
+  const overallEl = target.overallEl ?? document.getElementById('overallStats');
+  const listEl = target.listEl ?? document.getElementById('scenariosStatsList');
 
   if (!overallEl || !listEl) return;
 
   const isHold = report.mode === 'HOLD';
-  activeColumns = isHold ? HOLD_COLUMNS : COLUMNS;
-  if (report.randomSummary) activeColumns = [...activeColumns, ...RANDOM_COLUMNS];
+  let columns = isHold ? HOLD_COLUMNS : COLUMNS;
+  if (report.randomSummary) columns = [...columns, ...RANDOM_COLUMNS];
 
-  // Якщо колонки, по якій сортували, нема в новому режимі — скидаємо сортування
-  if (!activeColumns.some(c => c.key === sortState.key)) {
-    sortState = { key: 'totalNetUSD', dir: -1 };
-  }
+  // Зберігаємо сортування цієї таблиці; якщо колонки, по якій сортували, нема в новому режимі — скидаємо
+  const prev = tableStateByEl.get(listEl);
+  const sortState =
+    prev && columns.some(c => c.key === prev.sortState.key)
+      ? prev.sortState
+      : { key: 'totalNetUSD', dir: -1 }; // -1 = спадання
 
   overallEl.innerHTML = isHold
     ? `
@@ -1335,12 +1345,14 @@ export function renderResultsToUI(report) {
     </div>`;
   }
 
-  lastRows = Object.values(report.scenarioStats);
+  const rows = Object.values(report.scenarioStats);
 
-  if (lastRows.length === 0) {
+  if (rows.length === 0) {
+    tableStateByEl.delete(listEl);
     listEl.innerHTML = '<p>Немає закритих угод для відображення.</p>';
     return;
   }
 
+  tableStateByEl.set(listEl, { rows, columns, sortState });
   drawTable(listEl);
 }
