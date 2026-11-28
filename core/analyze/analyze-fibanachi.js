@@ -69,7 +69,8 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
         analyzeData.main.previousIDs = [];
         analyzeData.main.currentIDs = [];
 
-        return [];
+        // ФІКС: було return [] — тоді scenariosID.push(...undefined) падало
+        return { previousID: "U2000", currentID: "U2000", scenariosID: [], previous: [], currentIDs: [], touching: "B1000", markers: [] };
     } 
 
     let markerApproachAndRebound = [];
@@ -96,11 +97,12 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
                 markerRetest = [];
             }
             
-            if (isRetestUpToDown(prev, cur, next, line.fibanachi_0, line.fibanachi_0, line.fibanachi_0)) {
+            // ФІКС: було isRetestUpToDown + стрілка вниз, але L5002 = "зверху" (ціна над рівнем) -> isRetestDownToUp
+            if (isRetestDownToUp(prev, cur, next, line.fibanachi_0, line.fibanachi_0, line.fibanachi_0)) {
                 previousID = currentID;
                 currentID = regim === 2 ? "L5002" : "L10002";
                 scenariosID.push({time: cur.time, id: currentID});
-                markerRetest.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FR 0", size: 2});
+                markerRetest.push({ time: cur.time, position: "belowBar", color: markerColor, shape: "arrowUp", text: "FR 0", size: 2});
             }
 
             if (closestFibo === "fibanachi_0" && isRetestBounce(prev, cur, next, line.fibanachi_0, line.fibanachi_0, line.fibanachi_0)) {
@@ -129,16 +131,18 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
                 markerRetest = [];
             }
 
+            // ФІКС: DownToUp (ціна над рівнем) = "зверху" -> 5005
             if (isRetestDownToUp(prev, cur, next, line.fibanachi_23, line.fibanachi_23, line.fibanachi_23)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "L5008" : "L10008";
+                currentID = regim === 2 ? "L5005" : "L10005";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "belowBar", color: markerColor, shape: "arrowUp", text: "FR 23", size: 2});
             }
             
+            // ФІКС: UpToDown (ціна під рівнем) = "знизу" -> 5008
             if (isRetestUpToDown(prev, cur, next, line.fibanachi_23, line.fibanachi_23, line.fibanachi_23)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "L5005" : "L10005";
+                currentID = regim === 2 ? "L5008" : "L10008";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FR 23", size: 2});
             }
@@ -177,14 +181,14 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
 
             if (isRetestDownToUp(prev, cur, next, line.fibanachi_38, line.fibanachi_38, line.fibanachi_38)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "L5014" : "L10014";
+                currentID = regim === 2 ? "L5011" : "L10011";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "belowBar", color: markerColor, shape: "arrowUp", text: "FR 38", size: 2});
             }
             
             if (isRetestUpToDown(prev, cur, next, line.fibanachi_38, line.fibanachi_38, line.fibanachi_38)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "L5011" : "L10011";
+                currentID = regim === 2 ? "L5014" : "L10014";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FR 38", size: 2});
             }
@@ -223,14 +227,14 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
 
             if (isRetestDownToUp(prev, cur, next, line.fibanachi_50, line.fibanachi_50, line.fibanachi_50)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "L5020" : "L10020";
+                currentID = regim === 2 ? "L5017" : "L10017";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "belowBar", color: markerColor, shape: "arrowUp", text: "FR 50", size: 2});
             }
             
             if (isRetestUpToDown(prev, cur, next, line.fibanachi_50, line.fibanachi_50, line.fibanachi_50)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "L5017" : "L10017";
+                currentID = regim === 2 ? "L5020" : "L10020";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FR 50", size: 2});
             }
@@ -269,14 +273,14 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
 
             if (isRetestDownToUp(prev, cur, next, line.fibanachi_61, line.fibanachi_61, line.fibanachi_61)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "L5026" : "L10026";
+                currentID = regim === 2 ? "L5023" : "L10023";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "belowBar", color: markerColor, shape: "arrowUp", text: "FR 61", size: 2});
             }
             
             if (isRetestUpToDown(prev, cur, next, line.fibanachi_61, line.fibanachi_61, line.fibanachi_61)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "L5023" : "L10023";
+                currentID = regim === 2 ? "L5026" : "L10026";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FR 61", size: 2});
             }
@@ -315,14 +319,14 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
 
             if (isRetestDownToUp(prev, cur, next, line.fibanachi_78, line.fibanachi_78, line.fibanachi_78)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "L5032" : "L10032";
+                currentID = regim === 2 ? "L5029" : "L10029";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "belowBar", color: markerColor, shape: "arrowUp", text: "FR 78", size: 2});
             }
             
             if (isRetestUpToDown(prev, cur, next, line.fibanachi_78, line.fibanachi_78, line.fibanachi_78)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "L5029" : "L10029";
+                currentID = regim === 2 ? "L5032" : "L10032";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FR 78", size: 2});
             }
@@ -351,17 +355,19 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
                 markerRetest = [];
             }   
 
-            if (isRetestDownToUp(prev, cur, next, line.fibanachi_100, line.fibanachi_100, line.fibanachi_100)) {
+            // ФІКС: L5035 / L10038 = "знизу з торканням" (ціна під рівнем) -> isRetestUpToDown; у ручному режимі 10038, а не 10035
+            if (isRetestUpToDown(prev, cur, next, line.fibanachi_100, line.fibanachi_100, line.fibanachi_100)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "L5035" : "L10035"; 
+                currentID = regim === 2 ? "L5035" : "L10038"; 
                 scenariosID.push({time: cur.time, id: currentID});
-                markerRetest.push({ time: cur.time, position: "belowBar", color: markerColor, shape: "arrowUp", text: "FR 100", size: 2});
+                markerRetest.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FR 100", size: 2});
             }
 
             if (closestFibo === "fibanachi_100" && isRetestBounce(prev, cur, next, line.fibanachi_100, line.fibanachi_100, line.fibanachi_100)) {
                 if (cur.high < line.fibanachi_100) { 
                     previousID = currentID;
-                    currentID = regim === 2 ? "L5036" : "L10036"; 
+                    // ФІКС: у ручному режимі "знизу без торкання" = L10039
+                    currentID = regim === 2 ? "L5036" : "L10039"; 
                     scenariosID.push({time: cur.time, id: currentID});
                     markerApproachAndRebound.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FFR 100", size: 2});
                 }
@@ -379,11 +385,12 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
                 markerRetest = [];
             }
             
-            if (isRetestUpToDown(prev, cur, next, line.fibanachi_100, line.fibanachi_100, line.fibanachi_100)) {
+            // ФІКС: L10035 = "зверху з торканням" (ціна над рівнем) -> isRetestDownToUp
+            if (isRetestDownToUp(prev, cur, next, line.fibanachi_100, line.fibanachi_100, line.fibanachi_100)) {
                 previousID = currentID;
                 currentID = "L10035";
                 scenariosID.push({time: cur.time, id: currentID});
-                markerRetest.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FR 100", size: 2});
+                markerRetest.push({ time: cur.time, position: "belowBar", color: markerColor, shape: "arrowUp", text: "FR 100", size: 2});
             }
 
             if (closestFibo === "fibanachi_100" && isRetestBounce(prev, cur, next, line.fibanachi_100, line.fibanachi_100, line.fibanachi_100)) {
@@ -414,14 +421,14 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
 
             if (isRetestDownToUp(prev, cur, next, line.fibanachi_161, line.fibanachi_161, line.fibanachi_161)) {
                 previousID = currentID;
-                currentID = "L10044";
+                currentID = "L10041";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "belowBar", color: markerColor, shape: "arrowUp", text: "FR 161", size: 2});
             }
             
             if (isRetestUpToDown(prev, cur, next, line.fibanachi_161, line.fibanachi_161, line.fibanachi_161)) {
                 previousID = currentID;
-                currentID = "L10041"; 
+                currentID = "L10044"; 
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FR 161", size: 2});
             }
@@ -460,14 +467,14 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
 
             if (isRetestDownToUp(prev, cur, next, line.fibanachi_261, line.fibanachi_261, line.fibanachi_261)) {
                 previousID = currentID;
-                currentID = "L10050";
+                currentID = "L10047";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "belowBar", color: markerColor, shape: "arrowUp", text: "FR 261", size: 2});
             }
             
             if (isRetestUpToDown(prev, cur, next, line.fibanachi_261, line.fibanachi_261, line.fibanachi_261)) {
                 previousID = currentID;
-                currentID = "L10047";
+                currentID = "L10050";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FR 261", size: 2});
             }
@@ -499,11 +506,12 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
                 markerRetest = [];
             }   
 
-            if (isRetestDownToUp(prev, cur, next, line.fibanachi_0, line.fibanachi_0, line.fibanachi_0)) {
+            // ФІКС: S5002 = "знизу з торканням" (ціна під рівнем) -> isRetestUpToDown
+            if (isRetestUpToDown(prev, cur, next, line.fibanachi_0, line.fibanachi_0, line.fibanachi_0)) {
                 previousID = currentID;
                 currentID = regim === 2 ? "S5002" : "S10002";
                 scenariosID.push({time: cur.time, id: currentID});
-                markerRetest.push({ time: cur.time, position: "belowBar", color: markerColor, shape: "arrowUp", text: "FR 0", size: 2});
+                markerRetest.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FR 0", size: 2});
             }
 
             if (closestFibo === "fibanachi_0" && isRetestBounce(prev, cur, next, line.fibanachi_0, line.fibanachi_0, line.fibanachi_0)) {
@@ -534,14 +542,14 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
 
             if (isRetestDownToUp(prev, cur, next, line.fibanachi_23, line.fibanachi_23, line.fibanachi_23)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "S5008" : "S10008";      
+                currentID = regim === 2 ? "S5005" : "S10005";      
                 scenariosID.push({time: cur.time, id: currentID});        
                 markerRetest.push({ time: cur.time, position: "belowBar", color: markerColor, shape: "arrowUp", text: "FR 23", size: 2});
             }
             
             if (isRetestUpToDown(prev, cur, next, line.fibanachi_23, line.fibanachi_23, line.fibanachi_23)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "S5005" : "S10005";
+                currentID = regim === 2 ? "S5008" : "S10008";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FR 23", size: 2});
             }
@@ -580,14 +588,14 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
 
             if (isRetestDownToUp(prev, cur, next, line.fibanachi_38, line.fibanachi_38, line.fibanachi_38)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "S5014" : "S10014"; 
+                currentID = regim === 2 ? "S5011" : "S10011"; 
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "belowBar", color: markerColor, shape: "arrowUp", text: "FR 38", size: 2});
             }
             
             if (isRetestUpToDown(prev, cur, next, line.fibanachi_38, line.fibanachi_38, line.fibanachi_38)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "S5011" : "S10011";
+                currentID = regim === 2 ? "S5014" : "S10014";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FR 38", size: 2});
             }
@@ -626,14 +634,14 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
 
             if (isRetestDownToUp(prev, cur, next, line.fibanachi_50, line.fibanachi_50, line.fibanachi_50)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "S5020" : "S10020";
+                currentID = regim === 2 ? "S5017" : "S10017";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "belowBar", color: markerColor, shape: "arrowUp", text: "FR 50", size: 2});
             }
             
             if (isRetestUpToDown(prev, cur, next, line.fibanachi_50, line.fibanachi_50, line.fibanachi_50)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "S5017" : "S10017"; 
+                currentID = regim === 2 ? "S5020" : "S10020"; 
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FR 50", size: 2});
             }
@@ -672,14 +680,14 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
 
             if (isRetestDownToUp(prev, cur, next, line.fibanachi_61, line.fibanachi_61, line.fibanachi_61)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "S5026" : "S10026"; 
+                currentID = regim === 2 ? "S5023" : "S10023"; 
                 scenariosID.push({time: cur.time, id: currentID});            
                 markerRetest.push({ time: cur.time, position: "belowBar", color: markerColor, shape: "arrowUp", text: "FR 61", size: 2});
             }
             
             if (isRetestUpToDown(prev, cur, next, line.fibanachi_61, line.fibanachi_61, line.fibanachi_61)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "S5023" : "S10023";
+                currentID = regim === 2 ? "S5026" : "S10026";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FR 61", size: 2});
             }
@@ -718,14 +726,14 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
 
             if (isRetestDownToUp(prev, cur, next, line.fibanachi_78, line.fibanachi_78, line.fibanachi_78)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "S5032" : "S10032";
+                currentID = regim === 2 ? "S5029" : "S10029";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "belowBar", color: markerColor, shape: "arrowUp", text: "FR 78", size: 2});
             }
             
             if (isRetestUpToDown(prev, cur, next, line.fibanachi_78, line.fibanachi_78, line.fibanachi_78)) {
                 previousID = currentID;
-                currentID = regim === 2 ? "S5029" : "S10029";
+                currentID = regim === 2 ? "S5032" : "S10032";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FR 78", size: 2});
             }
@@ -754,11 +762,12 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
                 markerRetest = [];
             }
             
-            if (isRetestUpToDown(prev, cur, next, line.fibanachi_100, line.fibanachi_100, line.fibanachi_100)) {
+            // ФІКС: S5035 / S10035 = "зверху з торканням" (ціна над рівнем) -> isRetestDownToUp
+            if (isRetestDownToUp(prev, cur, next, line.fibanachi_100, line.fibanachi_100, line.fibanachi_100)) {
                 previousID = currentID;
                 currentID = regim === 2 ? "S5035" : "S10035";
                 scenariosID.push({time: cur.time, id: currentID});
-                markerRetest.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FR 100", size: 2});
+                markerRetest.push({ time: cur.time, position: "belowBar", color: markerColor, shape: "arrowUp", text: "FR 100", size: 2});
             }
 
             if (closestFibo === "fibanachi_100" && isRetestBounce(prev, cur, next, line.fibanachi_100, line.fibanachi_100, line.fibanachi_100)) {
@@ -782,11 +791,12 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
                 markerRetest = [];
             }   
 
-            if (isRetestDownToUp(prev, cur, next, line.fibanachi_100, line.fibanachi_100, line.fibanachi_100)) {
+            // ФІКС: S10038 = "знизу з торканням" (ціна під рівнем) -> isRetestUpToDown
+            if (isRetestUpToDown(prev, cur, next, line.fibanachi_100, line.fibanachi_100, line.fibanachi_100)) {
                 previousID = currentID;
                 currentID = "S10038";
                 scenariosID.push({time: cur.time, id: currentID});
-                markerRetest.push({ time: cur.time, position: "belowBar", color: markerColor, shape: "arrowUp", text: "FR 100", size: 2});
+                markerRetest.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FR 100", size: 2});
             }
             
 
@@ -818,14 +828,14 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
 
             if (isRetestDownToUp(prev, cur, next, line.fibanachi_161, line.fibanachi_161, line.fibanachi_161)) {
                 previousID = currentID;
-                currentID = "S10044";
+                currentID = "S10041";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "belowBar", color: markerColor, shape: "arrowUp", text: "FR 161", size: 2});
             }
             
             if (isRetestUpToDown(prev, cur, next, line.fibanachi_161, line.fibanachi_161, line.fibanachi_161)) {
                 previousID = currentID;
-                currentID = "S10041";
+                currentID = "S10044";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FR 161", size: 2});
             }
@@ -864,14 +874,14 @@ function analyzeFibanachiSector(analyzeData, data, start, end, line, markerColor
 
             if (isRetestDownToUp(prev, cur, next, line.fibanachi_261, line.fibanachi_261, line.fibanachi_261)) {
                 previousID = currentID;
-                currentID = "S10050";
+                currentID = "S10047";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "belowBar", color: markerColor, shape: "arrowUp", text: "FR 261", size: 2});
             }
             
             if (isRetestUpToDown(prev, cur, next, line.fibanachi_261, line.fibanachi_261, line.fibanachi_261)) {
                 previousID = currentID;
-                currentID = "S10047";
+                currentID = "S10050";
                 scenariosID.push({time: cur.time, id: currentID});
                 markerRetest.push({ time: cur.time, position: "aboveBar", color: markerColor, shape: "arrowDown", text: "FR 261", size: 2});
             }

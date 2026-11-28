@@ -72,18 +72,26 @@ function getPanelKeyFromBtnId(id) {
 function resizeCharts() {
   const charts = document.getElementById("charts");
   const anyPanelVisible = Object.values(panelStates).some(v => v === true);
-  
+
   if (!anyPanelVisible) {
-    charts.style.width = "calc(100vw - 60px)";
+    charts.style.width = "var(--workspace-width)";
   } else {
-    // Якщо відкрита звичайна АБО об'єднана аналітика — ширина 1040px, інакше 430px
-    const isBigPanelOpen = panelStates.analyticsPanel || panelStates.unifiedAnalyticsPanel || panelStates.globalAnalyticsPanel; 
-    const sideWidth = isBigPanelOpen ? 1040 : 430;
-    
-    charts.style.width = `calc(100vw - 60px - ${sideWidth}px)`;
+    const isBigPanelOpen =
+      panelStates.analyticsPanel ||
+      panelStates.unifiedAnalyticsPanel ||
+      panelStates.globalAnalyticsPanel;
+
+    // 20% для широких панелей, 70% для вузьких
+    const chartRatio = isBigPanelOpen ? 0.2 : 0.7;
+    charts.style.width = `calc(var(--workspace-width) * ${chartRatio})`;
   }
-  window.dispatchEvent(new Event("resize"));
+
+  // Даємо браузеру оновити layout перед перемальовуванням графіків
+  requestAnimationFrame(() => {
+    window.dispatchEvent(new Event("resize"));
+  });
 }
+
 const startBtn = document.querySelector("#startPanel");
 const overlayToggle = document.querySelector("#overlayToggle");
 

@@ -1,3 +1,8 @@
+:root {
+  --menu-width: 60px;
+  --workspace-width: calc(100vw - var(--menu-width));
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -30,21 +35,21 @@ body {
 #macd-panel,
 #adx-panel {
   width: 100%;
-  flex: 1 1 0; /* три нижні ділять простір порівну */
+  flex: 1 1 0;
   border-top: 2px solid #bbb;
   min-height: 0;
 }
 
-/* Бокові панелі */
+/* Вузькі бокові панелі — 30% робочої області */
 .side-panel {
-  width: 430px;
+  width: calc(var(--workspace-width) * 0.3);
+  flex-shrink: 0;
   padding: 10px;
   background-color: #f8f8f8;
   border-left: 1px solid #ddd;
   box-sizing: border-box;
   overflow-y: scroll;
   scrollbar-width: none;
-  /* transition: all 0.3s ease; */
 }
 
 .side-panel::-webkit-scrollbar {
@@ -689,11 +694,12 @@ body {
   transform: translateY(-1px);
 }
 
-/* Аналітика */
+/* Широкі панелі аналітики — 80% робочої області */
 #analytics-panel,
 #unified-analytics-panel,
 #global-analytics-panel {
-  width: 1040px;
+  width: calc(var(--workspace-width) * 0.8);
+  flex-shrink: 0;
   background: #f6f7fb;
   border-left: 1px solid #e3e6ef;
   padding: 16px 14px;
@@ -981,18 +987,26 @@ body {
 /* Контейнер */
 /* Контейнер */
 .heatmap-wrapper {
-  width: fit-content;
-  border: 1px solid #000000; /* Тонка зовнішня рамка */
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #000000;
   background: #ffffff;
   border-radius: 6px;
-  overflow: hidden;
+  overflow-x: auto; /* замість hidden, щоб працював скрол і sticky-col на малих екранах */
+  overflow-y: hidden;
 }
 
 .heatmap-grid {
+  --tf-width: 34px;  /* ширина колонки таймфреймів */
+  --cols: 15;        /* кількість колонок з даними */
+  --min-col: 48px;   /* мінімальна ширина клітинки перед появою скролу */
+
   display: grid;
-  /* 14 колонок */
-  grid-template-columns: 30px repeat(15, 64px);
-  /* Використовуємо gap для створення рівномірних тонких ліній сітки 74*/
+  width: 100%;
+  /* Гарантує, що чорний фон сітки (gap) не обріжеться при горизонтальному скролі */
+  min-width: calc(var(--tf-width) + var(--cols) * var(--min-col) + var(--cols) * 1px);
+  /* 1fr динамічно розтягує колонки на всю доступну ширину */
+  grid-template-columns: var(--tf-width) repeat(var(--cols), minmax(var(--min-col), 1fr));
   background-color: #000000;
   gap: 1px;
 }
@@ -1000,27 +1014,31 @@ body {
 /* Загальний стиль для заголовків та клітинок */
 .h-column,
 .h-cell {
+  min-width: 0; /* не дає тексту розпирати колонку більше за сусідні */
   background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  font-weight: 400; /* Прибираємо жирність */
-  font-family: sans-serif; /* Чистий системний шрифт */
+  font-weight: 400;
+  font-family: sans-serif;
 }
 
 /* Заголовки */
 .h-column {
   background: #f8fafc;
   color: #000000;
-  font-size: 11px;
+  font-size: clamp(10px, 0.7vw, 12px); /* шрифт плавно підлаштовується під ширину */
   height: 35px;
+  padding: 0 2px;
   text-align: center;
+  line-height: 1.1;
 }
 
 /* Клітинки */
 .h-cell {
   height: 26px;
+  font-size: clamp(10px, 0.7vw, 12px);
 }
 
 /* Таймфрейми (ліва колонка) */
@@ -1035,17 +1053,16 @@ body {
   position: sticky;
   left: 0;
   z-index: 10;
-  /* Тонка лінія-розділювач після TF */
   box-shadow: 1px 0 0 0 #000000;
 }
 
-/* Кольори заповнення (зробив трохи спокійнішими) */
+/* Кольори заповнення */
 .bg-up {
   background-color: #23df68 !important;
-} /* М'який зелений */
+}
 .bg-down {
   background-color: #e95252 !important;
-} /* М'який червоний */
+}
 .bg-neutral {
   background-color: #ffffff !important;
 }
@@ -1138,7 +1155,6 @@ body {
   display: flex;
   gap: 8px; /* Мінімальні відступи між колонками */
   width: 100%;
-  max-width: 1040px; /* Щоб інтерфейс не розповзався на весь екран */
   box-sizing: border-box;
 }
 
